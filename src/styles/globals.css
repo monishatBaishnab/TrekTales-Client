@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .title-1 {
+    @apply text-[27px] text-shark-950 font-semibold leading-[140%];
+  }
+  .title-2 {
+    @apply text-6 text-shark-950 font-semibold leading-[140%];
+  }
+  .title-3 {
+    @apply text-[21px] text-shark-950 font-semibold leading-[140%];
+  }
+  .title-4 {
+    @apply text-[19px] text-shark-950 font-semibold leading-[140%];
+  }
+  .title-5 {
+    @apply text-[17px] text-shark-950 font-semibold leading-[150%];
+  }
+  .title-6 {
+    @apply text-[15px] text-shark-950 font-semibold leading-[150%];
+  }
+  .paragraph {
+    @apply text-[15px] text-shark-600 font-semibold leading-[150%];
+  }
+  .container {
+    @apply max-w-screen-xl mx-auto px-5 md:px-10 py-16 md:pt-20;
+  }
+}
