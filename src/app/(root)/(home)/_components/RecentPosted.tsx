@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import PostCard from "@/components/ui/PostCard";
 import TPagination from "@/components/ui/TPagination";
+import Sidebar from "@/components/modules/sidebar/Sidebar";
 
 const RecentPosted = () => {
   const [page, setPage] = useState<number>(0);
@@ -14,7 +15,7 @@ const RecentPosted = () => {
         <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
           <div className="grid grid-cols-1 gap-5 sm:col-span-2 sm:grid-cols-2">
             <div className="col-span-2">
-              <div className="inline-flex items-center gap-1">
+              <div className="mb-5 inline-flex items-center gap-1">
                 <h3 className="title-3 bg-title">Recent</h3>
                 <h3 className="title-3">Posted</h3>
               </div>
@@ -28,18 +29,12 @@ const RecentPosted = () => {
                 }}
               />
             ))}
-
             <div className="col-span-2 mt-8 flex justify-center">
               <TPagination page={page} setPage={setPage} totalPage={3} />
             </div>
           </div>
           <div>
-            <div>
-              <div className="inline-flex items-center gap-1">
-                <h3 className="title-3 bg-title">Top</h3>
-                <h3 className="title-3">Authors</h3>
-              </div>
-            </div>
+            <Sidebar />
           </div>
         </div>
       </div>
