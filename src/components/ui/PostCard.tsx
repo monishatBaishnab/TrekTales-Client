@@ -31,7 +31,7 @@ type TPostListCardProps = {
   isImage?: boolean;
 };
 
-const PostListCard = ({
+const PostCard = ({
   classNames,
   isDescription = true,
   isAction = true,
@@ -40,7 +40,6 @@ const PostListCard = ({
   isComment = true,
   isImage = true,
 }: TPostListCardProps) => {
-
   const baseClass = clsx(
     "flex w-full flex-col gap-6 rounded-[7px] bg-white p-6 sm:flex-row",
     classNames?.base
@@ -61,7 +60,7 @@ const PostListCard = ({
   const dateClass = clsx("flex items-center gap-1", classNames?.additional?.date);
   const commentClass = clsx("flex items-center gap-1", classNames?.additional?.comment);
   const descriptionClass = clsx("paragraph mb-2", classNames?.description);
-  
+
   const actionClass = clsx(
     "flex items-center gap-2 text-sm text-persian-green-600",
     classNames?.action
@@ -134,4 +133,4 @@ const PostListCard = ({
   );
 };
 
-export default PostListCard;
+export default PostCard;
