@@ -3,11 +3,14 @@
 @tailwind utilities;
 
 @layer utilities {
+  .bg-title {
+    @apply bg-persian-green-600 !text-white;
+  }
   .title-1 {
     @apply text-[27px] text-shark-950 font-semibold leading-[140%] capitalize;
   }
   .title-2 {
-    @apply text-6 text-shark-950 font-semibold leading-[140%] capitalize;
+    @apply text-[24px] text-shark-950 font-semibold leading-[140%] capitalize;
   }
   .title-3 {
     @apply text-[21px] text-shark-950 font-semibold leading-[140%] capitalize;
@@ -24,7 +27,23 @@
   .paragraph {
     @apply text-[15px] text-shark-600 font-normal leading-[150%];
   }
+  .tag-light {
+    @apply rounded-[3px] text-xs bg-persian-green-600/20 px-2 py-1 text-shark-800;
+  }
   .container {
     @apply max-w-screen-xl mx-auto px-5 md:px-10 py-16 md:pt-20;
   }
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00aaa1;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #c4c4c4;
 }
