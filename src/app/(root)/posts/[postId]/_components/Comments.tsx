@@ -1,13 +1,13 @@
 import { FiUser } from "react-icons/fi";
 import { Input, Textarea } from "@nextui-org/input";
-import { MdOutlineMailOutline } from "react-icons/md";
+import { MdOutlineArrowCircleRight, MdOutlineMailOutline } from "react-icons/md";
 
 import CommentCard from "@/components/ui/CommentCard";
 import TButton from "@/components/ui/TButton";
 
 const Comments = () => {
   return (
-    <div>
+    <div className="space-y-8">
       <div className="space-y-5">
         <h1 className="title-1">3 Comments:</h1>
         <div className="space-y-4">
@@ -63,7 +63,7 @@ const Comments = () => {
             />
           </div>
         </div>
-        <TButton>Post Comment</TButton>
+        <TButton endContent={<MdOutlineArrowCircleRight className="text-lg" />}>Post Comment</TButton>
       </div>
     </div>
   );

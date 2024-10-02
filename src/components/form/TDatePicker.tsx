@@ -1,30 +1,23 @@
-"use client";
-
-import { extendVariants } from "@nextui-org/system";
 import { DatePicker } from "@nextui-org/date-picker";
-const TDatePicker = extendVariants(DatePicker, {
-  variants: {
-    color: {
-      "persian-green": {
-        label: "!cursor-default !text-base font-medium text-shark-800 !top-2/3",
-        innerWrapper: "bg-transparent",
-        input: "!text-base",
-        base: "justify-start data-[has-label=true]:mt-6",
-        inputWrapper: [
-          "!bg-white !rounded-lg shadow-none !border !border-shark-200 !transition",
-          "hover:bg-white hover:!border-persian-green-600",
-          "data-[focus-visible=true]:!outline-none data-[focus-visible=true]:!ring-0 data-[focus-visible=true]:!ring-offset-0",
-        ],
-        helperWrapper: "!mt-4",
-      },
-    },
-  },
-  defaultVariants: {
-    size: "md",
-    color: "persian-green",
-    radius: "sm",
-    labelPlacement: "outside",
-  },
-});
+
+import { TFormElementProps } from "@/types/global.types";
+
+const TDatePicker = ({ name, label, size = "lg" }: TFormElementProps) => {
+  return (
+    <div className="w-full">
+      <div>
+        <DatePicker
+          fullWidth
+          dateInputClassNames={{ label: "!text-base !text-shark-800" }}
+          label={label}
+          labelPlacement="outside"
+          name={name}
+          radius="sm"
+          size={size}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default TDatePicker;

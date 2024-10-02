@@ -1,19 +1,20 @@
-import { Input } from "@nextui-org/input";
+import { Textarea } from "@nextui-org/input";
 
 import { TFormElementProps } from "@/types/global.types";
 
-const TInput = ({
+const TTextarea = ({
   name,
-  isDisabled = false,
   label,
   placeholder,
   size = "lg",
+  isDisabled = false,
 }: TFormElementProps) => {
   return (
     <div className="w-full">
       <div>
-        <Input
+        <Textarea
           fullWidth
+          classNames={{ label: "!text-base !text-shark-800" }}
           isDisabled={isDisabled}
           label={label}
           labelPlacement="outside"
@@ -27,4 +28,4 @@ const TInput = ({
   );
 };
 
-export default TInput;
+export default TTextarea;

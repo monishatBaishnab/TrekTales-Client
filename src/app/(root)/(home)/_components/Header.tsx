@@ -1,4 +1,5 @@
 import PostCard from "@/components/ui/PostCard";
+import SectionTitle from "@/components/ui/SectionTitle";
 
 const Header = () => {
   return (
@@ -6,10 +7,7 @@ const Header = () => {
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
           <div className="space-y-10 md:col-span-2">
-            <div className="inline-flex items-center gap-1">
-              <h3 className="title-3 bg-title">Featured</h3>
-              <h3 className="title-3">This month</h3>
-            </div>
+            <SectionTitle bgText="Featured" planeText="This Month" />
             <div className="max-h-[400px] space-y-10 overflow-x-hidden overscroll-y-auto lg:pr-10">
               {Array.from({ length: 3 }).map((_, id) => (
                 <PostCard key={id} />
@@ -17,10 +15,7 @@ const Header = () => {
             </div>
           </div>
           <div className="space-y-10">
-            <div className="inline-flex items-center gap-1">
-              <h3 className="title-3 bg-title">Popular</h3>
-              <h3 className="title-3">Posts</h3>
-            </div>
+            <SectionTitle bgText="Popular" planeText="This Month" />
             <div className="max-h-[400px] space-y-5 overflow-x-hidden overscroll-y-auto lg:pr-2">
               {Array.from({ length: 3 }).map((_, id) => (
                 <PostCard

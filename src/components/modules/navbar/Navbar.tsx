@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 
-import UserProfile from "./UserProfile";
+import NavProfile from "./NavProfile";
 
 import TButton from "@/components/ui/TButton";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
@@ -58,7 +58,7 @@ const Navbar = () => {
               >
                 Login
               </TButton>
-              <UserProfile />
+              <NavProfile />
             </div>
           </nav>
         </div>

@@ -1,6 +1,5 @@
 import { FaRegCalendarAlt, FaRegCommentDots } from "react-icons/fa";
 
-import RelatedPosts from "./_components/RelatedPosts";
 import Comments from "./_components/Comments";
 
 import Sidebar from "@/components/modules/sidebar/Sidebar";
@@ -59,8 +58,6 @@ const PostDetails = ({ params }: { params: { postId: string } }) => {
             </div>
 
             <Comments />
-
-            <RelatedPosts />
           </div>
           <div>
             <Sidebar />

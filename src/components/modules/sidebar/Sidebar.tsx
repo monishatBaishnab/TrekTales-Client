@@ -3,6 +3,7 @@ import { FiSearch } from "react-icons/fi";
 
 import AuthorCard from "@/components/ui/AuthorCard";
 import TButton from "@/components/ui/TButton";
+import SectionTitle from "@/components/ui/SectionTitle";
 
 const categories = [
   { id: 1, name: "Travel" },
@@ -21,10 +22,7 @@ const Sidebar = () => {
     <div className="space-y-10">
       {/* Search */}
       <div>
-        <div className="mb-10 inline-flex items-center gap-1">
-          <h3 className="title-3 bg-title">Search</h3>
-          <h3 className="title-3">Post</h3>
-        </div>
+        <SectionTitle bgText="Search" planeText="Posts" />
         <div className="space-y-7">
           <div className="space-y-7">
             <Input
@@ -42,10 +40,7 @@ const Sidebar = () => {
       </div>
       {/* Best Authors */}
       <div>
-        <div className="mb-10 inline-flex items-center gap-1">
-          <h3 className="title-3 bg-title">Top</h3>
-          <h3 className="title-3">Authors</h3>
-        </div>
+        <SectionTitle bgText="Top" planeText="Authors" />
         <div className="space-y-7">
           <div className="space-y-7">
             {Array.from({ length: 3 }).map((_, id) => (
@@ -56,9 +51,7 @@ const Sidebar = () => {
       </div>
       {/* Categories */}
       <div>
-        <div className="mb-10 inline-flex items-center gap-1">
-          <h3 className="title-3 bg-title">Categories</h3>
-        </div>
+        <SectionTitle bgText="Categories" />
         <ul className="space-y-2">
           {Array.from({ length: 5 }).map((_, id) => (
             <li
@@ -73,10 +66,7 @@ const Sidebar = () => {
       </div>
       {/* Todays Update */}
       <div>
-        <div className="mb-10 inline-flex items-center gap-1">
-          <h3 className="title-3 bg-title">Today&apos;s</h3>
-          <h3 className="title-3">Update</h3>
-        </div>
+        <SectionTitle bgText="Today's" planeText="Update" />
         <div className="grid grid-cols-2 gap-5">
           {Array.from({ length: 4 }).map((_, id) => (
             <div
@@ -91,10 +81,7 @@ const Sidebar = () => {
       </div>
       {/* Search With Tags */}
       <div>
-        <div className="mb-7 inline-flex items-center gap-1">
-          <h3 className="title-3 bg-title">Search</h3>
-          <h3 className="title-3">With Tag&apos;s</h3>
-        </div>
+        <SectionTitle bgText="Search" planeText="With Tag's" />
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((category) => (
             <TButton key={category?.id} className="!text-sm" color="persian-green-gost" size="sm">
