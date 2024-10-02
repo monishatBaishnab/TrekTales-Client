@@ -17,6 +17,7 @@ const TPagination = ({ page, setPage, totalPage }: TTPaginationProps) => {
     <div className="inline-flex items-center justify-between gap-4">
       <TButton
         color="persian-green-gost"
+        isDisabled={page === 1}
         radius="sm"
         startContent={<HiOutlineArrowLongLeft className="text-lg" />}
         onPress={() => setPage((prev) => (prev > 1 ? prev - 1 : prev))}
@@ -40,6 +41,7 @@ const TPagination = ({ page, setPage, totalPage }: TTPaginationProps) => {
       <TButton
         color="persian-green-gost"
         endContent={<HiOutlineArrowLongRight className="text-lg" />}
+        isDisabled={page === totalPage}
         radius="sm"
         onPress={() => setPage((prev) => (prev < totalPage ? prev + 1 : prev))}
       >

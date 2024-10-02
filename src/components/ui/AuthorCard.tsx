@@ -1,10 +1,11 @@
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import Link from "next/link";
 
 import TButton from "./TButton";
 
-const AuthorCard = () => {
+const AuthorCard = ({ className }: { className?: string }) => {
   return (
-    <div className="flex items-center gap-5">
+    <div className={`flex items-center gap-5 ${className}`}>
       <div className="size-20 overflow-hidden rounded-full">
         <img
           alt="User"
@@ -13,7 +14,9 @@ const AuthorCard = () => {
         />
       </div>
       <div className="space-y-2">
-        <h4 className="title-4">Jenny Kia</h4>
+        <Link className="title-4 block" href={`/authors/id`}>
+          Jenny Kia
+        </Link>
         <p className="paragraph">Fashion designer, Blogger, activist</p>
         <div className="flex items-center gap-2.5">
           <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">

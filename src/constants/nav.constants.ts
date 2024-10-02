@@ -10,6 +10,10 @@ export const navLinks: TNavLink[] = [
     path: "/about",
   },
   {
+    label: "Authors",
+    path: "/authors",
+  },
+  {
     label: "Categories",
     path: "/categories",
   },
