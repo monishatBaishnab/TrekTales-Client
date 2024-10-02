@@ -1,3 +1,6 @@
+import { Input } from "@nextui-org/input";
+import { FiSearch } from "react-icons/fi";
+
 import AuthorCard from "@/components/ui/AuthorCard";
 import TButton from "@/components/ui/TButton";
 
@@ -16,6 +19,27 @@ const categories = [
 const Sidebar = () => {
   return (
     <div className="space-y-10">
+      {/* Search */}
+      <div>
+        <div className="mb-10 inline-flex items-center gap-1">
+          <h3 className="title-3 bg-title">Search</h3>
+          <h3 className="title-3">Post</h3>
+        </div>
+        <div className="space-y-7">
+          <div className="space-y-7">
+            <Input
+              endContent={
+                <TButton isIconOnly className="!h-8" color="gray" size="sm">
+                  <FiSearch className="text-lg" />
+                </TButton>
+              }
+              placeholder="Search..."
+              radius="sm"
+              size="lg"
+            />
+          </div>
+        </div>
+      </div>
       {/* Best Authors */}
       <div>
         <div className="mb-10 inline-flex items-center gap-1">
@@ -67,13 +91,13 @@ const Sidebar = () => {
       </div>
       {/* Search With Tags */}
       <div>
-        <div className="mb-10 inline-flex items-center gap-1">
+        <div className="mb-7 inline-flex items-center gap-1">
           <h3 className="title-3 bg-title">Search</h3>
           <h3 className="title-3">With Tag&apos;s</h3>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((category) => (
-            <TButton key={category?.id} color="persian-green-gost">
+            <TButton key={category?.id} className="!text-sm" color="persian-green-gost" size="sm">
               {category?.name}
             </TButton>
           ))}

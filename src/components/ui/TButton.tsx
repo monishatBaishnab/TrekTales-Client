@@ -17,6 +17,12 @@ const TButton = extendVariants(Button, {
         "data-[pressed=true]:!opacity-100 data-[pressed=true]:!bg-persian-green-700",
         "data-[focus-visible=true]:!outline-0 data-[focus-visible=true]:!outline-none data-[focus-visible=true]:!outline-offset-0",
       ].join(" "),
+      gray: [
+        "bg-white text-shark-500 border border-[#C4C4C4] !outline-0 !transition-all",
+        "data-[hover=true]:bg-shark-50 data-[hover=true]:opacity-100",
+        "data-[pressed=true]:!opacity-100 data-[pressed=true]:!bg-shark-100",
+        "data-[focus-visible=true]:!outline-0 data-[focus-visible=true]:!outline-none data-[focus-visible=true]:!outline-offset-0",
+      ].join(" "),
     },
     size: {
       lg: "h-[45px]",
