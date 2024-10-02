@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 
@@ -11,6 +11,7 @@ import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import { navLinks } from "@/constants/nav.constants";
 import TLogo from "@/components/ui/TLogo";
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [showSmallNav, setShowSmallNav] = useState<boolean>(false);
 
@@ -48,7 +49,11 @@ const Navbar = () => {
               >
                 <FaBars />
               </TButton>
-              <TButton className="hidden !text-sm sm:flex" size="sm">
+              <TButton
+                className="hidden !text-sm sm:flex"
+                size="sm"
+                onPress={() => router.push("/login")}
+              >
                 Login
               </TButton>
             </div>
@@ -81,7 +86,12 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-        <TButton fullWidth className="!text-sm sm:hidden" size="sm">
+        <TButton
+          fullWidth
+          className="!text-sm sm:hidden"
+          size="sm"
+          onPress={() => router.push("/login")}
+        >
           Login
         </TButton>
       </div>
