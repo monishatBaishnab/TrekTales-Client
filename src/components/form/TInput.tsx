@@ -8,9 +8,10 @@ const TInput = ({
   label,
   placeholder,
   size = "lg",
+  type,
 }: TFormElementProps) => {
   return (
-    <div className="w-full">
+    <div className="block w-full">
       <div>
         <Input
           fullWidth
@@ -21,6 +22,7 @@ const TInput = ({
           placeholder={placeholder}
           radius="sm"
           size={size}
+          type={type}
         />
       </div>
     </div>

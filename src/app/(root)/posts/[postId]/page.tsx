@@ -3,7 +3,7 @@ import { FaRegCalendarAlt, FaRegCommentDots } from "react-icons/fa";
 import Comments from "./_components/Comments";
 
 import Sidebar from "@/components/modules/sidebar/Sidebar";
-const PostDetails = ({ params }: { params: { postId: string } }) => {
+const PostDetails = () => {
   return (
     <section>
       <div className="container">
