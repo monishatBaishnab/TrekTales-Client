@@ -3,8 +3,7 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { useRouter } from "next/navigation";
-import { MdDashboard } from "react-icons/md";
-import { FaSignOutAlt } from "react-icons/fa";
+import { LayoutDashboard, LogOut } from "lucide-react";
 const NavProfile = () => {
   const router = useRouter();
 
@@ -22,7 +21,7 @@ const NavProfile = () => {
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem
           key="my-profile"
-          startContent={<MdDashboard />}
+          startContent={<LayoutDashboard className="size-4" />}
           onPress={() => router.push("/user-profile")}
         >
           Dashboard
@@ -31,7 +30,7 @@ const NavProfile = () => {
           key="logout"
           className="!text-danger"
           color="danger"
-          startContent={<FaSignOutAlt />}
+          startContent={<LogOut className="size-4 stroke-2" />}
         >
           Log Out
         </DropdownItem>

@@ -2,7 +2,7 @@
 
 import { Pagination } from "@nextui-org/pagination";
 import { Dispatch, SetStateAction } from "react";
-import { HiOutlineArrowLongLeft, HiOutlineArrowLongRight } from "react-icons/hi2";
+import { MoveLeft, MoveRight } from "lucide-react";
 
 import TButton from "./TButton";
 
@@ -19,7 +19,7 @@ const TPagination = ({ page, setPage, totalPage }: TTPaginationProps) => {
         color="persian-green-gost"
         isDisabled={page === 1}
         radius="sm"
-        startContent={<HiOutlineArrowLongLeft className="text-lg" />}
+        startContent={<MoveLeft className="size-5" />}
         onPress={() => setPage((prev) => (prev > 1 ? prev - 1 : prev))}
       >
         Prev.
@@ -40,7 +40,7 @@ const TPagination = ({ page, setPage, totalPage }: TTPaginationProps) => {
 
       <TButton
         color="persian-green-gost"
-        endContent={<HiOutlineArrowLongRight className="text-lg" />}
+        endContent={<MoveRight className="size-5" />}
         isDisabled={page === totalPage}
         radius="sm"
         onPress={() => setPage((prev) => (prev < totalPage ? prev + 1 : prev))}

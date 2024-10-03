@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { Menu } from "lucide-react";
 
 import NavProfile from "./NavProfile";
 
@@ -12,6 +12,7 @@ import TButton from "@/components/ui/TButton";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import { navLinks } from "@/constants/nav.constants";
 import TLogo from "@/components/ui/TLogo";
+
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -49,7 +50,7 @@ const Navbar = () => {
                 size="sm"
                 onPress={() => setShowSmallNav(true)}
               >
-                <FaBars />
+                <Menu className="size-5" />
               </TButton>
               <TButton
                 className="hidden !text-sm sm:flex"

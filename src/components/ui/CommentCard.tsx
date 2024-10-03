@@ -1,5 +1,4 @@
-import { BsFillReplyFill, BsThreeDots } from "react-icons/bs";
-import { FaRegHeart } from "react-icons/fa";
+import { Heart, Pencil, Reply, Trash2 } from "lucide-react";
 
 import TButton from "./TButton";
 
@@ -11,9 +10,14 @@ const CommentCard = () => {
           <h3 className="title-3">Alexandra H.</h3>
           <p className="paragraph">June 17, 2024</p>
         </div>
-        <button className="rounded-sm px-2 py-1 text-shark-600">
-          <BsThreeDots />
-        </button>
+        <div className="flex items-center gap-1">
+          <TButton isIconOnly className="!h-8" color="gray" size="sm">
+            <Pencil className="size-4" />
+          </TButton>
+          <TButton isIconOnly className="!h-8" color="gray" size="sm">
+            <Trash2 className="size-4" />
+          </TButton>
+        </div>
       </div>
       <p className="paragraph !italic">
         “Did you come here for something in particular or just general Riker-bashing? And blowing
@@ -27,7 +31,7 @@ const CommentCard = () => {
           color="gray"
           radius="full"
           size="sm"
-          startContent={<FaRegHeart className="text-base" />}
+          startContent={<Heart className="size-4" />}
         >
           12
         </TButton>
@@ -36,7 +40,7 @@ const CommentCard = () => {
           color="gray"
           radius="full"
           size="sm"
-          startContent={<BsFillReplyFill className="text-lg" />}
+          startContent={<Reply className="size-4" />}
         >
           Reply
         </TButton>

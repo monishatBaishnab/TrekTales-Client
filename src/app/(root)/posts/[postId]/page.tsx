@@ -1,4 +1,4 @@
-import { FaRegCalendarAlt, FaRegCommentDots } from "react-icons/fa";
+import { Calendar, MessageCircleMore } from "lucide-react";
 
 import Comments from "./_components/Comments";
 
@@ -30,13 +30,13 @@ const PostDetails = () => {
 
                 {/* Date */}
                 <div className={"flex items-center gap-1"}>
-                  <FaRegCalendarAlt className="text-sm text-shark-600" />
+                  <Calendar className="size-4 text-shark-600" />
                   <span className="mt-0.5 text-xs text-shark-500">02 December 2022</span>
                 </div>
 
                 {/* Comments */}
                 <div className={"flex items-center gap-1"}>
-                  <FaRegCommentDots className="text-sm text-shark-600" />
+                  <MessageCircleMore className="size-4 text-shark-600" />
                   <span className="mt-0.5 text-xs text-shark-500">12 Comments</span>
                 </div>
               </div>

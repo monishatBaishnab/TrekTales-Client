@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
+import { FolderOpenDot } from "lucide-react";
 import { ChangeEvent, useState } from "react";
-import { FaRegFolderOpen } from "react-icons/fa6";
 type TFile = {
   name: string;
   multiple?: boolean;
@@ -44,7 +44,7 @@ const TFile = ({ name, multiple = false, label }: TFile) => {
         htmlFor={name}
       >
         <div className="flex size-16 items-center justify-center rounded-full bg-gray-50">
-          <FaRegFolderOpen className="text-xl text-gray-500" />
+          <FolderOpenDot className="size-5 text-gray-500" />
         </div>
         <div>
           <h5 className="font-semibold text-gray-600">Upload Your Files</h5>

@@ -1,4 +1,4 @@
-import { BsPlus } from "react-icons/bs";
+import { Plus } from "lucide-react";
 
 import PostContainer from "@/components/modules/posts/PostContainer";
 import TButton from "@/components/ui/TButton";
@@ -23,7 +23,7 @@ const AuthorDetails = () => {
                   className="!gap-0.5 !text-sm !text-shark-600"
                   color="gray"
                   size="sm"
-                  startContent={<BsPlus className="text-xl" />}
+                  startContent={<Plus className="size-4" />}
                 >
                   Follow
                 </TButton>

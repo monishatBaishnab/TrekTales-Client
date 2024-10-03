@@ -1,7 +1,7 @@
 "use client";
 
-import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
 
 import TButton from "./TButton";
 
@@ -16,7 +16,7 @@ const ThemeSwitcher = () => {
         size="sm"
         onPress={() => setThemeMode("light")}
       >
-        <MdOutlineLightMode />
+        <Sun className="size-4" />
       </TButton>
       <TButton
         isIconOnly
@@ -24,7 +24,7 @@ const ThemeSwitcher = () => {
         size="sm"
         onPress={() => setThemeMode("dark")}
       >
-        <MdOutlineDarkMode />
+        <Moon className="size-4" />
       </TButton>
     </div>
   );

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 import TLogo from "@/components/ui/TLogo";
 import { categories, quickLinks } from "@/constants/footer.constants";
@@ -58,16 +58,16 @@ const Footer = () => {
             <h4 className="title-4">follow on:</h4>
             <div className="flex items-center gap-2">
               <TButton isIconOnly size="sm">
-                <FaFacebook className="text-base" />
+                <Facebook className="size-4" />
               </TButton>
               <TButton isIconOnly size="sm">
-                <FaInstagram className="text-base" />
+                <Instagram className="size-4" />
               </TButton>
               <TButton isIconOnly size="sm">
-                <FaYoutube className="text-base" />
+                <Youtube className="size-4" />
               </TButton>
               <TButton isIconOnly size="sm">
-                <FaTwitter className="text-base" />
+                <Twitter className="size-4" />
               </TButton>
             </div>
           </div>

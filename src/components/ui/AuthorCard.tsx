@@ -1,5 +1,5 @@
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 
 import TButton from "./TButton";
 
@@ -20,13 +20,13 @@ const AuthorCard = ({ className }: { className?: string }) => {
         <p className="paragraph">Fashion designer, Blogger, activist</p>
         <div className="flex items-center gap-2.5">
           <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">
-            <FaFacebook className="text-lg" />
+            <Facebook className="size-4" />
           </TButton>
           <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">
-            <FaTwitter className="text-lg" />
+            <Twitter className="size-4" />
           </TButton>
           <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">
-            <FaInstagram className="text-lg" />
+            <Instagram className="size-4" />
           </TButton>
         </div>
       </div>

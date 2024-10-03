@@ -1,7 +1,6 @@
 "use client";
-import { FaRegEdit, FaSave } from "react-icons/fa";
-import { MdClose, MdVerified } from "react-icons/md";
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/modal";
+import { BadgeCheck, Pencil, Save, X } from "lucide-react";
 
 import TButton from "@/components/ui/TButton";
 import { authorImage } from "@/constants/global.constats";
@@ -21,14 +20,14 @@ const UserProfile = () => {
       <div className="w-full space-y-3">
         <div className="flex flex-wrap items-center justify-between border-b border-b-shark-200 pb-3">
           <h2 className="title-2 flex items-center gap-1">
-            <span>Alexandra H.</span> <MdVerified className="text-xl text-persian-green-600" />
+            <span>Alexandra H.</span> <BadgeCheck className="size-5 text-persian-green-600" />
           </h2>
           <div className="flex items-center gap-2">
             <TButton
               className="!gap-1 !text-sm !text-shark-600"
               color="gray"
               size="sm"
-              startContent={<FaRegEdit />}
+              startContent={<Pencil className="size-4" />}
               onPress={onOpen}
             >
               Update Profile
@@ -46,7 +45,7 @@ const UserProfile = () => {
           <ModalHeader className="flex justify-between gap-1 border-b border-b-shark-200">
             <SectionTitle bgText="Update" classNames={{ base: "!mb-0" }} planeText="Profile" />
             <TButton isIconOnly color="gray" size="sm" onPress={onClose}>
-              <MdClose className="text-lg" />
+              <X className="size-5" />
             </TButton>
           </ModalHeader>
           <ModalBody>
@@ -68,13 +67,13 @@ const UserProfile = () => {
               <div className="flex items-center justify-end gap-2">
                 <TButton
                   color="gray"
-                  endContent={<MdClose className="text-lg" />}
+                  endContent={<X className="size-5" />}
                   size="lg"
                   onPress={onClose}
                 >
                   Cancel
                 </TButton>
-                <TButton endContent={<FaSave className="text-lg" />} size="lg">
+                <TButton endContent={<Save className="size-5" />} size="lg">
                   Save
                 </TButton>
               </div>

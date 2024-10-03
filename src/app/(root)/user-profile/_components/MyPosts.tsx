@@ -1,11 +1,8 @@
 "use client";
 import { useState } from "react";
-import { BsDot, BsPlus } from "react-icons/bs";
-import { FiMoreVertical } from "react-icons/fi";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import { MdClose } from "react-icons/md";
-import { FaSave } from "react-icons/fa";
+import { Dot, EllipsisVertical, Plus, Save, X } from "lucide-react";
 
 import TPagination from "@/components/ui/TPagination";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -19,7 +16,7 @@ const studentColumns = [
   { label: "Enrolled in", uid: "enrolled_in" },
   { label: "Membership Plan", uid: "membership_plan" },
   { label: "Active from", uid: "active_from" },
-  { label: <BsDot />, uid: "action" },
+  { label: <Dot />, uid: "action" },
 ];
 
 const data = [
@@ -95,7 +92,7 @@ const MyPosts = () => {
         <SectionTitle bgText="My" planeText="Posts" />
         <TButton
           color="persian-green-gost"
-          endContent={<BsPlus className="text-xl" />}
+          endContent={<Plus className="size-5" />}
           size="sm"
           onPress={onOpen}
         >
@@ -124,7 +121,7 @@ const MyPosts = () => {
             <TableColumn key="action">Premium Status</TableColumn>
             <TableColumn key="action">
               <span className="flex items-center justify-end pr-1">
-                <BsDot />
+                <Dot />
               </span>
             </TableColumn>
           </TableHeader>
@@ -137,7 +134,7 @@ const MyPosts = () => {
               <TableCell>
                 <div className="flex items-center justify-end">
                   <button>
-                    <FiMoreVertical />
+                    <EllipsisVertical className="size-5" />
                   </button>
                 </div>
               </TableCell>
@@ -149,7 +146,7 @@ const MyPosts = () => {
               <TableCell>
                 <div className="flex items-center justify-end">
                   <button>
-                    <FiMoreVertical />
+                    <EllipsisVertical className="size-5" />
                   </button>
                 </div>
               </TableCell>
@@ -161,7 +158,7 @@ const MyPosts = () => {
               <TableCell>
                 <div className="flex items-center justify-end">
                   <button>
-                    <FiMoreVertical />
+                    <EllipsisVertical className="size-5" />
                   </button>
                 </div>
               </TableCell>
@@ -175,7 +172,7 @@ const MyPosts = () => {
           <ModalHeader className="flex justify-between gap-1 border-b border-b-shark-200">
             <SectionTitle bgText="Create" classNames={{ base: "!mb-0" }} planeText="Post" />
             <TButton isIconOnly color="gray" size="sm" onPress={onClose}>
-              <MdClose className="text-lg" />
+              <X className="size-5" />
             </TButton>
           </ModalHeader>
           <ModalBody>
@@ -198,13 +195,13 @@ const MyPosts = () => {
               <div className="flex items-center justify-end gap-2">
                 <TButton
                   color="gray"
-                  endContent={<MdClose className="text-lg" />}
+                  endContent={<X className="size-5" />}
                   size="lg"
                   onPress={onClose}
                 >
                   Cancel
                 </TButton>
-                <TButton endContent={<FaSave className="text-lg" />} size="lg">
+                <TButton endContent={<Save className="size-5" />} size="lg">
                   Save
                 </TButton>
               </div>

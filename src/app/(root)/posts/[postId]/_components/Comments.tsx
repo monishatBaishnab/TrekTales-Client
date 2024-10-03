@@ -1,6 +1,5 @@
-import { FiUser } from "react-icons/fi";
 import { Input, Textarea } from "@nextui-org/input";
-import { MdOutlineArrowCircleRight, MdOutlineMailOutline } from "react-icons/md";
+import { CircleArrowRight, Mail, User } from "lucide-react";
 
 import CommentCard from "@/components/ui/CommentCard";
 import TButton from "@/components/ui/TButton";
@@ -36,7 +35,7 @@ const Comments = () => {
               placeholder="Write Your Name"
               radius="sm"
               size="lg"
-              startContent={<FiUser className="text-xl text-shark-500" />}
+              startContent={<User className="size-4 text-shark-500" />}
             />
           </div>
           <div>
@@ -47,7 +46,7 @@ const Comments = () => {
               placeholder="Write Your Email"
               radius="sm"
               size="lg"
-              startContent={<MdOutlineMailOutline className="text-xl text-shark-500" />}
+              startContent={<Mail className="size-4 text-shark-500" />}
             />
           </div>
         </div>
@@ -63,7 +62,7 @@ const Comments = () => {
             />
           </div>
         </div>
-        <TButton endContent={<MdOutlineArrowCircleRight className="text-lg" />}>Post Comment</TButton>
+        <TButton endContent={<CircleArrowRight className="size-5" />}>Post Comment</TButton>
       </div>
     </div>
   );

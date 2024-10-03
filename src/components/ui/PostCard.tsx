@@ -1,7 +1,6 @@
 import clsx from "clsx";
+import { Calendar, MessageCircleMore, MoveRight } from "lucide-react";
 import Link from "next/link";
-import { FaRegCalendarAlt, FaRegCommentDots } from "react-icons/fa";
-import { HiArrowLongRight } from "react-icons/hi2";
 
 type TClassNames = {
   base?: string;
@@ -104,14 +103,14 @@ const PostCard = ({
           {/* Date */}
           {isDate && (
             <div className={dateClass}>
-              <FaRegCalendarAlt className="text-sm text-shark-600" />
+              <Calendar className="size-4 text-shark-600" />
               <span className="mt-0.5 text-xs text-shark-500">02 December 2022</span>
             </div>
           )}
           {/* Comments */}
           {isComment && (
             <div className={commentClass}>
-              <FaRegCommentDots className="text-sm text-shark-600" />
+              <MessageCircleMore className="size-4 text-shark-600" />
               <span className="mt-0.5 text-xs text-shark-500">12 Comments</span>
             </div>
           )}
@@ -125,7 +124,7 @@ const PostCard = ({
         {/* See More */}
         {isAction && (
           <Link className={actionClass} href="/">
-            <span>Read more</span> <HiArrowLongRight className="text-sm" />
+            <span>Read more</span> <MoveRight className="size-5" />
           </Link>
         )}
       </div>

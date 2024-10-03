@@ -1,5 +1,5 @@
 import { Input } from "@nextui-org/input";
-import { FiSearch } from "react-icons/fi";
+import { Search } from "lucide-react";
 
 import AuthorCard from "@/components/ui/AuthorCard";
 import TButton from "@/components/ui/TButton";
@@ -28,7 +28,7 @@ const Sidebar = () => {
             <Input
               endContent={
                 <TButton isIconOnly className="!h-8" color="gray" size="sm">
-                  <FiSearch className="text-lg" />
+                  <Search className="size-5 text-lg" />
                 </TButton>
               }
               placeholder="Search..."
