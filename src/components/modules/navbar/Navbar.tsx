@@ -4,12 +4,12 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, PanelRightOpen } from "lucide-react";
+import { Tooltip } from "@nextui-org/tooltip";
 
 import NavProfile from "./NavProfile";
 
 import TButton from "@/components/ui/TButton";
-import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import { navLinks } from "@/constants/nav.constants";
 import TLogo from "@/components/ui/TLogo";
 import { useUserInfo } from "@/context/UserInfoProvider";
@@ -43,15 +43,27 @@ const Navbar = () => {
               </ul>
             </div>
             <div className="flex items-center gap-4 text-[15px] font-medium text-shark-950">
-              <ThemeSwitcher />
-              <TButton
-                isIconOnly
-                className="!text-base md:hidden"
-                size="sm"
-                onPress={() => setShowSmallNav(true)}
-              >
-                <Menu className="size-5" />
-              </TButton>
+              {/* <ThemeSwitcher /> */}
+              <Tooltip content="Small Navbar" placement="bottom-end" radius="sm" size="sm">
+                <TButton
+                  isIconOnly
+                  className="!text-base md:hidden"
+                  size="sm"
+                  onPress={() => setShowSmallNav(true)}
+                >
+                  <Menu className="size-5" />
+                </TButton>
+              </Tooltip>
+              <Tooltip content="Sidebar" placement="bottom-end" radius="sm" size="sm">
+                <TButton
+                  isIconOnly
+                  className="!text-base"
+                  size="sm"
+                  // onPress={() => setShowSmallNav(true)}
+                >
+                  <PanelRightOpen className="size-5" />
+                </TButton>
+              </Tooltip>
 
               {userInfo ? (
                 <NavProfile />
@@ -94,14 +106,16 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-        <TButton
-          fullWidth
-          className="!text-sm sm:hidden"
-          size="sm"
-          onPress={() => router.push("/login")}
-        >
-          Login
-        </TButton>
+        {!userInfo && (
+          <TButton
+            fullWidth
+            className="!text-sm sm:hidden"
+            size="sm"
+            onPress={() => router.push("/login")}
+          >
+            Login
+          </TButton>
+        )}
       </div>
     </>
   );

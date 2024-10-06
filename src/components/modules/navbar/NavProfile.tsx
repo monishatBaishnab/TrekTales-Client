@@ -2,18 +2,22 @@
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, LogOut } from "lucide-react";
 
 import { useUserInfo } from "@/context/UserInfoProvider";
 import { logoutUser } from "@/services/auth";
+import { protectedRoutes } from "@/constants/global.constats";
 const NavProfile = () => {
   const router = useRouter();
   const { setUserInfoLoading } = useUserInfo();
-
+  const pathname = usePathname();
   const handleLogout = () => {
     logoutUser();
     setUserInfoLoading(true);
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push("/");
+    }
   };
 
   return (

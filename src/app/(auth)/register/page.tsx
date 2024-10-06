@@ -12,6 +12,7 @@ import TInput from "@/components/form/TInput";
 import TFile from "@/components/form/TFile";
 import { useRegisterUser } from "@/hooks/auth.hooks";
 import { useUserInfo } from "@/context/UserInfoProvider";
+import { useEffect } from "react";
 
 const Register = () => {
   const router = useRouter();
@@ -35,10 +36,12 @@ const Register = () => {
     mutate(formData);
   };
 
-  if (!isLoading && isSuccess) {
-    setUserInfoLoading(true);
-    router.push("/");
-  }
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      setUserInfoLoading(true); // Update context state after render
+      router.push("/"); // Navigate to the home page
+    }
+  }, [isSuccess, isLoading]);
 
   return (
     <AuthContainer>

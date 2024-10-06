@@ -15,7 +15,7 @@ const RecentPosted = () => {
       <div className="container space-y-10">
         <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
           <div className="grid grid-cols-1 gap-5 sm:col-span-2 sm:grid-cols-2">
-            <div className="col-span-2">
+            <div className="md:col-span-2">
               <SectionTitle bgText="Recent" planeText="Posted" />
             </div>
             {Array.from({ length: 8 }).map((_, id) => (
@@ -27,11 +27,11 @@ const RecentPosted = () => {
                 }}
               />
             ))}
-            <div className="col-span-2 mt-8 flex justify-center">
+            <div className="mt-8 flex justify-center md:col-span-2">
               <TPagination page={page} setPage={setPage} totalPage={3} />
             </div>
           </div>
-          <div>
+          <div className="hidden lg:block">
             <Sidebar />
           </div>
         </div>

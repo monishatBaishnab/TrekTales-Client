@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import AuthContainer from "../_components/AuthContainer";
 
@@ -21,12 +22,12 @@ const Login = () => {
     mutate(data);
   };
 
-  if (isSuccess && !isLoading) {
-    if (!isLoading && isSuccess) {
-      setUserInfoLoading(true);
-      router.push("/");
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      setUserInfoLoading(true); // Update context state after render
+      router.push("/"); // Navigate to the home page
     }
-  }
+  }, [isSuccess, isLoading]);
 
   return (
     <AuthContainer>
