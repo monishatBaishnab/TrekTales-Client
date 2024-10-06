@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import AuthContainer from "../_components/AuthContainer";
 
@@ -12,7 +13,6 @@ import TInput from "@/components/form/TInput";
 import TFile from "@/components/form/TFile";
 import { useRegisterUser } from "@/hooks/auth.hooks";
 import { useUserInfo } from "@/context/UserInfoProvider";
-import { useEffect } from "react";
 
 const Register = () => {
   const router = useRouter();

@@ -1,4 +1,3 @@
-import { error } from "console";
 
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -28,7 +27,7 @@ axiosInstance.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function (response) {
-    console.log(error);
+    console.log(response);
 
     return response;
   },

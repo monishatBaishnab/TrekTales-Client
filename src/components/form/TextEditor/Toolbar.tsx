@@ -82,7 +82,7 @@ const ToolbarButton = ({ Icon, command, onClick, editor }: ToolbarButtonProps) =
       className="text-shark-500 transition-all hover:text-shark-800"
       onClick={() => onClick(command, editor)}
     >
-      <Icon className="size-5" />
+      {Icon && <Icon className="size-5" />}
     </button>
   );
 };

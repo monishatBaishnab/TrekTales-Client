@@ -33,18 +33,18 @@ const PostCardSkeleton = ({
       {/* Card Content */}
       <div className={contentWrapperClass}>
         {/* Tag Placeholder */}
-        <div className={`${placeholderClass} w-1/4`} />
+        <div className={`${placeholderClass} !w-20`} />
 
         {/* Title Placeholder */}
-        <div className={`${placeholderClass} w-full`} />
+        <div className={`${placeholderClass} !h-10 w-full`} />
 
         {/* Author, Posted Date, Comments Placeholders */}
         <div className="flex w-full flex-wrap items-center gap-2">
           {/* Author Placeholder */}
           {isAuthor && (
             <div className="flex w-full items-center gap-1">
-              <div className="size-8 rounded-full bg-gray-200" />
-              <div className={`${placeholderClass} w-1/2`} />
+              <div className="size-8 shrink-0 rounded-full bg-gray-200" />
+              <div className={`${placeholderClass}`} />
             </div>
           )}
 
@@ -66,7 +66,6 @@ const PostCardSkeleton = ({
         {/* Description Placeholder */}
         {isDescription && (
           <>
-            <div className={`${placeholderClass} w-full`} />
             <div className={`${placeholderClass} w-full`} />
           </>
         )}

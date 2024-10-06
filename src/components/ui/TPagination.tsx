@@ -13,6 +13,7 @@ type TTPaginationProps = {
 };
 
 const TPagination = ({ page, setPage, totalPage }: TTPaginationProps) => {
+
   return (
     <div className="inline-flex items-center justify-between gap-4">
       <TButton
@@ -30,11 +31,10 @@ const TPagination = ({ page, setPage, totalPage }: TTPaginationProps) => {
           item: "!text-shark-500 !bg-transparent border border-[#C4C4C4] data-[focus-visible=true]:outline-0 data-[hover=true]:!bg-persian-green-600 data-[hover=true]:!text-white data-[hover=true]:!border-persian-green-600",
           cursor: "bg-persian-green-600",
         }}
-        initialPage={1}
         page={page}
         radius="sm"
         size="lg"
-        total={totalPage}
+        total={totalPage||1}
         onChange={setPage}
       />
 

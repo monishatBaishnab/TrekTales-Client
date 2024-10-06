@@ -1,14 +1,10 @@
 "use client";
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import { BadgeCheck, Pencil, Save, X } from "lucide-react";
+import { BadgeCheck, Pencil, X } from "lucide-react";
 
 import TButton from "@/components/ui/TButton";
 import { authorImage } from "@/constants/global.constats";
 import SectionTitle from "@/components/ui/SectionTitle";
-import TInput from "@/components/form/TInput";
-import TDatePicker from "@/components/form/TDatePicker";
-import TTextarea from "@/components/form/TTextarea";
-import TFile from "@/components/form/TFile";
 const UserProfile = () => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 

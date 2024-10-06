@@ -2,14 +2,11 @@
 import { useState } from "react";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import { Dot, EllipsisVertical, Plus, Save, X } from "lucide-react";
+import { Dot, EllipsisVertical, Plus, X } from "lucide-react";
 
 import TPagination from "@/components/ui/TPagination";
 import SectionTitle from "@/components/ui/SectionTitle";
 import TButton from "@/components/ui/TButton";
-import TFile from "@/components/form/TFile";
-import TInput from "@/components/form/TInput";
-import TTextEditor from "@/components/form/TextEditor/TTextEditor";
 
 const studentColumns = [
   { label: "Author Name", uid: "author_name" },
@@ -208,7 +205,7 @@ const MyPosts = () => {
                 </TButton>
               </div>
             </div> */}
-            <div></div>
+            <div />
           </ModalBody>
         </ModalContent>
       </Modal>

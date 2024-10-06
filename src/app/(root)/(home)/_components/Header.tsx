@@ -86,7 +86,7 @@ const Header = () => {
               isDescription
               isImage
               isLoading={featureLoading}
-              posts={featurePosts?.data}
+              posts={featurePosts?.posts}
               skeletonCount={3}
               title="Featured"
             />
@@ -97,7 +97,7 @@ const Header = () => {
             isDescription={false}
             isImage={false}
             isLoading={popularLoading}
-            posts={popularPosts?.data}
+            posts={popularPosts?.posts}
             skeletonCount={3}
             title="Popular"
           />

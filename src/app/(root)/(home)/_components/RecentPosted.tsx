@@ -1,34 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import PostCard from "@/components/ui/PostCard";
 import TPagination from "@/components/ui/TPagination";
 import Sidebar from "@/components/modules/sidebar/Sidebar";
 import SectionTitle from "@/components/ui/SectionTitle";
+import useFetchAllPosts from "@/hooks/post.hooks";
+import { TPost } from "@/types/post.types";
+import PostCardSkeleton from "@/components/ui/PostCardSkeleton";
 
 const RecentPosted = () => {
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(1);
+  const {
+    data: recentPosts,
+    isLoading,
+    isFetching,
+    isSuccess,
+  } = useFetchAllPosts(
+    [
+      { name: "limit", value: "6" },
+      { name: "page", value: String(page) },
+      { name: "sort", value: "-updatedAt" },
+    ],
+    "recentPosts",
+    page
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTotalPage(recentPosts?.meta?.totalPage);
+    }
+  }, [isSuccess]);
 
   return (
     <section>
       <div className="container space-y-10">
         <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="grid grid-cols-1 gap-5 sm:col-span-2 sm:grid-cols-2">
-            <div className="md:col-span-2">
-              <SectionTitle bgText="Recent" planeText="Posted" />
-            </div>
-            {Array.from({ length: 8 }).map((_, id) => (
-              <PostCard
-                key={id}
-                classNames={{
-                  base: "!flex-col !p-0",
-                  image: { wrapper: "!h-[250px] !w-full" },
-                }}
-              />
-            ))}
-            <div className="mt-8 flex justify-center md:col-span-2">
-              <TPagination page={page} setPage={setPage} totalPage={3} />
+          <div className="sm:col-span-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="md:col-span-2">
+                <SectionTitle bgText="Recent" planeText="Posted" />
+              </div>
+              {isLoading || isFetching
+                ? Array.from({ length: 6 }).map((_, id) => (
+                    <PostCardSkeleton
+                      key={id}
+                      classNames={{
+                        base: "!flex-col !p-0",
+                        image: { wrapper: "!h-[250px] !w-full" },
+                      }}
+                    />
+                  ))
+                : recentPosts?.posts.map((post: TPost) => (
+                    <PostCard
+                      key={post?._id}
+                      classNames={{
+                        base: "!flex-col !p-0",
+                        image: { wrapper: "!h-[250px] !w-full" },
+                      }}
+                      post={post}
+                    />
+                  ))}
+              <div className="mt-8 flex justify-center md:col-span-2">
+                <TPagination page={page} setPage={setPage} totalPage={totalPage} />
+              </div>
             </div>
           </div>
           <div className="hidden lg:block">

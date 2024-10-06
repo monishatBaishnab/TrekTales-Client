@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Calendar, MessageCircleMore, MoveRight } from "lucide-react";
+import { Calendar, MoveRight, ThumbsUp } from "lucide-react";
 import Link from "next/link";
 import moment from "moment";
 
@@ -83,8 +83,10 @@ const PostCard = ({
           {/* Comments */}
           {isComment && (
             <div className={commentClass}>
-              <MessageCircleMore className="size-4 text-shark-600" />
-              <span className="mt-0.5 text-xs text-shark-500">12 Comments</span>
+              <ThumbsUp className="size-4 text-shark-600" />
+              <span className="mt-0.5 text-xs text-shark-500">
+                {post?.votes?.filter((item) => item?.vote == "up").length || "0"}
+              </span>
             </div>
           )}
         </div>

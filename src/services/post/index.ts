@@ -9,8 +9,8 @@ export const fetchAllPosts = async (query: TQueryParams) => {
   if (query) {
     query.map((param) => params.append(param.name, param.value));
   }
-  console.log(params);
+  
   const { data } = await axiosInstance.get("/posts", { params });
 
-  return data;
+  return data?.data;
 };
