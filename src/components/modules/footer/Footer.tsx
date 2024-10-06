@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Input } from "@nextui-org/input";
 
 import TLogo from "@/components/ui/TLogo";
 import { categories, quickLinks } from "@/constants/footer.constants";
 import TButton from "@/components/ui/TButton";
-import TInput from "@/components/form/TInput";
 
 const Footer = () => {
   return (
@@ -52,7 +52,7 @@ const Footer = () => {
           <div className="space-y-6">
             <h4 className="title-4">Subscribe for newsletter</h4>
             <div className="flex items-center gap-2">
-              <TInput placeholder="Your Email" type="text" />
+              <Input placeholder="Your Email" type="text" />
               <TButton>Subscribe</TButton>
             </div>
             <h4 className="title-4">follow on:</h4>

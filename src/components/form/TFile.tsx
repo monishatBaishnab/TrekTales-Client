@@ -1,36 +1,75 @@
-/* eslint-disable no-undef */
-import { FolderOpenDot } from "lucide-react";
-import { ChangeEvent, useState } from "react";
-type TFile = {
+import { FolderOpenDot, Image, Trash2 } from "lucide-react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+
+type TTFileProps = {
   name: string;
-  multiple?: boolean;
   label?: string;
-  // files: File[];
-  // setFiles: Dispatch<SetStateAction<File[]>>;
+  value?: string;
+  onChange: (file: File | null) => void;
 };
-const TFile = ({ name, multiple = false, label }: TFile) => {
-  const [files, setFiles] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+
+const File = ({ name, label, onChange, value }: TTFileProps) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>((value as string) ?? null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = e?.target?.files;
+    const selectedFile = e?.target?.files?.[0];
 
-    if (!selectedFiles) return;
+    if (!selectedFile) return;
 
-    const newFiles = Array.from(selectedFiles)?.filter(
-      (file) => !files?.some((existingFile) => existingFile?.name === file?.name)
-    );
+    const isValidFileType = ["image/jpeg", "image/png"].includes(selectedFile.type);
+    const isValidFileSize = selectedFile.size <= 1024 * 1024; // 1 MB
+
+    if (!isValidFileType) {
+      setErrorMessage("Only JPG and PNG formats are allowed.");
+
+      return;
+    }
+
+    if (!isValidFileSize) {
+      setErrorMessage("File size should not exceed 1 MB.");
+
+      return;
+    }
+
+    setErrorMessage(null); // Clear any previous error
 
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setPreviewImages((prev) => [...prev, reader.result as string]);
+      setPreviewImage(reader.result as string);
     };
+    reader.readAsDataURL(selectedFile);
 
-    reader.readAsDataURL(newFiles[0]);
-
-    setFiles((prev) => [...prev, ...newFiles]);
+    setFile(selectedFile);
   };
+
+  const deleteFile = () => {
+    setFile(null);
+    setPreviewImage(null);
+
+    // Reset the input value to allow re-uploading the same file
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
+
+  const formatFileName = (name: string) => {
+    const fileNameParts = name.split(".");
+    const extension = fileNameParts.pop();
+    const fileName = fileNameParts.join(".");
+
+    return fileName.length > 10
+      ? `${fileName.slice(0, 10)}...${extension}`
+      : `${fileName}.${extension}`;
+  };
+
+  useEffect(() => {
+    onChange(file);
+  }, [file]);
 
   return (
     <div className="space-y-3">
@@ -40,42 +79,69 @@ const TFile = ({ name, multiple = false, label }: TFile) => {
         </label>
       )}
       <label
-        className="flex cursor-pointer items-center gap-3 rounded border border-dashed border-gray-200 bg-white p-3 transition-all hover:bg-gray-50/10"
+        className="flex cursor-pointer items-center gap-3 rounded border border-dashed border-shark-200 bg-white p-3 transition-all hover:bg-shark-50/10"
         htmlFor={name}
       >
-        <div className="flex size-16 items-center justify-center rounded-full bg-gray-50">
-          <FolderOpenDot className="size-5 text-gray-500" />
+        <div className="flex size-16 items-center justify-center rounded-full bg-shark-50">
+          <FolderOpenDot className="size-5 text-shark-500" />
         </div>
         <div>
-          <h5 className="font-semibold text-gray-600">Upload Your Files</h5>
-          <small className="text-sm text-gray-400">Click to browse JPG or PNG formats.</small>
+          <h5 className="font-semibold text-shark-600">Upload Your Files</h5>
+          <small className="text-sm text-shark-400">Click to browse JPG or PNG formats.</small>
         </div>
       </label>
       <input
+        ref={inputRef}
         className="hidden"
         id={name}
-        multiple={multiple}
         name={name}
         type="file"
-        onChange={(e) => handleFileUpload(e)}
+        onChange={handleFileUpload}
       />
-      {/* {previewImages?.length > 0 ? (
-        <div className="flex flex-wrap items-center gap-5">
-          {previewImages?.map((image) => (
-            <div
-              key={image}
-              className="size-[120px] rounded border border-dashed border-slate-200 p-2"
-            >
-              <img
-                alt="Files"
-                className="size-full rounded-sm object-cover object-center"
-                src={image}
-              />
-            </div>
-          ))}
+
+      {errorMessage && <p className="text-sm text-sunglo-600">{errorMessage}</p>}
+
+      {((file && !errorMessage) || previewImage) && (
+        <div className="relative flex items-center gap-2 rounded-md border border-shark-200 bg-white p-3">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-shark-100">
+            <Image className="size-4 text-shark-800" />
+          </div>
+          <div>
+            {file?.name ? (
+              <h6 className="title-6 !text-sm">{formatFileName(file.name)}</h6>
+            ) : previewImage ? (
+              <h6 className="title-6 !text-sm">
+                {(previewImage?.length as number) > 10 ? previewImage?.slice(0, 10) : previewImage}
+              </h6>
+            ) : null}
+            {file?.size && (
+              <p className="paragraph !text-xs !text-shark-500">
+                {(Number(file?.size ?? 0) / 1024 / 1024).toFixed(2)}MB
+              </p>
+            )}
+          </div>
+          <div className="absolute inset-y-0 right-3 flex items-center">
+            <button onClick={deleteFile}>
+              <Trash2 className="size-4 text-shark-500 transition-all hover:text-shark-800" />
+            </button>
+          </div>
         </div>
-      ) : null} */}
+      )}
     </div>
+  );
+};
+
+const TFile = ({ name, label }: { name: string; label?: string }) => {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, value } }) => (
+        <File label={label} name={name} value={value as string} onChange={onChange} />
+      )}
+    />
   );
 };
 

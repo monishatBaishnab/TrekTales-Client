@@ -49,7 +49,7 @@ const UserProfile = () => {
             </TButton>
           </ModalHeader>
           <ModalBody>
-            <div className="space-y-5 py-5">
+            {/* <div className="space-y-5 py-5">
               <div className="flex items-center gap-5">
                 <TInput label="Full Name" name="name" placeholder="Name" />
                 <TInput isDisabled label="Email Address" name="email" placeholder="Email" />
@@ -77,7 +77,7 @@ const UserProfile = () => {
                   Save
                 </TButton>
               </div>
-            </div>
+            </div> */}
           </ModalBody>
         </ModalContent>
       </Modal>

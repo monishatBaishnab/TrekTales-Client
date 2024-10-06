@@ -32,6 +32,9 @@ const TTextEditor = () => {
 
   return (
     <div>
+      <label className="mb-2 block text-shark-800" htmlFor="desc">
+        Post Description
+      </label>
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

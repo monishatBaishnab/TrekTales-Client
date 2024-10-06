@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export type TLayout = { children: ReactNode };
 
 export type TFormElementProps = {
-  name?: string;
+  name: string;
   label?: string;
   placeholder?: string;
   size?: "sm" | "md" | "lg";

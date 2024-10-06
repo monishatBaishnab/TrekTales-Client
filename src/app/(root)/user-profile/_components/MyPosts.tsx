@@ -9,7 +9,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import TButton from "@/components/ui/TButton";
 import TFile from "@/components/form/TFile";
 import TInput from "@/components/form/TInput";
-import TTextarea from "@/components/form/TTextarea";
+import TTextEditor from "@/components/form/TextEditor/TTextEditor";
 
 const studentColumns = [
   { label: "Author Name", uid: "author_name" },
@@ -167,7 +167,13 @@ const MyPosts = () => {
         </Table>
       </div>
 
-      <Modal hideCloseButton={true} isOpen={isOpen} size="2xl" onOpenChange={onOpenChange}>
+      <Modal
+        hideCloseButton={true}
+        isOpen={isOpen}
+        scrollBehavior="outside"
+        size="2xl"
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           <ModalHeader className="flex justify-between gap-1 border-b border-b-shark-200">
             <SectionTitle bgText="Create" classNames={{ base: "!mb-0" }} planeText="Post" />
@@ -176,7 +182,7 @@ const MyPosts = () => {
             </TButton>
           </ModalHeader>
           <ModalBody>
-            <div className="space-y-5 py-5">
+            {/* <div className="space-y-5 py-5">
               <div className="flex items-center gap-5">
                 <TInput label="Post Title" name="title" placeholder="Title" />
                 <TInput label="Post Category" name="category" placeholder="Category" />
@@ -186,11 +192,7 @@ const MyPosts = () => {
                 <TInput label="Post Tags" name="tags" placeholder="Tags" />
               </div>
 
-              <TTextarea
-                label="Content"
-                name="content"
-                placeholder="Write a brief details about post."
-              />
+              <TTextEditor />
               <TFile label="Post Thumb" name="images" />
               <div className="flex items-center justify-end gap-2">
                 <TButton
@@ -205,7 +207,8 @@ const MyPosts = () => {
                   Save
                 </TButton>
               </div>
-            </div>
+            </div> */}
+            <div></div>
           </ModalBody>
         </ModalContent>
       </Modal>

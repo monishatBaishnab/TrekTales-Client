@@ -94,7 +94,7 @@ type ToolbarSectionProps = {
 
 const ToolbarSection = ({ buttons, editor }: ToolbarSectionProps) => {
   return (
-    <div className="mr-4 inline-flex items-center gap-2.5 border-r border-r-[#EAECF0] py-3 pr-4">
+    <div className="mr-4 inline-flex items-center gap-2.5 border-r border-r-[#EAECF0] py-3 pr-4 last:mr-0 last:border-r-0">
       {buttons.map((button, idx) => (
         <ToolbarButton
           key={idx}
@@ -144,7 +144,7 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
   ];
 
   return (
-    <div className="rounded-t-lg bg-[#F2F4F7] px-4">
+    <div className="flex flex-wrap items-center justify-center rounded-t-lg border border-b-0 border-[#EAECF0] bg-[#F2F4F7] px-4">
       <div>
         {toolbarSections.map((section, idx) => (
           <ToolbarSection key={idx} buttons={section.buttons} editor={editor} />
