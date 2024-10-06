@@ -1,3 +1,4 @@
+"use client";
 import { Plus } from "lucide-react";
 
 import PostContainer from "@/components/modules/posts/PostContainer";

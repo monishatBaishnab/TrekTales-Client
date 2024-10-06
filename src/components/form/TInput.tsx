@@ -13,7 +13,7 @@ const TInput = ({
   size = "lg",
   type='string',
   variant,
-}: TFormElementProps & { variant: "flat" | "faded" | "bordered" | "underlined" | undefined }) => {
+}: TFormElementProps & { variant?: "flat" | "faded" | "bordered" | "underlined" | undefined }) => {
   const {
     register,
     formState: { errors },

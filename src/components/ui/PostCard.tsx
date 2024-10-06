@@ -4,6 +4,7 @@ import Link from "next/link";
 import moment from "moment";
 
 import { TPostListCardProps } from "@/types/post.types";
+import { TUser } from "@/types/user.types";
 const PostCard = ({
   classNames,
   isDescription = true,
@@ -65,12 +66,12 @@ const PostCard = ({
             <div className={authorClass}>
               <div className="size-[18px] overflow-hidden rounded-full">
                 <img
-                  alt={post?.author?.name}
+                  alt={(post?.author as TUser)?.name}
                   className="size-full object-cover"
-                  src={post?.author?.profilePicture}
+                  src={(post?.author as TUser)?.profilePicture}
                 />
               </div>
-              <span className="mt-0.5 text-xs text-shark-500">{post?.author?.name}</span>
+              <span className="mt-0.5 text-xs text-shark-500">{(post?.author as TUser)?.name}</span>
             </div>
           )}
           {/* Date */}

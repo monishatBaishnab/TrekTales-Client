@@ -1,7 +1,7 @@
 import MyPosts from "./_components/MyPosts";
 import UserProfile from "./_components/UserProfile";
 
-const page = () => {
+const UserProfilePage = () => {
   return (
     <div className="container">
       <div className="space-y-10">
@@ -13,4 +13,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default UserProfilePage;

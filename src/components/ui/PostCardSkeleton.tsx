@@ -31,7 +31,7 @@ const PostCardSkeleton = ({
       {isImage && <div className={imageWrapperClass} />}
 
       {/* Card Content */}
-      <div className={contentWrapperClass}>
+      <div className={`${contentWrapperClass} !flex-nowrap`}>
         {/* Tag Placeholder */}
         <div className={`${placeholderClass} !w-20`} />
 

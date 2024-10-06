@@ -1,4 +1,5 @@
 import { Textarea } from "@nextui-org/input";
+import { useFormContext } from "react-hook-form";
 
 import { TFormElementProps } from "@/types/global.types";
 
@@ -9,10 +10,13 @@ const TTextarea = ({
   size = "lg",
   isDisabled = false,
 }: TFormElementProps) => {
+  const { register } = useFormContext();
+
   return (
     <div className="w-full">
       <div>
         <Textarea
+          {...register(name)}
           fullWidth
           classNames={{ label: "!text-base !text-shark-800" }}
           isDisabled={isDisabled}

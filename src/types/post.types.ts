@@ -30,17 +30,17 @@ export type TPostListCardProps = {
   };
 
 export type TPost = {
-    _id: string
-    author: TUser
+    _id?: string
+    author: TUser | string;
     title: string
-    image: string
+    image?: string
     content: string
     category: string
     tags: string[]
-    isPremium: boolean
-    isFeatured: boolean
-    isDeleted: boolean
-    votes: any[]
-    createdAt: string
-    updatedAt: string
+    isPremium?: boolean
+    isFeatured?: boolean
+    isDeleted?: boolean
+    votes?: any[]
+    createdAt?: string
+    updatedAt?: string
   }

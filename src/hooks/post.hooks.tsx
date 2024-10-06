@@ -9,6 +9,7 @@ const useFetchAllPosts = (params: TQueryParams, key: string, page?: number) => {
     queryFn: () => {
       return fetchAllPosts(params);
     },
+    refetchOnWindowFocus: false,
   });
 };
 

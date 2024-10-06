@@ -5,9 +5,10 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import ListItem from "@tiptap/extension-list-item";
 import BulletList from "@tiptap/extension-bullet-list";
+import { Controller, useFormContext } from "react-hook-form";
 
 import Toolbar from "./Toolbar";
-const TTextEditor = () => {
+const TextEditor = ({ value, onChange }: { value: string; onChange: (value: string) => void }) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure(),
@@ -18,7 +19,7 @@ const TTextEditor = () => {
       BulletList,
       ListItem,
     ],
-    content: "<p>Hello World! 🌎️</p>",
+    content: value ?? "",
     editorProps: {
       attributes: {
         class:
@@ -26,7 +27,7 @@ const TTextEditor = () => {
       },
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getHTML());
+      onChange(editor.getHTML());
     },
   });
 
@@ -38,6 +39,18 @@ const TTextEditor = () => {
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
+  );
+};
+
+const TTextEditor = ({ name }: { name: string }) => {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => <TextEditor value={field.value as string} onChange={field.onChange} />}
+    />
   );
 };
 

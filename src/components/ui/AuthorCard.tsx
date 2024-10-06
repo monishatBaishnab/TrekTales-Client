@@ -1,33 +1,29 @@
 import Link from "next/link";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { UserRound } from "lucide-react";
 
-import TButton from "./TButton";
+import { TUser } from "@/types/user.types";
 
-const AuthorCard = ({ className }: { className?: string }) => {
+const AuthorCard = ({ className, author }: { className?: string; author?: TUser }) => {
   return (
     <div className={`flex items-center gap-5 ${className}`}>
       <div className="size-20 overflow-hidden rounded-full">
-        <img
-          alt="User"
-          className="size-full object-cover"
-          src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        />
+        {author?.profilePicture ? (
+          <img alt={author?.name} className="size-full object-cover" src={author?.profilePicture} />
+        ) : (
+          <div className="flex size-full items-center justify-center rounded-full bg-shark-50">
+            <UserRound className="size-8 text-shark-700" />
+          </div>
+        )}
       </div>
       <div className="space-y-2">
-        <Link className="title-4 block" href={`/authors/id`}>
-          Jenny Kia
+        <Link className="title-4 block" href={`/authors/${author?._id}`}>
+          {author?.name}
         </Link>
-        <p className="paragraph">Fashion designer, Blogger, activist</p>
+        <p className="paragraph">
+          {Number(author?.bio?.length) > 30 ? author?.bio?.slice(0, 30) : author?.bio}
+        </p>
         <div className="flex items-center gap-2.5">
-          <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">
-            <Facebook className="size-4" />
-          </TButton>
-          <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">
-            <Twitter className="size-4" />
-          </TButton>
-          <TButton isIconOnly className="!size-8" color="persian-green-gost" size="sm">
-            <Instagram className="size-4" />
-          </TButton>
+          <span className="tag-light">Travel</span>
         </div>
       </div>
     </div>
