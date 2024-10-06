@@ -11,10 +11,12 @@ import TForm from "@/components/form/TForm";
 import TInput from "@/components/form/TInput";
 import TFile from "@/components/form/TFile";
 import { useRegisterUser } from "@/hooks/auth.hooks";
+import { useUserInfo } from "@/context/UserInfoProvider";
 
 const Register = () => {
   const router = useRouter();
-  const { mutate, isSuccess, isLoading, data } = useRegisterUser();
+  const { mutate, isSuccess, isLoading } = useRegisterUser();
+  const { setUserInfoLoading } = useUserInfo();
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const userData = { ...data };
 
@@ -34,6 +36,7 @@ const Register = () => {
   };
 
   if (!isLoading && isSuccess) {
+    setUserInfoLoading(true);
     router.push("/");
   }
 

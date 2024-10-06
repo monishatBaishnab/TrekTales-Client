@@ -1,4 +1,4 @@
-export interface IUser {
+export type TUser = {
   email: string;
   password?: string;
   name: string;
@@ -9,4 +9,10 @@ export interface IUser {
   interests?: string[];
   isDeleted?: boolean;
   isBlocked?: boolean;
-}
+};
+
+export type TUserInfo = {
+  _id: string;
+  role: string;
+  email: string;
+};

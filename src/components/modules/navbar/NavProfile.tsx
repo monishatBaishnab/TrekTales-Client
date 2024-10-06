@@ -4,8 +4,17 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { Avatar } from "@nextui-org/avatar";
 import { useRouter } from "next/navigation";
 import { LayoutDashboard, LogOut } from "lucide-react";
+
+import { useUserInfo } from "@/context/UserInfoProvider";
+import { logoutUser } from "@/services/auth";
 const NavProfile = () => {
   const router = useRouter();
+  const { setUserInfoLoading } = useUserInfo();
+
+  const handleLogout = () => {
+    logoutUser();
+    setUserInfoLoading(true);
+  };
 
   return (
     <Dropdown placement="bottom-end">
@@ -31,6 +40,7 @@ const NavProfile = () => {
           className="!text-danger"
           color="danger"
           startContent={<LogOut className="size-4 stroke-2" />}
+          onPress={handleLogout}
         >
           Log Out
         </DropdownItem>

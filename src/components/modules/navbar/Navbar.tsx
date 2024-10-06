@@ -3,7 +3,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menu } from "lucide-react";
 
 import NavProfile from "./NavProfile";
@@ -12,13 +12,13 @@ import TButton from "@/components/ui/TButton";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import { navLinks } from "@/constants/nav.constants";
 import TLogo from "@/components/ui/TLogo";
+import { useUserInfo } from "@/context/UserInfoProvider";
 
 const Navbar = () => {
+  const { userInfo } = useUserInfo();
   const router = useRouter();
   const pathname = usePathname();
   const [showSmallNav, setShowSmallNav] = useState<boolean>(false);
-
-  useEffect(() => {}, []);
 
   return (
     <>
@@ -52,14 +52,18 @@ const Navbar = () => {
               >
                 <Menu className="size-5" />
               </TButton>
-              <TButton
-                className="hidden !text-sm sm:flex"
-                size="sm"
-                onPress={() => router.push("/login")}
-              >
-                Login
-              </TButton>
-              <NavProfile />
+
+              {userInfo ? (
+                <NavProfile />
+              ) : (
+                <TButton
+                  className="hidden !text-sm sm:flex"
+                  size="sm"
+                  onPress={() => router.push("/login")}
+                >
+                  Login
+                </TButton>
+              )}
             </div>
           </nav>
         </div>

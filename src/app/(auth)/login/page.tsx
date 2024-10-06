@@ -10,18 +10,20 @@ import TButton from "@/components/ui/TButton";
 import TForm from "@/components/form/TForm";
 import TInput from "@/components/form/TInput";
 import useLoginUser from "@/hooks/auth.hooks";
+import { useUserInfo } from "@/context/UserInfoProvider";
 
 const Login = () => {
   const router = useRouter();
   const { mutate, isLoading, isSuccess } = useLoginUser();
+  const { setUserInfoLoading } = useUserInfo();
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     mutate(data);
   };
 
   if (isSuccess && !isLoading) {
     if (!isLoading && isSuccess) {
+      setUserInfoLoading(true);
       router.push("/");
     }
   }
