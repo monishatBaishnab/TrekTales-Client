@@ -1,3 +1,5 @@
+import { error } from "console";
+
 import axios from "axios";
 import { cookies } from "next/headers";
 
@@ -22,4 +24,19 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// Add a response interceptor
+axios.interceptors.response.use(
+  function (response) {
+    console.log(error);
+
+    return response;
+  },
+  function (error) {
+    console.log(error);
+
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;

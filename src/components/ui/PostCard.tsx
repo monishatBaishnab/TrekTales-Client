@@ -1,35 +1,9 @@
 import clsx from "clsx";
 import { Calendar, MessageCircleMore, MoveRight } from "lucide-react";
 import Link from "next/link";
+import moment from "moment";
 
-type TClassNames = {
-  base?: string;
-  image?: {
-    wrapper?: string;
-    img?: string;
-  };
-  contentWrapper?: string;
-  title?: string;
-  description?: string;
-  tag?: string;
-  additional?: {
-    author?: string;
-    date?: string;
-    comment?: string;
-  };
-  action?: string;
-};
-
-type TPostListCardProps = {
-  classNames?: TClassNames;
-  isDescription?: boolean;
-  isAction?: boolean;
-  isAuthor?: boolean;
-  isDate?: boolean;
-  isComment?: boolean;
-  isImage?: boolean;
-};
-
+import { TPostListCardProps } from "@/types/post.types";
 const PostCard = ({
   classNames,
   isDescription = true,
@@ -38,7 +12,10 @@ const PostCard = ({
   isDate = true,
   isComment = true,
   isImage = true,
+  post,
 }: TPostListCardProps) => {
+  const date = moment(post?.createdAt);
+  const formattedDate = date.format("DD MMMM YYYY");
   const baseClass = clsx(
     "flex w-full flex-col gap-6 rounded-[7px] bg-white p-6 sm:flex-row",
     classNames?.base
@@ -58,10 +35,10 @@ const PostCard = ({
   const authorClass = clsx("flex items-center gap-1", classNames?.additional?.author);
   const dateClass = clsx("flex items-center gap-1", classNames?.additional?.date);
   const commentClass = clsx("flex items-center gap-1", classNames?.additional?.comment);
-  const descriptionClass = clsx("paragraph mb-2", classNames?.description);
+  const descriptionClass = clsx("paragraph mt-3", classNames?.description);
 
   const actionClass = clsx(
-    "flex items-center gap-2 text-sm text-persian-green-600",
+    "mt-4 flex items-center gap-2 text-sm text-persian-green-600",
     classNames?.action
   );
 
@@ -70,20 +47,16 @@ const PostCard = ({
       {/* Image Box */}
       {isImage && (
         <div className={imageWrapperClass}>
-          <img
-            alt="Thumb"
-            className={imgClass}
-            src="https://images.unsplash.com/photo-1668535453283-4655d213d561?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
+          <img alt={post?.title} className={imgClass} src={post?.image} />
         </div>
       )}
       {/* Card Content */}
       <div>
         {/* Tag */}
-        <span className={tagClass}>Travel</span>
+        <span className={tagClass}>{post?.category}</span>
         {/* Title */}
         <Link className={clsx("title-2 mt-2 block", classNames?.title)} href="/">
-          set video playback speed with javascript
+          {post?.title}
         </Link>
         {/* Author, Posted Date, Comments */}
         <div className={contentWrapperClass}>
@@ -92,19 +65,19 @@ const PostCard = ({
             <div className={authorClass}>
               <div className="size-[18px] overflow-hidden rounded-full">
                 <img
-                  alt="User"
+                  alt={post?.author?.name}
                   className="size-full object-cover"
-                  src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src={post?.author?.profilePicture}
                 />
               </div>
-              <span className="mt-0.5 text-xs text-shark-500">Jesica koli</span>
+              <span className="mt-0.5 text-xs text-shark-500">{post?.author?.name}</span>
             </div>
           )}
           {/* Date */}
           {isDate && (
             <div className={dateClass}>
               <Calendar className="size-4 text-shark-600" />
-              <span className="mt-0.5 text-xs text-shark-500">02 December 2022</span>
+              <span className="mt-0.5 text-xs text-shark-500">{formattedDate}</span>
             </div>
           )}
           {/* Comments */}
@@ -118,12 +91,12 @@ const PostCard = ({
         {/* Description */}
         {isDescription && (
           <p className={descriptionClass}>
-            Did you come here for something in particular or just general Riker-bashing?
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati, eos.
           </p>
         )}
         {/* See More */}
         {isAction && (
-          <Link className={actionClass} href="/">
+          <Link className={actionClass} href={`/posts/${post?._id}`}>
             <span>Read more</span> <MoveRight className="size-5" />
           </Link>
         )}

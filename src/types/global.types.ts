@@ -11,3 +11,5 @@ export type TFormElementProps = {
   fullWidth?: boolean;
   type?: string;
 };
+
+export type TQueryParams = { name: string; value: string }[] | undefined;
