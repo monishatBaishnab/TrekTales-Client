@@ -1,22 +1,8 @@
 import { Select, SelectItem } from "@nextui-org/select";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 import { TFormElementProps } from "@/types/global.types";
-export const animals = [
-  { key: "cat", label: "Cat" },
-  { key: "dog", label: "Dog" },
-  { key: "elephant", label: "Elephant" },
-  { key: "lion", label: "Lion" },
-  { key: "tiger", label: "Tiger" },
-  { key: "giraffe", label: "Giraffe" },
-  { key: "dolphin", label: "Dolphin" },
-  { key: "penguin", label: "Penguin" },
-  { key: "zebra", label: "Zebra" },
-  { key: "shark", label: "Shark" },
-  { key: "whale", label: "Whale" },
-  { key: "otter", label: "Otter" },
-  { key: "crocodile", label: "Crocodile" },
-];
+
 const TSelect = ({
   name,
   label,
@@ -25,33 +11,44 @@ const TSelect = ({
   isDisabled,
   size = "lg",
   selectionMode = "single",
+  options,
 }: TFormElementProps & {
   selectionMode?: "single" | "multiple";
-  //   options: { key: string; label: string }[];
+  options: { key: string; label: string }[];
 }) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   return (
-    <Select
-      aria-label={name}
-      fullWidth={fullWidth}
-      label={label}
-      {...register(name)}
-      errorMessage={errors[name]?.message as string}
-      isDisabled={isDisabled}
-      isInvalid={!!errors[name]}
-      labelPlacement="outside"
-      placeholder={placeholder}
-      selectionMode={selectionMode}
-      size={size}
-    >
-      {animals.map((animal) => (
-        <SelectItem key={animal.key}>{animal.label}</SelectItem>
-      ))}
-    </Select>
+    <div className="!mt-10 block w-full">
+      <div>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field, fieldState: { error } }) => (
+            <Select
+              aria-label={name}
+              classNames={{ label: "!text-base !text-shark-800" }}
+              errorMessage={error?.message as string}
+              fullWidth={fullWidth}
+              isDisabled={isDisabled}
+              isInvalid={!!error}
+              label={label}
+              labelPlacement="outside"
+              placeholder={placeholder}
+              radius="sm"
+              selectedKeys={selectionMode === "multiple" ? field?.value : [field?.value]}
+              selectionMode={selectionMode}
+              size={size}
+              onSelectionChange={field.onChange}
+            >
+              {options.map((option) => (
+                <SelectItem key={option.key}>{option.label}</SelectItem>
+              ))}
+            </Select>
+          )}
+        />
+      </div>
+    </div>
   );
 };
 

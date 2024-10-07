@@ -12,7 +12,7 @@ export type TUser = {
   interests?: string[]
   isDeleted?: boolean
   createdAt?: string
-  updatedAt?: string
+  updatedAt?: string,
   __v?: number
 };
 

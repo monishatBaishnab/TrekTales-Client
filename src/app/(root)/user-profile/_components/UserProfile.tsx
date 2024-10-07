@@ -1,29 +1,36 @@
 "use client";
-import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/modal";
+import { useDisclosure } from "@nextui-org/modal";
 import { BadgeCheck, LoaderCircle, Pencil, Save, UserRound, X } from "lucide-react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
 
 import TButton from "@/components/ui/TButton";
-import SectionTitle from "@/components/ui/SectionTitle";
 import { useFetchSingleUser, useUpdateProfile } from "@/hooks/user.hooks";
 import { useUserInfo } from "@/context/UserInfoProvider";
-import UserProfileSkeleton from "@/components/ui/UserProfileSkeliton";
+import UserProfileSkeleton from "@/components/ui/UserProfileSkeleton";
 import TForm from "@/components/form/TForm";
 import TDatePicker from "@/components/form/TDatePicker";
 import TFile from "@/components/form/TFile";
 import TInput from "@/components/form/TInput";
 import TTextarea from "@/components/form/TTextarea";
+import TSelect from "@/components/form/TSelect";
+import { travelerInterests } from "@/constants/global.constats";
+import { TUser } from "@/types/user.types";
+import TModal from "@/components/ui/TModal";
 
 const UserProfile = () => {
   const { userInfo } = useUserInfo() ?? {};
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const { data: user, isLoading, isFetching } = useFetchSingleUser(userInfo?._id as string);
-  const { mutate, isLoading: updatingUser } = useUpdateProfile();
+  const { mutate, isLoading: updatingUser, isSuccess: updatedUser } = useUpdateProfile();
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    const userData = { ...data };
+    const selectedInterestsSet = new Set(data?.interests as string[]);
+    const selectedInterestsArr: string[] = Array.from(selectedInterestsSet);
+
+    const userData: Partial<TUser> = { ...data, interests: selectedInterestsArr };
 
     // Remove profilePhoto from the userData
-    delete userData.profilePhoto;
+    delete userData.profilePicture;
 
     // Create FormData instance
     const formData = new FormData();
@@ -36,6 +43,12 @@ const UserProfile = () => {
     // Pass FormData to the mutate function
     mutate({ id: userInfo?._id as string, userData: formData });
   };
+
+  useEffect(() => {
+    if (!updatingUser && updatedUser) {
+      onClose();
+    }
+  }, [updatedUser, updatingUser]);
 
   return (
     <>
@@ -71,68 +84,72 @@ const UserProfile = () => {
               </div>
             </div>
             <p className="paragraph">{user?.bio}</p>
+            <div className="flex gap-2">
+              {user?.interests?.map((interest: string) => (
+                <span key={interest} className="tag-light">
+                  {interest}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       )}
-      <Modal
-        hideCloseButton={true}
+
+      <TModal
         isOpen={isOpen}
-        scrollBehavior="outside"
-        size="2xl"
+        title={{ bgText: "Update", planeText: "Profile" }}
+        onClose={onClose}
         onOpenChange={onOpenChange}
       >
-        <ModalContent>
-          <ModalHeader className="flex justify-between gap-1 border-b border-b-shark-200">
-            <SectionTitle bgText="Update" classNames={{ base: "!mb-0" }} planeText="Profile" />
-            <TButton isIconOnly color="gray" size="sm" onPress={onClose}>
-              <X className="size-5" />
-            </TButton>
-          </ModalHeader>
-          <ModalBody>
-            <TForm
-              defaultValues={{
-                name: user?.name,
-                bio: user?.bio,
-                profilePhoto: user?.profilePhoto,
-                dateOfBirth: user?.dateOfBirth,
-                email: user?.email,
-              }}
-              onSubmit={handleSubmit}
-            >
-              <div className="space-y-5 py-5">
-                <TInput label="Full Name" name="name" placeholder="Name" />
+        <TForm
+          defaultValues={{
+            name: user?.name,
+            bio: user?.bio,
+            profilePhoto: user?.profilePhoto,
+            dateOfBirth: user?.dateOfBirth,
+            email: user?.email,
+            interests: ["SoloTravel", "CulinaryExploration"],
+          }}
+          onSubmit={handleSubmit}
+        >
+          <div className="space-y-5 py-5">
+            <TInput label="Full Name" name="name" placeholder="Name" />
 
-                <div className="flex items-center gap-5">
-                  <TInput isDisabled label="Email Address" name="email" placeholder="Email" />
-                  <TDatePicker label="Date Of Birth" name="dateOfBirth" />
-                </div>
+            <div className="flex items-center gap-5">
+              <TInput isDisabled label="Email Address" name="email" placeholder="Email" />
+              <TDatePicker label="Date Of Birth" name="dateOfBirth" />
+            </div>
+            <TSelect
+              label="Interests"
+              name="interests"
+              options={travelerInterests}
+              placeholder="Select your interests."
+              selectionMode="multiple"
+            />
+            <TTextarea
+              label="Profile Bio"
+              name="bio"
+              placeholder="Write a short overview about you."
+            />
 
-                <TTextarea
-                  label="Profile Bio"
-                  name="bio"
-                  placeholder="Write a short overview about you."
-                />
+            <TFile label="Profile Picture" name="profilePicture" />
 
-                <TFile label="Profile Picture" name="profilePhoto" />
-
-                <div className="flex items-center justify-end gap-2">
-                  <TButton
-                    color="gray"
-                    endContent={<X className="size-5" />}
-                    size="lg"
-                    onPress={onClose}
-                  >
-                    Cancel
-                  </TButton>
-                  <TButton endContent={<Save className="size-5" />} size="lg" type="submit">
-                    {updatingUser ? <LoaderCircle className="animate-spin" /> : "Save"}
-                  </TButton>
-                </div>
-              </div>
-            </TForm>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+            <div className="flex items-center justify-end gap-2">
+              <TButton
+                color="gray"
+                endContent={<X className="size-5" />}
+                size="lg"
+                onPress={onClose}
+              >
+                Cancel
+              </TButton>
+              <TButton endContent={<Save className="size-5" />} size="lg" type="submit">
+                {updatingUser ? <LoaderCircle className="animate-spin" /> : "Save"}
+              </TButton>
+            </div>
+          </div>
+        </TForm>
+      </TModal>
     </>
   );
 };
