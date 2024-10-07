@@ -19,7 +19,7 @@ const TSelect = ({
   const { control } = useFormContext();
 
   return (
-    <div className="!mt-10 block w-full">
+    <div className="block w-full">
       <div>
         <Controller
           control={control}
@@ -36,7 +36,9 @@ const TSelect = ({
               labelPlacement="outside"
               placeholder={placeholder}
               radius="sm"
-              selectedKeys={selectionMode === "multiple" ? field?.value : [field?.value]}
+              selectedKeys={
+                selectionMode === "multiple" ? field?.value : field?.value ? [...field?.value] : []
+              }
               selectionMode={selectionMode}
               size={size}
               onSelectionChange={field.onChange}

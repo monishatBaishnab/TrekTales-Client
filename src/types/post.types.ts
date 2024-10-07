@@ -7,6 +7,7 @@ export type TClassNames = {
       img?: string;
     };
     contentWrapper?: string;
+    shortDescription:string;
     title?: string;
     description?: string;
     tag?: string;

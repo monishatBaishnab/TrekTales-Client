@@ -1,100 +1,92 @@
 "use client";
-import { useState } from "react";
+import { Key, useEffect, useState } from "react";
+import { Dot, EllipsisVertical } from "lucide-react";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
-import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import { Dot, EllipsisVertical, Plus, X } from "lucide-react";
+import moment from "moment";
 
-import TPagination from "@/components/ui/TPagination";
+import CreatePost from "./CreatePost";
+
 import SectionTitle from "@/components/ui/SectionTitle";
-import TButton from "@/components/ui/TButton";
+import { useUserInfo } from "@/context/UserInfoProvider";
+import useFetchAllPosts from "@/hooks/post.hooks";
+import TPagination from "@/components/ui/TPagination";
+import { TPost } from "@/types/post.types";
 
-const studentColumns = [
-  { label: "Author Name", uid: "author_name" },
-  { label: "Enrolled in", uid: "enrolled_in" },
-  { label: "Membership Plan", uid: "membership_plan" },
-  { label: "Active from", uid: "active_from" },
-  { label: <Dot />, uid: "action" },
-];
-
-const data = [
+const postTableColumns = [
+  { key: "title", label: "Title" },
+  { key: "date", label: "Date" },
+  { key: "premiumStatus", label: "Status" },
   {
-    id: 2,
-    author: {
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      image: "https://example.com/images/jane.jpg",
-    },
-    enrolled_in: "Data Science Fundamentals",
-    membership_plan: "Standard",
-    active_from: "2022-09-05",
-  },
-  {
-    id: 3,
-    author: {
-      name: "Emily Johnson",
-      email: "emily.johnson@example.com",
-      image: "https://example.com/images/emily.jpg",
-    },
-    enrolled_in: "Machine Learning",
-    membership_plan: "Premium",
-    active_from: "2023-03-10",
-  },
-  {
-    id: 4,
-    author: {
-      name: "Michael Brown",
-      email: "michael.brown@example.com",
-      image: "https://example.com/images/michael.jpg",
-    },
-    enrolled_in: "Full-Stack Development",
-    membership_plan: "Basic",
-    active_from: "2023-02-20",
-  },
-  {
-    id: 5,
-    author: {
-      name: "Sarah Williams",
-      email: "sarah.williams@example.com",
-      image: "https://example.com/images/sarah.jpg",
-    },
-    enrolled_in: "Cybersecurity Essentials",
-    membership_plan: "Premium",
-    active_from: "2023-05-01",
+    key: "action",
+    label: (
+      <span className="flex items-center justify-end pr-1">
+        <Dot />
+      </span>
+    ),
   },
 ];
 
 const MyPosts = () => {
-  const [page, setPage] = useState(2);
-  const { onOpen, isOpen, onClose, onOpenChange } = useDisclosure();
+  const [page, setPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(1);
+  const { userInfo } = useUserInfo();
 
-  // const renderPeopleCell = (item: any, key: string) => {
-  //   const cellValue = item[key];
+  const {
+    data: userPosts,
+    isLoading: userPostsLoading,
+    isFetching: userPostsFetching,
+    isSuccess,
+  } = useFetchAllPosts(
+    [
+      { name: "author", value: userInfo?._id as string },
+      { name: "limit", value: "4" },
+      { name: "page", value: String(page) },
+      { name: "sort", value: "-updatedAt" },
+    ],
+    `posts-${userInfo?._id}`,
+    page,
+    !!userInfo?._id
+  );
 
-  //   if (key === "action") {
-  //     return (
-  //       <div className="flex justify-end">
-  //         <button>
-  //           <FiMoreVertical />
-  //         </button>
-  //       </div>
-  //     );
-  //   }
+  useEffect(() => {
+    if (isSuccess) {
+      setTotalPage(userPosts?.meta?.totalPage);
+    }
+  }, [isSuccess]);
 
-  //   return cellValue;
-  // };
+  
+
+  const renderPostCell = (item: any, key: Key) => {
+    const cellValue = item?.[key as string];
+    const date = moment(item?.createdAt);
+    const formattedDate = date.format("DD MMMM YYYY");
+
+    if (key == "date") {
+      return formattedDate;
+    }
+    if (key == "premiumStatus") {
+      return item?.isPremium ? (
+        <span className="tag-light">Premium</span>
+      ) : (
+        <span className="tag-light">Free</span>
+      );
+    }
+    if (key === "action") {
+      return (
+        <button className="flex w-full items-center justify-end pr-1">
+          <EllipsisVertical />
+        </button>
+      );
+    }
+
+    return cellValue;
+  };
 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <SectionTitle bgText="My" planeText="Posts" />
-        <TButton
-          color="persian-green-gost"
-          endContent={<Plus className="size-5" />}
-          size="sm"
-          onPress={onOpen}
-        >
-          Create Post
-        </TButton>
+        <SectionTitle bgText="My" classNames={{ base: "!mb-0" }} planeText="Posts" />
+        <CreatePost />
       </div>
       <div>
         <Table
@@ -102,7 +94,7 @@ const MyPosts = () => {
           aria-label="posts"
           bottomContent={
             <div className="flex justify-center px-6 py-5 pt-0">
-              <TPagination page={page} setPage={setPage} totalPage={3} />
+              <TPagination page={page} setPage={setPage} totalPage={totalPage} />
             </div>
           }
           classNames={{
@@ -112,103 +104,29 @@ const MyPosts = () => {
             // tr: "border-t border-t-[#EAEAEA]",
           }}
         >
-          <TableHeader columns={studentColumns}>
-            <TableColumn key="action">Title</TableColumn>
-            <TableColumn key="action">Date</TableColumn>
-            <TableColumn key="action">Premium Status</TableColumn>
-            <TableColumn key="action">
-              <span className="flex items-center justify-end pr-1">
-                <Dot />
-              </span>
-            </TableColumn>
+          <TableHeader columns={postTableColumns}>
+            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
           </TableHeader>
 
-          <TableBody className="p-5" items={data}>
-            <TableRow>
-              <TableCell>Post Title</TableCell>
-              <TableCell>Post Date</TableCell>
-              <TableCell>Post Is Premium</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end">
-                  <button>
-                    <EllipsisVertical className="size-5" />
-                  </button>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Post Title</TableCell>
-              <TableCell>Post Date</TableCell>
-              <TableCell>Post Is Premium</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end">
-                  <button>
-                    <EllipsisVertical className="size-5" />
-                  </button>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Post Title</TableCell>
-              <TableCell>Post Date</TableCell>
-              <TableCell>Post Is Premium</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end">
-                  <button>
-                    <EllipsisVertical className="size-5" />
-                  </button>
-                </div>
-              </TableCell>
-            </TableRow>
+          <TableBody className="p-5" items={userPosts?.posts}>
+            {userPostsLoading || userPostsFetching || !userInfo
+              ? Array.from({ length: 4 })?.map((_, id) => (
+                  <TableRow key={id}>
+                    {Array.from({ length: 4 })?.map((_, id) => (
+                      <TableCell key={id}>
+                        <div className="h-8 w-full animate-pulse bg-gray-200" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : (item: TPost) => (
+                  <TableRow key={item?._id}>
+                    {(columnKey) => <TableCell>{renderPostCell(item, columnKey)}</TableCell>}
+                  </TableRow>
+                )}
           </TableBody>
         </Table>
       </div>
-
-      <Modal
-        hideCloseButton={true}
-        isOpen={isOpen}
-        scrollBehavior="outside"
-        size="2xl"
-        onOpenChange={onOpenChange}
-      >
-        <ModalContent>
-          <ModalHeader className="flex justify-between gap-1 border-b border-b-shark-200">
-            <SectionTitle bgText="Create" classNames={{ base: "!mb-0" }} planeText="Post" />
-            <TButton isIconOnly color="gray" size="sm" onPress={onClose}>
-              <X className="size-5" />
-            </TButton>
-          </ModalHeader>
-          <ModalBody>
-            {/* <div className="space-y-5 py-5">
-              <div className="flex items-center gap-5">
-                <TInput label="Post Title" name="title" placeholder="Title" />
-                <TInput label="Post Category" name="category" placeholder="Category" />
-              </div>
-
-              <div className="flex">
-                <TInput label="Post Tags" name="tags" placeholder="Tags" />
-              </div>
-
-              <TTextEditor />
-              <TFile label="Post Thumb" name="images" />
-              <div className="flex items-center justify-end gap-2">
-                <TButton
-                  color="gray"
-                  endContent={<X className="size-5" />}
-                  size="lg"
-                  onPress={onClose}
-                >
-                  Cancel
-                </TButton>
-                <TButton endContent={<Save className="size-5" />} size="lg">
-                  Save
-                </TButton>
-              </div>
-            </div> */}
-            <div />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
     </div>
   );
 };

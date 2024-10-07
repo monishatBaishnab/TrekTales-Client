@@ -10,6 +10,7 @@ export const useFetchAllAuthors = (query: TQueryParams, key: string, page?: numb
     queryFn: () => {
       return fetchAllAuthors(query);
     },
+    refetchOnWindowFocus: false,
   });
 };
 
