@@ -2,7 +2,16 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "sonner";
 
-import { createPost, deletePost, fetchAllPosts, fetchStates, updatePost } from "@/services/post";
+import {
+  createDownVote,
+  createPost,
+  createUpvote,
+  deletePost,
+  fetchAllPosts,
+  fetchSinglePost,
+  fetchStates,
+  updatePost,
+} from "@/services/post";
 import { TQueryParams } from "@/types/global.types";
 
 const useFetchAllPosts = (
@@ -18,6 +27,16 @@ const useFetchAllPosts = (
     },
     refetchOnWindowFocus: false,
     enabled: enabled,
+  });
+};
+
+export const useFetchSinglePost = (id: string) => {
+  return useQuery({
+    queryKey: ["postDetails"],
+    queryFn: () => {
+      return fetchSinglePost(id as string);
+    },
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -37,6 +56,30 @@ export const useCreatePost = () => {
     mutationFn: (formData: FormData) => createPost(formData),
     onSuccess: () => {
       toast.success("New Post Created.");
+    },
+  });
+};
+export const useCerateUpVote = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["upvote"],
+    mutationFn: (voteData: { user: string; id: string }) => createUpvote(voteData),
+    onSuccess: () => {
+      toast.success("Upvoted Success.");
+      queryClient.invalidateQueries(["postDetails"]);
+    },
+  });
+};
+export const useCreateDownVote = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["downvote"],
+    mutationFn: (voteData: { user: string; id: string }) => createDownVote(voteData),
+    onSuccess: () => {
+      toast.success("Downvoted Success.");
+      queryClient.invalidateQueries(["postDetails"]);
     },
   });
 };

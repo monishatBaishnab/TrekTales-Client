@@ -1,8 +1,9 @@
-import { Heart, Pencil, Reply, Trash2 } from "lucide-react";
+import { Pencil, Reply, Trash2 } from "lucide-react";
 
 import TButton from "./TButton";
 
 const CommentCard = () => {
+ 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
@@ -26,15 +27,6 @@ const CommentCard = () => {
         assassination attempt on Lieutenant Worf.”
       </p>
       <div className="flex items-center gap-2">
-        <TButton
-          className="!h-7"
-          color="gray"
-          radius="full"
-          size="sm"
-          startContent={<Heart className="size-4" />}
-        >
-          12
-        </TButton>
         <TButton
           className="!h-7"
           color="gray"

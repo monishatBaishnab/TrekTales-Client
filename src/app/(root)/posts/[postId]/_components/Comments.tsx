@@ -1,14 +1,63 @@
 import { Input, Textarea } from "@nextui-org/input";
-import { CircleArrowRight, Mail, User } from "lucide-react";
+import { CircleArrowRight, LoaderCircle, Mail, ThumbsDown, ThumbsUp, User } from "lucide-react";
+import { toast } from "sonner";
 
 import CommentCard from "@/components/ui/CommentCard";
 import TButton from "@/components/ui/TButton";
+import { useUserInfo } from "@/context/UserInfoProvider";
+import { useCerateUpVote, useCreateDownVote } from "@/hooks/post.hooks";
+import { TPost } from "@/types/post.types";
 
-const Comments = () => {
+const Comments = ({ postDetails }: { postDetails: TPost }) => {
+  const { userInfo } = useUserInfo();
+  const { mutate: createUpvote, isLoading: upVoting } = useCerateUpVote();
+  const { mutate: createDownVote, isLoading: downVoting } = useCreateDownVote();
+  const findUserVote = postDetails?.votes?.find((vote) => vote.user === userInfo?._id);
+
+  console.log(findUserVote);
+  const handleVote = (vote: string) => {
+    if (!userInfo?._id) {
+      toast.error("Please login/register for create vote.");
+
+      return;
+    }
+
+    if (vote === "up") {
+      createUpvote({ user: userInfo?._id, id: postDetails?._id as string });
+
+      return;
+    }
+    if (vote === "down") {
+      createDownVote({ user: userInfo?._id, id: postDetails?._id as string });
+
+      return;
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="space-y-5">
-        <h1 className="title-1">3 Comments:</h1>
+        <div className="flex items-center justify-between ">
+          <h1 className="title-1">3 Comments:</h1>
+          <div className="flex items-center gap-2">
+            <TButton
+              isIconOnly
+              color="persian-green-gost"
+              isDisabled={findUserVote?.vote === "up"}
+              onPress={() => handleVote("up")}
+            >
+              {upVoting ? <LoaderCircle className="animate-spin" /> : <ThumbsUp />}
+            </TButton>
+            <TButton
+              isIconOnly
+              color="persian-green-gost"
+              isDisabled={findUserVote?.vote === "down"}
+              onPress={() => handleVote("down")}
+            >
+              {downVoting ? <LoaderCircle className="animate-spin" /> : <ThumbsDown />}
+            </TButton>
+          </div>
+        </div>
         <div className="space-y-4">
           <div className="space-y-5 rounded-md border border-shark-100 p-4">
             <CommentCard />

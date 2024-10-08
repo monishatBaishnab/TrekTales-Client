@@ -15,6 +15,12 @@ export const fetchAllPosts = async (query: TQueryParams) => {
   return data?.data;
 };
 
+export const fetchSinglePost = async (id: string) => {
+  const { data } = await axiosInstance.get(`/posts/${id}`);
+
+  return data?.data;
+};
+
 export const fetchStates = async () => {
   const { data } = await axiosInstance.get("/posts/states/all");
 
@@ -24,6 +30,23 @@ export const fetchStates = async () => {
 export const createPost = async (postData: FormData) => {
   const { data } = await axiosInstance.post("/posts", postData, {
     headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return data?.data;
+};
+
+export const createUpvote = async (voteData: { user: string; id: string }) => {
+  const { data } = await axiosInstance.put(`/posts/${voteData?.id}/upvote`, {
+    user: voteData?.user,
+  });
+
+
+  return data?.data;
+};
+
+export const createDownVote = async (voteData: { user: string; id: string }) => {
+  const { data } = await axiosInstance.put(`/posts/${voteData?.id}/downvote`, {
+    user: voteData?.user,
   });
 
   return data?.data;
