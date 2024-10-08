@@ -1,5 +1,4 @@
-
-'use client'
+"use client";
 import { Input } from "@nextui-org/input";
 import { useFormContext } from "react-hook-form";
 
@@ -11,8 +10,9 @@ const TInput = ({
   label,
   placeholder,
   size = "lg",
-  type='string',
+  type = "string",
   variant,
+  startContent,
 }: TFormElementProps & { variant?: "flat" | "faded" | "bordered" | "underlined" | undefined }) => {
   const {
     register,
@@ -23,6 +23,7 @@ const TInput = ({
     <div className="block w-full">
       <div>
         <Input
+          startContent={startContent}
           {...register(name as string)}
           fullWidth
           errorMessage={errors[name as string]?.message as string}

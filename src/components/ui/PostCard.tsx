@@ -95,11 +95,7 @@ const PostCard = ({
           )}
         </div>
         {/* Description */}
-        {isDescription && (
-          <p className={descriptionClass}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati, eos.
-          </p>
-        )}
+        {isDescription && <p className={descriptionClass}>{post?.shortDescription}</p>}
         {/* See More */}
         {isAction && (
           <Link className={actionClass} href={`/posts/${post?._id}`}>

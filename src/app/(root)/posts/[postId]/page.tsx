@@ -68,7 +68,7 @@ const PostDetails = ({ params }: { params: { postId: string } }) => {
 
             <Comments postDetails={postDetails} />
           </div>
-          <div>
+          <div className="hidden md:block">
             <Sidebar />
           </div>
         </div>

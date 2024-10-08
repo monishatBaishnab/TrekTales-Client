@@ -10,6 +10,8 @@ export type TFormElementProps = {
   isDisabled?: boolean;
   fullWidth?: boolean;
   type?: string;
+  startContent?: ReactNode;
+  endContent?:ReactNode
 };
 
 export type TQueryParams = { name: string; value: string }[] | undefined;

@@ -9,6 +9,7 @@ const TTextarea = ({
   placeholder,
   size = "lg",
   isDisabled = false,
+  endContent,
 }: TFormElementProps) => {
   const { register } = useFormContext();
 
@@ -19,6 +20,7 @@ const TTextarea = ({
           {...register(name)}
           fullWidth
           classNames={{ label: "!text-base !text-shark-800" }}
+          endContent={endContent}
           isDisabled={isDisabled}
           label={label}
           labelPlacement="outside"
