@@ -56,7 +56,10 @@ const PostCard = ({
         {/* Tag */}
         <span className={tagClass}>{post?.category}</span>
         {/* Title */}
-        <Link className={clsx("title-2 mt-2 block", classNames?.title)} href="/">
+        <Link
+          className={clsx("title-2 mt-2 block", classNames?.title)}
+          href={`/posts/${post?._id}`}
+        >
           {post?.title}
         </Link>
         {/* Author, Posted Date, Comments */}

@@ -1,7 +1,6 @@
-import { useDisclosure } from "@nextui-org/modal";
 import { Plus, X, Save, LoaderCircle } from "lucide-react";
 import { SubmitHandler, FieldValues } from "react-hook-form";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 import TTextEditor from "@/components/form/TextEditor/TTextEditor";
 import TFile from "@/components/form/TFile";
@@ -11,16 +10,48 @@ import TSelect from "@/components/form/TSelect";
 import TButton from "@/components/ui/TButton";
 import TModal from "@/components/ui/TModal";
 import { postCategoryOptions, postsTagsOptions } from "@/constants/pots.constants";
-import { useCreatePost } from "@/hooks/post.hooks";
+import { useCreatePost, useUpdatePost } from "@/hooks/post.hooks";
 import { arrConverter } from "@/utils/arrConverter";
 import { TPost } from "@/types/post.types";
 import TTextarea from "@/components/form/TTextarea";
 import { useUserInfo } from "@/context/UserInfoProvider";
 
-const CreatePost = () => {
-  const { onOpen, isOpen, onClose, onOpenChange } = useDisclosure();
+type TCreatePostsProps = {
+  onOpen: () => void;
+  isOpen: boolean;
+  onOpenChange: () => void;
+  onClose: () => void;
+  selectedPost: TPost;
+  action: "create" | "edit" | "delete";
+  setAction: Dispatch<SetStateAction<"create" | "edit" | "delete">>;
+  setSelectedPost: Dispatch<SetStateAction<TPost | undefined>>;
+};
+
+const CreatePost = ({
+  onOpen,
+  isOpen,
+  onClose,
+  onOpenChange,
+  selectedPost,
+  action,
+  setAction,
+  setSelectedPost,
+}: TCreatePostsProps) => {
   const { mutate, isLoading, isSuccess } = useCreatePost();
+  const { mutate: updatePost, isLoading: updatingPost, isSuccess: postUpdated } = useUpdatePost();
   const { userInfo } = useUserInfo();
+
+  let defaultValues: Partial<TPost> = {};
+
+  if (selectedPost) {
+    defaultValues = {
+      title: selectedPost.title,
+      shortDescription: selectedPost?.shortDescription,
+      content: selectedPost?.content,
+      tags: selectedPost?.tags,
+      category: selectedPost?.category,
+    };
+  }
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const tags = arrConverter(data?.tags);
@@ -32,19 +63,23 @@ const CreatePost = () => {
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(postData));
-    
+
     if (data?.image) {
       formData.append("image", data?.image);
     }
 
-    mutate(formData);
+    if (action === "create") {
+      mutate(formData);
+    } else {
+      updatePost({ formData, id: selectedPost?._id as string });
+    }
   };
 
   useEffect(() => {
-    if (isSuccess && !isLoading) {
+    if ((isSuccess && !isLoading) || (!updatingPost && postUpdated)) {
       onClose();
     }
-  }, [isSuccess]);
+  }, [isSuccess, postUpdated]);
 
   return (
     <div>
@@ -52,17 +87,19 @@ const CreatePost = () => {
         color="persian-green-gost"
         endContent={<Plus className="size-5" />}
         size="sm"
-        onPress={onOpen}
+        onPress={() => {
+          onOpen(), setAction("create"), setSelectedPost(undefined);
+        }}
       >
         Create Post
       </TButton>
       <TModal
         isOpen={isOpen}
-        title={{ bgText: "Create", planeText: "Post" }}
+        title={{ bgText: `${action === "create" ? "Create" : "Update"}`, planeText: "Post" }}
         onClose={onClose}
         onOpenChange={onOpenChange}
       >
-        <TForm onSubmit={handleSubmit}>
+        <TForm defaultValues={defaultValues} onSubmit={handleSubmit}>
           <div className="space-y-5 py-5">
             <div className="flex items-center gap-5">
               <TInput label="Post Title" name="title" placeholder="Title" />
@@ -101,7 +138,7 @@ const CreatePost = () => {
                 Cancel
               </TButton>
               <TButton endContent={<Save className="size-5" />} size="lg" type="submit">
-                {isLoading ? <LoaderCircle className="animate-spin" /> : "Create"}
+                {isLoading || updatingPost ? <LoaderCircle className="animate-spin" /> : "Save"}
               </TButton>
             </div>
           </div>

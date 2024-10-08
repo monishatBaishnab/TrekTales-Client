@@ -8,9 +8,10 @@ import { LayoutDashboard, LogOut } from "lucide-react";
 import { useUserInfo } from "@/context/UserInfoProvider";
 import { logoutUser } from "@/services/auth";
 import { protectedRoutes } from "@/constants/global.constats";
+import { useFetchSingleUser } from "@/hooks/user.hooks";
 const NavProfile = () => {
   const router = useRouter();
-  const { setUserInfoLoading } = useUserInfo();
+  const { setUserInfoLoading, userInfo } = useUserInfo();
   const pathname = usePathname();
   const handleLogout = () => {
     logoutUser();
@@ -20,6 +21,8 @@ const NavProfile = () => {
     }
   };
 
+  const { data: user } = useFetchSingleUser(userInfo?._id as string);
+
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
@@ -28,7 +31,7 @@ const NavProfile = () => {
           as="button"
           className="transition-transform"
           size="sm"
-          src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+          src={user?.profilePicture}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">

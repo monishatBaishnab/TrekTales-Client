@@ -30,3 +30,15 @@ export const updateProfile = async (id: string, postData: FormData) => {
 
   return data?.data;
 };
+
+export const fetchPopularAuthors = async () => {
+  const { data } = await axiosInstance.get(`/users/popular-authors`);
+
+  return data?.data;
+};
+
+export const fetchSingleAuthor = async (id:string) => {
+  const { data } = await axiosInstance.get(`/users/popular-authors/${id}`);
+
+  return data?.data;
+};

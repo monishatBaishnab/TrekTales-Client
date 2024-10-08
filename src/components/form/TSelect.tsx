@@ -24,30 +24,44 @@ const TSelect = ({
         <Controller
           control={control}
           name={name}
-          render={({ field, fieldState: { error } }) => (
-            <Select
-              aria-label={name}
-              classNames={{ label: "!text-base !text-shark-800" }}
-              errorMessage={error?.message as string}
-              fullWidth={fullWidth}
-              isDisabled={isDisabled}
-              isInvalid={!!error}
-              label={label}
-              labelPlacement="outside"
-              placeholder={placeholder}
-              radius="sm"
-              selectedKeys={
-                selectionMode === "multiple" ? field?.value : field?.value ? [...field?.value] : []
+          render={({ field, fieldState: { error } }) => {
+            const value = field?.value;
+            let selectedKeys = [];
+
+            if (selectionMode == "multiple") {
+              selectedKeys = value;
+            }
+            if (value) {
+              if (typeof value === "string") {
+                selectedKeys = [value];
+              } else {
+                selectedKeys = value;
               }
-              selectionMode={selectionMode}
-              size={size}
-              onSelectionChange={field.onChange}
-            >
-              {options.map((option) => (
-                <SelectItem key={option.key}>{option.label}</SelectItem>
-              ))}
-            </Select>
-          )}
+            }
+
+            return (
+              <Select
+                aria-label={name}
+                classNames={{ label: "!text-base !text-shark-800" }}
+                errorMessage={error?.message as string}
+                fullWidth={fullWidth}
+                isDisabled={isDisabled}
+                isInvalid={!!error}
+                label={label}
+                labelPlacement="outside"
+                placeholder={placeholder}
+                radius="sm"
+                selectedKeys={selectedKeys}
+                selectionMode={selectionMode}
+                size={size}
+                onSelectionChange={field.onChange}
+              >
+                {options.map((option) => (
+                  <SelectItem key={option.key}>{option.label}</SelectItem>
+                ))}
+              </Select>
+            );
+          }}
         />
       </div>
     </div>

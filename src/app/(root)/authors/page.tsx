@@ -44,6 +44,8 @@ const Authors = () => {
                 />
               ))}
         </div>
+      </div>
+      <div>
         <TPagination page={page} setPage={setPage} totalPage={totalPage} />
       </div>
     </section>
