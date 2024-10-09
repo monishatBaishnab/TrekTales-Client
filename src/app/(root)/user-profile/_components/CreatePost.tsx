@@ -11,11 +11,11 @@ import TButton from "@/components/ui/TButton";
 import TModal from "@/components/ui/TModal";
 import { postCategoryOptions, postsTagsOptions } from "@/constants/pots.constants";
 import { useCreatePost, useUpdatePost } from "@/hooks/post.hooks";
-import { arrConverter } from "@/utils/arrConverter";
 import { TPost } from "@/types/post.types";
 import TTextarea from "@/components/form/TTextarea";
 import { useUserInfo } from "@/context/UserInfoProvider";
-
+import TCheckbox from "@/components/form/TCheckbox";
+import { arrConverter } from "@/utils/arrConverter";
 type TCreatePostsProps = {
   onOpen: () => void;
   isOpen: boolean;
@@ -128,6 +128,11 @@ const CreatePost = ({
             />
             <TTextEditor name="content" />
             <TFile label="Post Thumb" name="image" />
+            <TCheckbox
+              // isDisabled={!userInfo?.isVerified}
+              label="Mark as premium"
+              name="isPremium"
+            />
             <div className="flex items-center justify-end gap-2">
               <TButton
                 color="gray"

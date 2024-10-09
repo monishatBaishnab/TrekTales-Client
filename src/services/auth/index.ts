@@ -45,6 +45,7 @@ export const getCurrentUser = async () => {
       _id: decodedData?._id,
       role: decodedData?.role,
       email: decodedData?.email,
+      isVerified: decodedData?.isVerified,
     };
   }
 

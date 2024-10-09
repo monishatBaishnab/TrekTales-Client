@@ -1,10 +1,15 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import clsx from "clsx";
-import { Calendar, MoveRight} from "lucide-react";
-import Link from "next/link";
+import { Calendar, MoveRight, ShieldCheck, ShieldOff } from "lucide-react";
 import moment from "moment";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { TPostListCardProps } from "@/types/post.types";
 import { TUser } from "@/types/user.types";
+import { useUserInfo } from "@/context/UserInfoProvider";
 const PostCard = ({
   classNames,
   isDescription = true,
@@ -37,9 +42,26 @@ const PostCard = ({
   const descriptionClass = clsx("paragraph mt-3", classNames?.description);
 
   const actionClass = clsx(
-    "mt-4 flex items-center gap-2 text-sm text-persian-green-600",
+    "mt-4 flex !cursor-pointer items-center gap-2 text-sm text-persian-green-600",
     classNames?.action
   );
+
+  const router = useRouter();
+  const { userInfo } = useUserInfo();
+
+  const handleClick = () => {
+    if (!userInfo) {
+      router.push("/login");
+
+      return;
+    }
+    if (post?.isPremium && !userInfo?.isVerified) {
+      toast.error("You have no access to premium contents");
+
+      return;
+    }
+    router.push(`/posts/${post?._id}`);
+  };
 
   return (
     <div className={baseClass}>
@@ -54,12 +76,12 @@ const PostCard = ({
         {/* Tag */}
         <span className={tagClass}>{post?.category}</span>
         {/* Title */}
-        <Link
-          className={clsx("title-2 mt-2 block", classNames?.title)}
-          href={`/posts/${post?._id}`}
+        <h2
+          className={clsx("title-2 mt-2 block !cursor-pointer", classNames?.title)}
+          onClick={handleClick}
         >
           {post?.title}
-        </Link>
+        </h2>
         {/* Author, Posted Date, Comments */}
         <div className={contentWrapperClass}>
           {/* Author */}
@@ -82,14 +104,24 @@ const PostCard = ({
               <span className="mt-0.5 text-xs text-shark-500">{formattedDate}</span>
             </div>
           )}
+          <div className={dateClass}>
+            {post?.isPremium ? (
+              <ShieldCheck className="size-4 text-persian-green-600" />
+            ) : (
+              <ShieldOff className="size-4 text-shark-600" />
+            )}
+            <span className="mt-0.5 text-xs text-shark-500">
+              {post?.isPremium ? <span className="text-persian-green-600">Premium</span> : "Free"}
+            </span>
+          </div>
         </div>
         {/* Description */}
         {isDescription && <p className={descriptionClass}>{post?.shortDescription}</p>}
         {/* See More */}
         {isAction && (
-          <Link className={actionClass} href={`/posts/${post?._id}`}>
+          <span className={actionClass} onClick={handleClick}>
             <span>Read more</span> <MoveRight className="size-5" />
-          </Link>
+          </span>
         )}
       </div>
     </div>

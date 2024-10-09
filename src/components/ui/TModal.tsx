@@ -37,9 +37,9 @@ const TModal: React.FC<TModalProps> = ({
         <ModalHeader className="flex justify-between gap-1 border-b border-b-shark-200">
           {title && (
             <SectionTitle
-              bgText={title.bgText}
+              bgText={title?.bgText}
               classNames={{ base: "!mb-0" }}
-              planeText={title.planeText}
+              planeText={title?.planeText}
             />
           )}
           {!hideCloseButton && (

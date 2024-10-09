@@ -2,16 +2,37 @@
 
 import { Calendar, MessageCircleMore } from "lucide-react";
 import moment from "moment";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import Comments from "./_components/Comments";
 import DetailsSkeleton from "./_components/DetailsSkeleton";
 
 import { useFetchSinglePost } from "@/hooks/post.hooks";
 import Sidebar from "@/components/modules/sidebar/Sidebar";
+import { useUserInfo } from "@/context/UserInfoProvider";
 const PostDetails = ({ params }: { params: { postId: string } }) => {
-  const { data: postDetails, isLoading, isFetching } = useFetchSinglePost(params?.postId);
+  const { data: postDetails, isLoading, isFetching, isError } = useFetchSinglePost(params?.postId);
+  const { userInfo } = useUserInfo();
   const date = moment(postDetails?.createdAt);
   const formattedDate = date.format("DD MMMM YYYY");
+  const router = useRouter();
+
+  // Handle premium content access
+  if (postDetails?.isPremium && !userInfo?.isVerified) {
+    toast.error("You have no access to premium contents");
+    router.push("/login");
+
+    return null;
+  }
+
+  // Handle fetching errors
+  if (isError) {
+    toast.error("An error occurred while fetching the post.");
+    router.push("/login");
+
+    return null;
+  }
 
   return (
     <section>
@@ -59,10 +80,7 @@ const PostDetails = ({ params }: { params: { postId: string } }) => {
                     src={postDetails?.image}
                   />
                 </div>
-                <div
-                  dangerouslySetInnerHTML={{ __html: postDetails?.content }}
-               
-                />
+                <div dangerouslySetInnerHTML={{ __html: postDetails?.content }} />
               </div>
             )}
 

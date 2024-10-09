@@ -5,8 +5,8 @@ import { getCurrentUser } from "@/services/auth";
 const AUTH_ROUTES = ["/login", "/register"];
 
 const ROLE_BASED_ROUTES: Record<string, RegExp[]> = {
-  USER: [/^\/user-profile/],
-  ADMIN: [/^\/admin/],
+  USER: [/^\/user-profile/, /^\/posts(\/.*)?$/],
+  ADMIN: [/^\/admin/, /^\/posts(\/.*)?$/],
 };
 
 type Role = keyof typeof ROLE_BASED_ROUTES;
@@ -33,5 +33,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user-profile", "/user-profile/:path*", "/login", "/register"],
+  matcher: [
+    "/user-profile",
+    "/user-profile/:path*",
+    "/posts",
+    "/posts/:path*",
+    "/login",
+    "/register",
+  ],
 };
