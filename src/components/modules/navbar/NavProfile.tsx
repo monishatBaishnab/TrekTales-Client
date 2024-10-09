@@ -13,11 +13,22 @@ const NavProfile = () => {
   const router = useRouter();
   const { setUserInfoLoading, userInfo } = useUserInfo();
   const pathname = usePathname();
+
   const handleLogout = () => {
     logoutUser();
     setUserInfoLoading(true);
     if (protectedRoutes.some((route) => pathname.match(route))) {
       router.push("/");
+    }
+  };
+
+  const handleRouter = () => {
+    if (userInfo?.role === "user") {
+      router.push("/user-profile");
+
+      return;
+    } else if (userInfo?.role === "admin") {
+      router.push("/dashboard");
     }
   };
 
@@ -38,7 +49,7 @@ const NavProfile = () => {
         <DropdownItem
           key="my-profile"
           startContent={<LayoutDashboard className="size-4" />}
-          onPress={() => router.push("/user-profile")}
+          onPress={handleRouter}
         >
           Dashboard
         </DropdownItem>

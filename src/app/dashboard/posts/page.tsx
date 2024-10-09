@@ -1,4 +1,4 @@
-const AdminProfile = () => {
+const AdminPosts = () => {
   return (
     <div>
       <h1>This is page Component</h1>
@@ -6,4 +6,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default AdminPosts;

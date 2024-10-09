@@ -2,30 +2,26 @@
 
 import { useEffect } from "react";
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+import TButton from "@/components/ui/TButton";
+
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    /* eslint-disable no-console */
     console.error(error);
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="flex h-screen flex-col items-center justify-center bg-gray-100 px-4">
+      <div className="rounded-lg bg-white p-8 text-center shadow-lg">
+        <h2 className="mb-4 text-3xl font-semibold text-red-600">Oops! Something went wrong</h2>
+        <p className="mb-6 text-gray-700">
+          An unexpected error has occurred. Please try again later or click the button below to
+          retry.
+        </p>
+        <TButton className="bg-red-600" color="danger" onClick={() => reset()}>
+          Try again
+        </TButton>
+      </div>
     </div>
   );
 }
