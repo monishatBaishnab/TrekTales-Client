@@ -1,8 +1,8 @@
 import { FieldValues } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
-import { loginUser, registerUser } from "@/services/auth";
+import { loginUser, refetchToken, registerUser } from "@/services/auth";
 
 export const useRegisterUser = () => {
   return useMutation({
@@ -21,6 +21,13 @@ const useLoginUser = () => {
     onSuccess: () => {
       toast.success("Login Success.");
     },
+  });
+};
+
+export const useRefetchToken = () => {
+  return useMutation({
+    mutationKey: ["refetchToken"],
+    mutationFn: () => refetchToken(),
   });
 };
 

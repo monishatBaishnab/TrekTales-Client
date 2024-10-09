@@ -30,6 +30,16 @@ export const loginUser = async (userData: FieldValues) => {
   return data;
 };
 
+export const refetchToken = async () => {
+  const { data } = await axiosInstance.get("/auth/refetch-token");
+
+  if (data?.success) {
+    cookies().set("token", data?.data);
+  }
+
+  return data;
+};
+
 export const logoutUser = () => {
   cookies().delete("token");
 };

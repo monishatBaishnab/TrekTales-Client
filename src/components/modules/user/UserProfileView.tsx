@@ -24,13 +24,6 @@ const UserProfileView = ({ user, action }: { user: TUser; action: ReactNode }) =
           <div className="flex items-center gap-2">{action}</div>
         </div>
         <p className="paragraph">{user?.bio}</p>
-        <div className="flex gap-2">
-          {user?.interests?.map((interest: string) => (
-            <span key={interest} className="tag-light">
-              {interest}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   );

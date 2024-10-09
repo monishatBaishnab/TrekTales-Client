@@ -16,10 +16,11 @@ import TTextarea from "@/components/form/TTextarea";
 import { TUser } from "@/types/user.types";
 import TModal from "@/components/ui/TModal";
 import UserProfileView from "@/components/modules/user/UserProfileView";
-import { useFetchAllComments } from "@/hooks/comment.hooks";
+import { useFetchUpvotes } from "@/hooks/post.hooks";
+import { useRefetchToken } from "@/hooks/auth.hooks";
 
 const UserProfile = () => {
-  const { userInfo } = useUserInfo() ?? {};
+  const { userInfo, setUserInfoLoading } = useUserInfo() ?? {};
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const {
     isOpen: isVerifyOpen,
@@ -27,6 +28,7 @@ const UserProfile = () => {
     onClose: onVerifyClose,
     onOpenChange: onVerifyOnChange,
   } = useDisclosure();
+  const { mutate: refetchToken } = useRefetchToken();
   const { data: user, isLoading, isFetching } = useFetchSingleUser(userInfo?._id as string);
   const { mutate, isLoading: updatingUser, isSuccess: updatedUser } = useUpdateProfile();
   const {
@@ -34,18 +36,10 @@ const UserProfile = () => {
     isLoading: verifyingProfile,
     isSuccess: verifiedProfile,
   } = useVerifyProfile();
-  const { data: commentsData } = useFetchAllComments(
-    [{ name: "author", value: userInfo?._id as string }],
-    1,
-    !!userInfo?._id
-  );
-
+  const { data: upvotes } = useFetchUpvotes(userInfo?._id as string);
   //function for update profile
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    const selectedInterestsSet = new Set(data?.interests as string[]);
-    const selectedInterestsArr: string[] = Array.from(selectedInterestsSet);
-
-    const userData: Partial<TUser> = { ...data, interests: selectedInterestsArr };
+    const userData: Partial<TUser> = { ...data };
 
     // Remove profilePhoto from the userData
     delete userData.profilePicture;
@@ -78,6 +72,13 @@ const UserProfile = () => {
     }
   }, [verifiedProfile]);
 
+  useEffect(() => {
+    if (user?.isVerified) {
+      refetchToken();
+      setUserInfoLoading(true);
+    }
+  }, [user]);
+
   return (
     <>
       {isLoading || isFetching || !userInfo ? (
@@ -86,7 +87,7 @@ const UserProfile = () => {
         <UserProfileView
           action={
             <div className="flex gap-3">
-              {commentsData?.comments?.length && !userInfo?.isVerified ? (
+              {Number(upvotes) > 0 && !user?.isVerified ? (
                 <TButton
                   className="!gap-1 !text-sm !text-shark-600"
                   color="gray"

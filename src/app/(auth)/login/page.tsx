@@ -36,13 +36,7 @@ const Login = () => {
         <p className="paragraph">Enter Login Details</p>
       </div>
       <div className="mx-auto w-full space-y-5 sm:w-1/2 md:w-3/4 lg:w-1/2">
-        <TForm
-          defaultValues={{
-            email: "john.doe@example.com",
-            password: "123",
-          }}
-          onSubmit={handleSubmit}
-        >
+        <TForm onSubmit={handleSubmit}>
           <div className="space-y-5 ">
             <TInput name="email" placeholder="Email Address" size="lg" variant="underlined" />
             <TInput

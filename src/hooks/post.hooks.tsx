@@ -10,6 +10,7 @@ import {
   fetchAllPosts,
   fetchSinglePost,
   fetchStates,
+  fetchUpvotes,
   updatePost,
 } from "@/services/post";
 import { TQueryParams } from "@/types/global.types";
@@ -20,7 +21,6 @@ const useFetchAllPosts = (
   page?: number | string,
   enabled = true
 ) => {
-
   return useQuery({
     queryKey: [key, page],
     queryFn: () => {
@@ -98,6 +98,7 @@ export const useUpdatePost = () => {
     onError: (error) => console.log(error, "from muation"),
   });
 };
+
 export const useDeletePost = () => {
   return useMutation({
     mutationKey: ["deletePost"],
@@ -105,6 +106,14 @@ export const useDeletePost = () => {
     onSuccess: () => {
       toast.success("Post Deleted.");
     },
+  });
+};
+
+export const useFetchUpvotes = (authorId: string) => {
+  return useQuery({
+    queryKey: ["upvotes"],
+    queryFn: () => fetchUpvotes(authorId),
+    enabled: !!authorId,
   });
 };
 

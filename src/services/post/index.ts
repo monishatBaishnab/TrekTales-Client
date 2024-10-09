@@ -64,3 +64,10 @@ export const deletePost = async (id: string) => {
 
   return data?.data;
 };
+
+export const fetchUpvotes = async (authorId: string) => {
+  const { data } = await axiosInstance.get(`/posts/upvotes/${authorId}`);
+
+
+  return data?.data;
+};
