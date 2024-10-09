@@ -36,6 +36,7 @@ const UserProfile = () => {
     isLoading: verifyingProfile,
     isSuccess: verifiedProfile,
   } = useVerifyProfile();
+
   const { data: upvotes } = useFetchUpvotes(userInfo?._id as string);
   //function for update profile
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {

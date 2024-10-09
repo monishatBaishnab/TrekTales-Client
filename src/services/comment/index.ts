@@ -10,7 +10,6 @@ export const fetchAllComments = async (query: TQueryParams) => {
   if (query) {
     query.map((param) => params.append(param.name, param.value));
   }
-  console.log(query);
   const { data } = await axiosInstance.get("/comments", { params });
 
   return data?.data;
@@ -41,7 +40,6 @@ export const deleteComment = async (id: string) => {
 };
 
 export const createReply = async (id: string, replyData: Partial<TComment>) => {
-  console.log(replyData);
   const { data } = await axiosInstance.post(`/comments/${id}/replies`, replyData);
 
   return data?.data;

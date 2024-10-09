@@ -45,18 +45,18 @@ export const useFetchStates = () => {
   return useQuery({
     queryKey: ["states"],
     queryFn: () => fetchStates(),
-    onError: (err) => {
-      console.log(err);
-    },
   });
 };
 
 export const useCreatePost = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["createPost"],
     mutationFn: (formData: FormData) => createPost(formData),
     onSuccess: () => {
       toast.success("New Post Created.");
+      queryClient.invalidateQueries(["myPosts"]);
     },
   });
 };
@@ -95,7 +95,6 @@ export const useUpdatePost = () => {
       toast.success("Post Updated.");
       queryCLient.invalidateQueries(["myPosts"]);
     },
-    onError: (error) => console.log(error, "from muation"),
   });
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, MessageCircleMore } from "lucide-react";
+import { Calendar, ShieldCheck, ShieldOff } from "lucide-react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -67,10 +67,19 @@ const PostDetails = ({ params }: { params: { postId: string } }) => {
                     <span className="mt-0.5 text-xs text-shark-500">{formattedDate}</span>
                   </div>
 
-                  {/* Comments */}
-                  <div className={"flex items-center gap-1"}>
-                    <MessageCircleMore className="size-4 text-shark-600" />
-                    <span className="mt-0.5 text-xs text-shark-500">12 Comments</span>
+                  <div className="flex items-center gap-1">
+                    {postDetails?.isPremium ? (
+                      <ShieldCheck className="size-4 text-persian-green-600" />
+                    ) : (
+                      <ShieldOff className="size-4 text-shark-600" />
+                    )}
+                    <span className="mt-0.5 text-xs text-shark-500">
+                      {postDetails?.isPremium ? (
+                        <span className="text-persian-green-600">Premium</span>
+                      ) : (
+                        "Free"
+                      )}
+                    </span>
                   </div>
                 </div>
                 <div className="h-[350px] w-full overflow-hidden rounded-md">
