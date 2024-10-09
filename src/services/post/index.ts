@@ -3,7 +3,7 @@
 import axiosInstance from "@/lib/Axios";
 import { TQueryParams } from "@/types/global.types";
 
-export const fetchAllPosts = async (query: TQueryParams) => {
+export const fetchAllPosts = async (query: TQueryParams | null) => {
   const params = new URLSearchParams();
 
   if (query) {
@@ -39,7 +39,6 @@ export const createUpvote = async (voteData: { user: string; id: string }) => {
   const { data } = await axiosInstance.put(`/posts/${voteData?.id}/upvote`, {
     user: voteData?.user,
   });
-
 
   return data?.data;
 };

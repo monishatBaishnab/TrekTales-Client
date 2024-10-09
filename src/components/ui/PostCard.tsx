@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Calendar, MoveRight, ThumbsUp } from "lucide-react";
+import { Calendar, MoveRight} from "lucide-react";
 import Link from "next/link";
 import moment from "moment";
 
@@ -11,7 +11,6 @@ const PostCard = ({
   isAction = true,
   isAuthor = true,
   isDate = true,
-  isComment = true,
   isImage = true,
   post,
 }: TPostListCardProps) => {
@@ -35,7 +34,6 @@ const PostCard = ({
   );
   const authorClass = clsx("flex items-center gap-1", classNames?.additional?.author);
   const dateClass = clsx("flex items-center gap-1", classNames?.additional?.date);
-  const commentClass = clsx("flex items-center gap-1", classNames?.additional?.comment);
   const descriptionClass = clsx("paragraph mt-3", classNames?.description);
 
   const actionClass = clsx(
@@ -82,15 +80,6 @@ const PostCard = ({
             <div className={dateClass}>
               <Calendar className="size-4 text-shark-600" />
               <span className="mt-0.5 text-xs text-shark-500">{formattedDate}</span>
-            </div>
-          )}
-          {/* Comments */}
-          {isComment && (
-            <div className={commentClass}>
-              <ThumbsUp className="size-4 text-shark-600" />
-              <span className="mt-0.5 text-xs text-shark-500">
-                {post?.votes?.filter((item) => item?.vote == "up").length || "0"}
-              </span>
             </div>
           )}
         </div>

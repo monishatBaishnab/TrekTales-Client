@@ -47,7 +47,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserInfoContext.Provider
-      value={{ userInfo, setUserInfo, userInfoLoading, setUserInfoLoading }}
+      value={{ userInfo, setUserInfo, userInfoLoading, setUserInfoLoading}}
     >
       {children}
     </UserInfoContext.Provider>

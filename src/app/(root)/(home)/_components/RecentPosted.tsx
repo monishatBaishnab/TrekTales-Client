@@ -9,6 +9,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import useFetchAllPosts from "@/hooks/post.hooks";
 import { TPost } from "@/types/post.types";
 import PostCardSkeleton from "@/components/ui/PostCardSkeleton";
+import TEmpty from "@/components/ui/TEmpty";
 
 const RecentPosted = () => {
   const [page, setPage] = useState<number>(1);
@@ -43,26 +44,30 @@ const RecentPosted = () => {
               <div className="md:col-span-2">
                 <SectionTitle bgText="Recent" planeText="Posted" />
               </div>
-              {isLoading || isFetching
-                ? Array.from({ length: 6 }).map((_, id) => (
-                    <PostCardSkeleton
-                      key={id}
-                      classNames={{
-                        base: "!flex-col !p-0",
-                        image: { wrapper: "!h-[250px] !w-full" },
-                      }}
-                    />
-                  ))
-                : recentPosts?.posts.map((post: TPost) => (
-                    <PostCard
-                      key={post?._id}
-                      classNames={{
-                        base: "!flex-col !p-0",
-                        image: { wrapper: "!h-[250px] !w-full" },
-                      }}
-                      post={post}
-                    />
-                  ))}
+              {isLoading || isFetching ? (
+                Array.from({ length: 6 }).map((_, id) => (
+                  <PostCardSkeleton
+                    key={id}
+                    classNames={{
+                      base: "!flex-col !p-0",
+                      image: { wrapper: "!h-[250px] !w-full" },
+                    }}
+                  />
+                ))
+              ) : recentPosts?.posts?.length ? (
+                recentPosts?.posts.map((post: TPost) => (
+                  <PostCard
+                    key={post?._id}
+                    classNames={{
+                      base: "!flex-col !p-0",
+                      image: { wrapper: "!h-[250px] !w-full" },
+                    }}
+                    post={post}
+                  />
+                ))
+              ) : (
+                <div className="sm:col-span-2"><TEmpty /></div>
+              )}
               <div className="mt-8 flex justify-center md:col-span-2">
                 <TPagination page={page} setPage={setPage} totalPage={totalPage} />
               </div>

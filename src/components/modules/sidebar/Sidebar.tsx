@@ -2,6 +2,7 @@
 
 import { Input } from "@nextui-org/input";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import AuthorCard from "@/components/ui/AuthorCard";
 import TButton from "@/components/ui/TButton";
@@ -11,10 +12,13 @@ import { useFetchPopularAuthors } from "@/hooks/user.hooks";
 import AuthorCardSkeleton from "@/components/ui/AuthorCardSkeliton";
 import { TUser } from "@/types/user.types";
 import { useFetchStates } from "@/hooks/post.hooks";
+import { useFilter } from "@/context/FilterProvider";
 
 const Sidebar = () => {
   const { data: authors, isLoading: authorsLoading } = useFetchPopularAuthors();
   const { data: states, isLoading: statesLoading } = useFetchStates();
+  const { setSearch, setTag, setCategory } = useFilter();
+  const router = useRouter();
 
   return (
     <div className="space-y-10">
@@ -25,13 +29,20 @@ const Sidebar = () => {
           <div className="space-y-7">
             <Input
               endContent={
-                <TButton isIconOnly className="!h-8" color="gray" size="sm">
+                <TButton
+                  isIconOnly
+                  className="!h-8"
+                  color="gray"
+                  size="sm"
+                  onClick={() => router.push("/search")}
+                >
                   <Search className="size-5 text-lg" />
                 </TButton>
               }
               placeholder="Search..."
               radius="sm"
               size="lg"
+              onChange={(e) => setSearch(e?.target?.value)}
             />
           </div>
         </div>
@@ -86,7 +97,16 @@ const Sidebar = () => {
         <SectionTitle bgText="Search" planeText="With Tag's" />
         <div className="flex flex-wrap items-center gap-2">
           {postsTagsOptions.map((tag) => (
-            <TButton key={tag?.key} className="!text-sm" color="persian-green-gost" size="sm">
+            <TButton
+              key={tag?.key}
+              className="!text-sm"
+              color="persian-green-gost"
+              size="sm"
+              onPress={() => {
+                setTag(tag.key);
+                router.push("/search");
+              }}
+            >
               {tag?.label}
             </TButton>
           ))}
@@ -97,7 +117,16 @@ const Sidebar = () => {
         <SectionTitle bgText="Search" planeText="With Categories" />
         <div className="flex flex-wrap items-center gap-2">
           {postCategoryOptions.map((category) => (
-            <TButton key={category?.key} className="!text-sm" color="persian-green-gost" size="sm">
+            <TButton
+              key={category?.key}
+              className="!text-sm"
+              color="persian-green-gost"
+              size="sm"
+              onPress={() => {
+                setCategory(category.key);
+                router.push("/search");
+              }}
+            >
               {category?.label}
             </TButton>
           ))}

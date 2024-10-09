@@ -14,7 +14,7 @@ interface PostSectionProps {
   isDescription?: boolean;
   isImage?: boolean;
 }
-const PostSection = ({
+export const PostSection = ({
   title,
   isLoading,
   posts,

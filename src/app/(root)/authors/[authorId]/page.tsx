@@ -1,52 +1,95 @@
 "use client";
-import { Plus } from "lucide-react";
 
-import PostContainer from "@/components/modules/posts/PostContainer";
+import { LoaderCircle, Plus } from "lucide-react";
+import { toast } from "sonner";
+import { ReactNode } from "react";
+
 import TButton from "@/components/ui/TButton";
-import { authorImage } from "@/constants/global.constats";
+import { useFetchSingleAuthor, useFollowAuthors } from "@/hooks/user.hooks";
+import PostCard from "@/components/ui/PostCard";
+import PostCardSkeleton from "@/components/ui/PostCardSkeleton";
+import SectionTitle from "@/components/ui/SectionTitle";
+import { TPost } from "@/types/post.types";
+import UserProfileSkeleton from "@/components/ui/UserProfileSkeleton";
+import UserProfileView from "@/components/modules/user/UserProfileView";
+import { useUserInfo } from "@/context/UserInfoProvider";
+import TEmpty from "@/components/ui/TEmpty";
 
-const AuthorDetails = () => {
+const AuthorDetails = ({ params }: { params: { authorId: string } }) => {
+  const { data, isLoading, isFetching } = useFetchSingleAuthor(params?.authorId as string);
+  const { mutate: followAuthor, isLoading: following } = useFollowAuthors();
+
+  const { userInfo } = useUserInfo();
+  const isFollowing = data?.author?.followers?.includes(userInfo?._id);
+  let followButtonText: ReactNode | string = "Follow";
+
+  if (following) {
+    followButtonText = <LoaderCircle className="size-4 animate-spin" />;
+  }
+
+  if (isFollowing) {
+    followButtonText = "Following";
+  }
+
+  const handleFollow = () => {
+    if (!userInfo?._id) {
+      toast.error("Pleas login/register for follow authors.");
+
+      return;
+    }
+    followAuthor({ author: params?.authorId });
+  };
+
   return (
     <section>
       <div className="container">
-        <div className="flex flex-col items-center gap-7 rounded-lg border border-shark-200 p-10 sm:flex-row">
-          <div className="size-28 shrink-0 overflow-hidden rounded-full">
-            <img alt="Author" className="size-full object-cover" src={authorImage} />
-          </div>
-          <div className="w-full space-y-3">
-            <div className="flex flex-wrap items-center justify-between border-b border-b-shark-200 pb-3">
-              <h2 className="title-2">Alexandra H.</h2>
-              <div className="flex items-center gap-2">
-                <span className="flex h-[34px] items-center justify-center rounded-lg border border-shark-200 bg-white px-3 text-sm text-shark-600">
-                  12 Post
-                </span>
-                <TButton
-                  className="!gap-0.5 !text-sm !text-shark-600"
-                  color="gray"
-                  size="sm"
-                  startContent={<Plus className="size-4" />}
-                >
-                  Follow
-                </TButton>
-              </div>
-            </div>
-            <p className="paragraph">
-              Hi there! I&apos;m Jessica, the voice behind this blog. Traveling has always been my
-              passion, and sharing my experiences through writing is something I truly enjoy. I
-              believe in the power of storytelling to connect people and inspire them to explore the
-              world.
-            </p>
-          </div>
-        </div>
-        <div>
-          <PostContainer
-            title={
-              <div className="mb-5 inline-flex items-center gap-1">
-                <h3 className="title-3 bg-title">Post of</h3>
-                <h3 className="title-3">this Author</h3>
-              </div>
+        {isLoading || isFetching ? (
+          <UserProfileSkeleton />
+        ) : (
+          <UserProfileView
+            action={
+              <TButton
+                className="!gap-1 !text-sm !text-shark-600"
+                color="gray"
+                isDisabled={isFollowing}
+                size="sm"
+                startContent={<Plus className="size-4" />}
+                onPress={handleFollow}
+              >
+                {followButtonText}
+              </TButton>
             }
+            user={data?.author ?? {}}
           />
+        )}
+        <div>
+          <div className="mt-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="md:col-span-2 lg:col-span-3">
+                <SectionTitle bgText="Author" planeText="Posts" />
+              </div>
+              {isLoading || isFetching
+                ? Array.from({ length: 6 }).map((_, id) => (
+                    <PostCardSkeleton
+                      key={id}
+                      classNames={{
+                        base: "!flex-col !p-0",
+                        image: { wrapper: "!h-[250px] !w-full" },
+                      }}
+                    />
+                  ))
+                : data?.posts?.length ? data?.posts?.map((post: TPost) => (
+                  <PostCard
+                    key={post?._id}
+                    classNames={{
+                      base: "!flex-col !p-0",
+                      image: { wrapper: "!h-[250px] !w-full" },
+                    }}
+                    post={post}
+                  />
+                )) : <div className="sm:col-span-2 lg:col-span-3"><TEmpty /></div>}
+            </div>
+          </div>
         </div>
       </div>
     </section>

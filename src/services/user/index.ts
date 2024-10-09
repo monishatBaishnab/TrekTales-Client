@@ -37,8 +37,14 @@ export const fetchPopularAuthors = async () => {
   return data?.data;
 };
 
-export const fetchSingleAuthor = async (id:string) => {
-  const { data } = await axiosInstance.get(`/users/popular-authors/${id}`);
+export const fetchSingleAuthor = async (id: string) => {
+  const { data } = await axiosInstance.get(`/users/authors/${id}`);
+
+  return data?.data;
+};
+
+export const followAuthor = async (payload: { author: string }) => {
+  const { data } = await axiosInstance.post(`/users/follow`, payload);
 
   return data?.data;
 };

@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Menu, PanelRightOpen } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Tooltip } from "@nextui-org/tooltip";
 
 import NavProfile from "./NavProfile";
@@ -59,9 +59,9 @@ const Navbar = () => {
                   isIconOnly
                   className="!text-base"
                   size="sm"
-                  // onPress={() => setShowSmallNav(true)}
+                  onPress={() => router.push("/search")}
                 >
-                  <PanelRightOpen className="size-5" />
+                  <Search className="size-5" />
                 </TButton>
               </Tooltip>
 

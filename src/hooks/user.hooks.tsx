@@ -6,6 +6,7 @@ import {
   fetchPopularAuthors,
   fetchSingleAuthor,
   fetchSingleUser,
+  followAuthor,
   updateProfile,
 } from "@/services/user";
 import { TQueryParams } from "@/types/global.types";
@@ -32,7 +33,7 @@ export const useFetchPopularAuthors = () => {
 
 export const useFetchSingleAuthor = (id: string) => {
   return useQuery({
-    queryKey: ["author", id],
+    queryKey: ["singleAuthor", id],
     queryFn: async () => await fetchSingleAuthor(id),
     enabled: !!id,
     refetchOnWindowFocus: false,
@@ -58,6 +59,19 @@ export const useUpdateProfile = () => {
     onSuccess: (data) => {
       toast.success("Profile Updated.");
       queryClient.invalidateQueries(["user", data?._id]);
+    },
+  });
+};
+
+export const useFollowAuthors = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["followAuthor"],
+    mutationFn: (payload: { author: string }) => followAuthor(payload),
+    onSuccess: (data) => {
+      toast.success("Follow successfully.");
+      queryClient.invalidateQueries(['singleAuthor'])
     },
   });
 };

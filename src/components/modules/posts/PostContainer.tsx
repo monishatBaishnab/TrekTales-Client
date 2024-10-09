@@ -6,12 +6,14 @@ import Sidebar from "../sidebar/Sidebar";
 
 import PostCard from "@/components/ui/PostCard";
 import TPagination from "@/components/ui/TPagination";
+import { TPost } from "@/types/post.types";
 
 type TPostContainerProps = {
   title: ReactNode;
+  posts: TPost[]
 };
 
-const PostContainer = ({ title}: TPostContainerProps) => {
+const PostContainer = ({ title, posts}: TPostContainerProps) => {
   const [page, setPage] = useState<number>(0);
 
   return (

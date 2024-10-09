@@ -44,9 +44,9 @@ const Authors = () => {
                 />
               ))}
         </div>
-      </div>
-      <div>
-        <TPagination page={page} setPage={setPage} totalPage={totalPage} />
+        <div className="mt-7 flex justify-center">
+          <TPagination page={page} setPage={setPage} totalPage={totalPage} />
+        </div>
       </div>
     </section>
   );

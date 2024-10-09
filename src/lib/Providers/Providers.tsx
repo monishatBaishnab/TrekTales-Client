@@ -9,6 +9,7 @@ import { ThemeProviderProps } from "next-themes/dist/types";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import UserInfoProvider from "@/context/UserInfoProvider";
+import FilterProvider from "@/context/FilterProvider";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -23,10 +24,12 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserInfoProvider>
-        <NextUIProvider navigate={router.push}>
-          <Toaster />
-          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-        </NextUIProvider>
+        <FilterProvider>
+          <NextUIProvider navigate={router.push}>
+            <Toaster />
+            <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+          </NextUIProvider>
+        </FilterProvider>
       </UserInfoProvider>
     </QueryClientProvider>
   );

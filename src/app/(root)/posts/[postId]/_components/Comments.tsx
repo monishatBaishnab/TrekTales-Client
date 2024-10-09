@@ -14,7 +14,7 @@ import { TComment, TReply } from "@/types/comment.types";
 import CommentCardSkeleton from "@/components/ui/CommentCardSkeleton";
 
 const Comments = ({ postDetails }: { postDetails: TPost }) => {
-  const { userInfo } = useUserInfo();
+  const { userInfo } = useUserInfo() ?? {};
   const { mutate: createUpvote, isLoading: upVoting } = useCerateUpVote();
   const { mutate: createDownVote, isLoading: downVoting } = useCreateDownVote();
   const findUserVote = postDetails?.votes?.find((vote) => vote.user === userInfo?._id);
