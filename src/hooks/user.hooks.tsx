@@ -8,6 +8,7 @@ import {
   fetchSingleUser,
   followAuthor,
   updateProfile,
+  verifyProfile,
 } from "@/services/user";
 import { TQueryParams } from "@/types/global.types";
 
@@ -42,7 +43,7 @@ export const useFetchSingleAuthor = (id: string) => {
 
 export const useFetchSingleUser = (id: string) => {
   return useQuery({
-    queryKey: ["user", id],
+    queryKey: ["singleUser", id],
     queryFn: async () => await fetchSingleUser(id),
     enabled: !!id,
     refetchOnWindowFocus: false,
@@ -58,7 +59,7 @@ export const useUpdateProfile = () => {
       updateProfile(id, userData),
     onSuccess: (data) => {
       toast.success("Profile Updated.");
-      queryClient.invalidateQueries(["user", data?._id]);
+      queryClient.invalidateQueries(["singleUser", data?._id]);
     },
   });
 };
@@ -71,7 +72,21 @@ export const useFollowAuthors = () => {
     mutationFn: (payload: { author: string }) => followAuthor(payload),
     onSuccess: (data) => {
       toast.success("Follow successfully.");
-      queryClient.invalidateQueries(['singleAuthor'])
+      queryClient.invalidateQueries(["singleAuthor"]);
+    },
+  });
+};
+
+export const useVerifyProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["verifyProfile"],
+    mutationFn: (payload: { user: string }) => verifyProfile(payload),
+    onSuccess: (data) => {
+      toast.success("Profile Verified Successfully.");
+      queryClient.invalidateQueries(["singleUser"]);
+      window.location.href = data?.payment_url;
     },
   });
 };

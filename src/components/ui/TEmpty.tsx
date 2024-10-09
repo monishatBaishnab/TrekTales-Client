@@ -7,9 +7,9 @@ const TEmpty = () => {
         <div className="flex justify-center">
           <ScanSearch className="size-10 text-persian-green-600" />
         </div>
-        <h1 className="title-1 !text-persian-green-600">Product Not Found</h1>
+        <h1 className="title-1 !text-persian-green-600">Content Not Found</h1>
         <p className="paragraph ">
-          We&apos;re sorry, but the product you&apos;re looking for doesn&apos;t exist or has been
+          We&apos;re sorry, but the content you&apos;re looking for doesn&apos;t exist or has been
           removed.
         </p>
       </div>

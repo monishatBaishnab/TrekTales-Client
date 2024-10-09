@@ -18,8 +18,6 @@ export const fetchAllAuthors = async (query: TQueryParams) => {
 export const fetchSingleUser = async (id: string) => {
   const { data } = await axiosInstance.get(`/users/${id}`);
 
-  console.log(id);
-
   return data?.data;
 };
 
@@ -45,6 +43,12 @@ export const fetchSingleAuthor = async (id: string) => {
 
 export const followAuthor = async (payload: { author: string }) => {
   const { data } = await axiosInstance.post(`/users/follow`, payload);
+
+  return data?.data;
+};
+
+export const verifyProfile = async (payload: { user: string }) => {
+  const { data } = await axiosInstance.post(`/payments/create-payment`, payload);
 
   return data?.data;
 };

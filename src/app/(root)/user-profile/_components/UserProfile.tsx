@@ -1,11 +1,11 @@
 "use client";
 import { useDisclosure } from "@nextui-org/modal";
-import { LoaderCircle, Pencil, Save, X } from "lucide-react";
+import { BadgeCheck, HandCoins, LoaderCircle, Pencil, Play, Save, X } from "lucide-react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 
 import TButton from "@/components/ui/TButton";
-import { useFetchSingleUser, useUpdateProfile } from "@/hooks/user.hooks";
+import { useFetchSingleUser, useUpdateProfile, useVerifyProfile } from "@/hooks/user.hooks";
 import { useUserInfo } from "@/context/UserInfoProvider";
 import UserProfileSkeleton from "@/components/ui/UserProfileSkeleton";
 import TForm from "@/components/form/TForm";
@@ -13,17 +13,34 @@ import TDatePicker from "@/components/form/TDatePicker";
 import TFile from "@/components/form/TFile";
 import TInput from "@/components/form/TInput";
 import TTextarea from "@/components/form/TTextarea";
-import TSelect from "@/components/form/TSelect";
-import { travelerInterests } from "@/constants/global.constats";
 import { TUser } from "@/types/user.types";
 import TModal from "@/components/ui/TModal";
 import UserProfileView from "@/components/modules/user/UserProfileView";
+import { useFetchAllComments } from "@/hooks/comment.hooks";
 
 const UserProfile = () => {
   const { userInfo } = useUserInfo() ?? {};
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isVerifyOpen,
+    onOpen: onVerifyOpen,
+    onClose: onVerifyClose,
+    onOpenChange: onVerifyOnChange,
+  } = useDisclosure();
   const { data: user, isLoading, isFetching } = useFetchSingleUser(userInfo?._id as string);
   const { mutate, isLoading: updatingUser, isSuccess: updatedUser } = useUpdateProfile();
+  const {
+    mutate: verifyProfile,
+    isLoading: verifyingProfile,
+    isSuccess: verifiedProfile,
+  } = useVerifyProfile();
+  const { data: commentsData } = useFetchAllComments(
+    [{ name: "author", value: userInfo?._id as string }],
+    1,
+    !!userInfo?._id
+  );
+
+  //function for update profile
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const selectedInterestsSet = new Set(data?.interests as string[]);
     const selectedInterestsArr: string[] = Array.from(selectedInterestsSet);
@@ -38,11 +55,15 @@ const UserProfile = () => {
 
     formData.append("data", JSON.stringify(userData));
 
-    if (data.profilePhoto) {
-      formData.append("image", data.profilePhoto);
+    if (data.profilePicture) {
+      formData.append("image", data.profilePicture);
     }
     // Pass FormData to the mutate function
     mutate({ id: userInfo?._id as string, userData: formData });
+  };
+
+  const handleVerify = () => {
+    verifyProfile({ user: userInfo?._id as string });
   };
 
   useEffect(() => {
@@ -51,6 +72,12 @@ const UserProfile = () => {
     }
   }, [updatedUser, updatingUser]);
 
+  useEffect(() => {
+    if (verifiedProfile && !verifyingProfile) {
+      onVerifyClose();
+    }
+  }, [verifiedProfile]);
+
   return (
     <>
       {isLoading || isFetching || !userInfo ? (
@@ -58,15 +85,28 @@ const UserProfile = () => {
       ) : (
         <UserProfileView
           action={
-            <TButton
-              className="!gap-1 !text-sm !text-shark-600"
-              color="gray"
-              size="sm"
-              startContent={<Pencil className="size-4" />}
-              onPress={onOpen}
-            >
-              Update Profile
-            </TButton>
+            <div className="flex gap-3">
+              {commentsData?.comments?.length && !userInfo?.isVerified ? (
+                <TButton
+                  className="!gap-1 !text-sm !text-shark-600"
+                  color="gray"
+                  size="sm"
+                  startContent={<BadgeCheck className="size-4" />}
+                  onPress={onVerifyOpen}
+                >
+                  Verify
+                </TButton>
+              ) : null}
+              <TButton
+                className="!gap-1 !text-sm !text-shark-600"
+                color="gray"
+                size="sm"
+                startContent={<Pencil className="size-4" />}
+                onPress={onOpen}
+              >
+                Update
+              </TButton>
+            </div>
           }
           user={user}
         />
@@ -96,13 +136,6 @@ const UserProfile = () => {
               <TInput isDisabled label="Email Address" name="email" placeholder="Email" />
               <TDatePicker label="Date Of Birth" name="dateOfBirth" />
             </div>
-            <TSelect
-              label="Interests"
-              name="interests"
-              options={travelerInterests}
-              placeholder="Select your interests."
-              selectionMode="multiple"
-            />
             <TTextarea
               label="Profile Bio"
               name="bio"
@@ -126,6 +159,36 @@ const UserProfile = () => {
             </div>
           </div>
         </TForm>
+      </TModal>
+
+      <TModal
+        isOpen={isVerifyOpen}
+        size="sm"
+        title={{ bgText: "Verify", planeText: "Profile" }}
+        onClose={onVerifyClose}
+        onOpenChange={onVerifyOnChange}
+      >
+        <div className="flex flex-col items-center gap-4 py-6">
+          <div className="flex size-24 items-center justify-center rounded-full bg-persian-green-600/20 text-persian-green-600">
+            <HandCoins className="size-10" />
+          </div>
+          <h2 className="title-2 !text-persian-green-600">Payment Verification</h2>
+          <p className="paragraph text-center">
+            You need to pay <strong>1050 Tk</strong> to verify your account.
+          </p>
+          <div className="flex items-center gap-3">
+            <TButton color="gray" startContent={<X className="size-4" />} onPress={onVerifyClose}>
+              Cancel
+            </TButton>
+            <TButton
+              className="!min-w-[116px]"
+              startContent={<Play className="size-4" />}
+              onPress={handleVerify}
+            >
+              {verifyingProfile ? <LoaderCircle className="animate-spin" /> : "Continue"}
+            </TButton>
+          </div>
+        </div>
       </TModal>
     </>
   );

@@ -12,6 +12,7 @@ import TTextarea from "@/components/form/TTextarea";
 import { useCreateComment, useFetchCommentsByPost } from "@/hooks/comment.hooks";
 import { TComment, TReply } from "@/types/comment.types";
 import CommentCardSkeleton from "@/components/ui/CommentCardSkeleton";
+import TEmpty from "@/components/ui/TEmpty";
 
 const Comments = ({ postDetails }: { postDetails: TPost }) => {
   const { userInfo } = useUserInfo() ?? {};
@@ -64,9 +65,7 @@ const Comments = ({ postDetails }: { postDetails: TPost }) => {
     <div className="space-y-8">
       <div className="space-y-5">
         <div className="flex items-center justify-between ">
-          <h1 className="title-1">
-            Comments
-          </h1>
+          <h1 className="title-1">Comments</h1>
           <div className="flex items-center gap-2">
             <TButton
               isIconOnly
@@ -88,20 +87,24 @@ const Comments = ({ postDetails }: { postDetails: TPost }) => {
         </div>
         <div className="space-y-4">
           <div className="space-y-5 rounded-md border border-shark-100 p-4">
-            {commentsLoading || commentsFetching || !postDetails?._id
-              ? Array?.from({ length: 3 }).map((_, id) => <CommentCardSkeleton key={id} />)
-              : comments?.map((comment: TComment) => (
-                  <div key={comment?._id}>
-                    <CommentCard comment={comment} />
-                    {comment?.replies?.length ? (
-                      <div className="ml-5 mt-5 space-y-3 rounded-md bg-shark-50/50 p-4">
-                        {comment?.replies?.map((reply: TReply) => (
-                          <CommentCard key={reply?._id} comment={reply} commentId={comment?._id} />
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
+            {commentsLoading || commentsFetching || !postDetails?._id ? (
+              Array?.from({ length: 3 }).map((_, id) => <CommentCardSkeleton key={id} />)
+            ) : !comments?.length ? (
+              <TEmpty />
+            ) : (
+              comments?.map((comment: TComment) => (
+                <div key={comment?._id}>
+                  <CommentCard comment={comment} />
+                  {comment?.replies?.length ? (
+                    <div className="ml-5 mt-5 space-y-3 rounded-md bg-shark-50/50 p-4">
+                      {comment?.replies?.map((reply: TReply) => (
+                        <CommentCard key={reply?._id} comment={reply} commentId={comment?._id} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ export const fetchAllComments = async (query: TQueryParams) => {
   if (query) {
     query.map((param) => params.append(param.name, param.value));
   }
-
+  console.log(query);
   const { data } = await axiosInstance.get("/comments", { params });
 
   return data?.data;

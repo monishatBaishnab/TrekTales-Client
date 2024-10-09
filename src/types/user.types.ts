@@ -9,7 +9,7 @@ export type TUser = {
   isVerified?: boolean;
   isBlocked?: boolean;
   dateOfBirth?: string;
-  interests?: string[];
+  followers?: string[];
   isDeleted?: boolean;
   createdAt?: string;
   updatedAt?: string;

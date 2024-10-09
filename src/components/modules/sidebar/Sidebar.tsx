@@ -17,7 +17,7 @@ import { useFilter } from "@/context/FilterProvider";
 const Sidebar = () => {
   const { data: authors, isLoading: authorsLoading } = useFetchPopularAuthors();
   const { data: states, isLoading: statesLoading } = useFetchStates();
-  const { setSearch, setTag, setCategory } = useFilter();
+  const { setSearch, setTag, setCategory } = useFilter() ?? {};
   const router = useRouter();
 
   return (

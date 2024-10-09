@@ -13,10 +13,11 @@ import {
 import { TQueryParams } from "@/types/global.types";
 import { TComment } from "@/types/comment.types";
 
-export const useFetchAllComments = (query: TQueryParams, page: number) => {
+export const useFetchAllComments = (query: TQueryParams, page?: number, enabled = true) => {
   return useQuery({
     queryKey: ["allComments", page],
     queryFn: () => fetchAllComments(query),
+    enabled,
     refetchOnWindowFocus: false,
   });
 };

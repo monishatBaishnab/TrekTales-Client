@@ -129,7 +129,7 @@ const CreatePost = ({
             <TTextEditor name="content" />
             <TFile label="Post Thumb" name="image" />
             <TCheckbox
-              // isDisabled={!userInfo?.isVerified}
+              isDisabled={!userInfo?.isVerified}
               label="Mark as premium"
               name="isPremium"
             />

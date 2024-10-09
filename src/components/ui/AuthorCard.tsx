@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserRound } from "lucide-react";
+import { UserRound, UserRoundCheck } from "lucide-react";
 
 import { TUser } from "@/types/user.types";
 
@@ -15,15 +15,15 @@ const AuthorCard = ({ className, author }: { className?: string; author?: TUser 
           </div>
         )}
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1">
         <Link className="title-4 block" href={`/authors/${author?._id}`}>
           {author?.name}
         </Link>
         <p className="paragraph">
           {Number(author?.bio?.length) > 30 ? author?.bio?.slice(0, 30) : author?.bio}
         </p>
-        <div className="flex items-center gap-2.5">
-          <span className="tag-light">Travel</span>
+        <div className="flex items-center gap-1.5 text-sm text-shark-600">
+          <UserRoundCheck className="size-4" /> <span>{author?.followers?.length} Followers</span>
         </div>
       </div>
     </div>
