@@ -6,7 +6,7 @@ import { Select, SelectItem } from "@nextui-org/select";
 
 import PostCard from "@/components/ui/PostCard";
 import PostCardSkeleton from "@/components/ui/PostCardSkeleton";
-import useFetchAllPosts from "@/hooks/post.hooks";
+import {useFetchAllPosts} from "@/hooks/post.hooks";
 import { TPost } from "@/types/post.types";
 import { useFilter } from "@/context/FilterProvider";
 import { TQueryParams } from "@/types/global.types";
@@ -45,7 +45,7 @@ const SearchPage = () => {
     query.push({ name: "tags", value: tag });
   }
   if (!category && !debouncedSearch && !tag) {
-    query.push({ name: "searchTerm", value: "asfsdf" });
+    query.push({ name: "searchTerm", value: "anything" });
   }
 
   // Fetch posts only if there are filters

@@ -2,7 +2,7 @@
 import PostCard from "@/components/ui/PostCard";
 import PostCardSkeleton from "@/components/ui/PostCardSkeleton";
 import SectionTitle from "@/components/ui/SectionTitle";
-import useFetchAllPosts from "@/hooks/post.hooks";
+import { useFetchAllPosts } from "@/hooks/post.hooks";
 import { TPost } from "@/types/post.types";
 interface PostSectionProps {
   title: string;
@@ -64,15 +64,14 @@ export const PostSection = ({
 const Header = () => {
   const { data: featurePosts, isLoading: featureLoading } = useFetchAllPosts(
     [{ name: "isFeatured", value: "true" }],
-    "featuredPosts"
+    "featured"
   );
   const { data: popularPosts, isLoading: popularLoading } = useFetchAllPosts(
     [
       { name: "limit", value: "3" },
       { name: "page", value: "1" },
-      { name: "sort", value: "-updatedAt" },
     ],
-    "popularPosts"
+    "popular"
   );
 
   return (

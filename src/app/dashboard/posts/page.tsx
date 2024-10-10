@@ -6,7 +6,7 @@ import { Dot, Trash2 } from "lucide-react";
 import moment from "moment";
 
 import { TPost } from "@/types/post.types";
-import useFetchAllPosts, { useDeletePost } from "@/hooks/post.hooks";
+import { useDeletePost, useFetchAllPosts } from "@/hooks/post.hooks";
 import TPagination from "@/components/ui/TPagination";
 import TTableLoading from "@/components/ui/TTableLoading";
 import TEmpty from "@/components/ui/TEmpty";
@@ -48,7 +48,6 @@ const AdminPosts = () => {
     [
       { name: "limit", value: "6" },
       { name: "page", value: String(page) },
-      { name: "sort", value: "-updatedAt" },
     ],
     `allPosts`,
     page

@@ -2,6 +2,11 @@
 
 [Live Link](https://trek-tales-client.vercel.app/)
 
+### Admin Credentials
+
+- **Email**: `monishat@gmail.com`
+- **Password**: `11`
+
 ## Project Description
 
 **TrekTales** is a full-stack web application designed to create an engaging platform for travel enthusiasts. Users can share their personal travel stories, provide valuable tips, and interact with a community of fellow travelers. The platform features user authentication, profile management, post creation, and social interaction. Premium features, such as exclusive content, are unlocked through a payment system. TrekTales is built to foster a dynamic community where users can discover new destinations, gain insights, and build memorable travel experiences.

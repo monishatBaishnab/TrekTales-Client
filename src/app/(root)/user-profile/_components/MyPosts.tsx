@@ -9,7 +9,7 @@ import CreatePost from "./CreatePost";
 
 import SectionTitle from "@/components/ui/SectionTitle";
 import { useUserInfo } from "@/context/UserInfoProvider";
-import useFetchAllPosts, { useDeletePost } from "@/hooks/post.hooks";
+import {useFetchAllPosts,  useDeletePost } from "@/hooks/post.hooks";
 import TPagination from "@/components/ui/TPagination";
 import { TPost } from "@/types/post.types";
 import TTableLoading from "@/components/ui/TTableLoading";

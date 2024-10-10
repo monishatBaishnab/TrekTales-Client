@@ -6,10 +6,10 @@ import PostCard from "@/components/ui/PostCard";
 import TPagination from "@/components/ui/TPagination";
 import Sidebar from "@/components/modules/sidebar/Sidebar";
 import SectionTitle from "@/components/ui/SectionTitle";
-import useFetchAllPosts from "@/hooks/post.hooks";
 import { TPost } from "@/types/post.types";
 import PostCardSkeleton from "@/components/ui/PostCardSkeleton";
 import TEmpty from "@/components/ui/TEmpty";
+import { useFetchAllPosts } from "@/hooks/post.hooks";
 
 const RecentPosted = () => {
   const [page, setPage] = useState<number>(1);
@@ -23,7 +23,6 @@ const RecentPosted = () => {
     [
       { name: "limit", value: "6" },
       { name: "page", value: String(page) },
-      { name: "sort", value: "-updatedAt" },
     ],
     "recentPosts",
     page

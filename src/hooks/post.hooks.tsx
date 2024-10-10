@@ -15,14 +15,14 @@ import {
 } from "@/services/post";
 import { TQueryParams } from "@/types/global.types";
 
-const useFetchAllPosts = (
+export const useFetchAllPosts = (
   params: TQueryParams | null,
-  key: string,
+  key = "",
   page?: number | string,
   enabled = true
 ) => {
   return useQuery({
-    queryKey: ['posts', key, page],
+    queryKey: ["posts", key, page],
     queryFn: () => {
       return fetchAllPosts(params);
     },
@@ -60,6 +60,7 @@ export const useCreatePost = () => {
     },
   });
 };
+
 export const useCerateUpVote = () => {
   const queryClient = useQueryClient();
 
@@ -106,7 +107,7 @@ export const useDeletePost = () => {
     mutationFn: (id: string) => deletePost(id),
     onSuccess: () => {
       toast.success("Post Deleted.");
-      queryClient.invalidateQueries(['posts']);
+      queryClient.invalidateQueries(["posts"]);
     },
   });
 };
@@ -118,5 +119,3 @@ export const useFetchUpvotes = (authorId: string) => {
     enabled: !!authorId,
   });
 };
-
-export default useFetchAllPosts;
