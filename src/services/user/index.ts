@@ -3,6 +3,17 @@
 import axiosInstance from "@/lib/Axios";
 import { TQueryParams } from "@/types/global.types";
 
+export const fetchAllUsers = async (query: TQueryParams) => {
+  const params = new URLSearchParams();
+
+  if (query) {
+    query?.map((param) => params.append(param.name, param.value));
+  }
+
+  const { data } = await axiosInstance.get("/users", { params });
+
+  return data?.data;
+};
 export const fetchAllAuthors = async (query: TQueryParams) => {
   const params = new URLSearchParams();
 

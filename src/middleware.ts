@@ -6,7 +6,7 @@ const AUTH_ROUTES = ["/login", "/register"];
 
 const ROLE_BASED_ROUTES: Record<string, RegExp[]> = {
   USER: [/^\/user-profile/, /^\/posts(\/.*)?$/],
-  ADMIN: [/^\/dashboard/, /^\/posts(\/.*)?$/],
+  ADMIN: [/^\/dashboard/, /^\/user-profile/, /^\/posts(\/.*)?$/],
 };
 
 type Role = keyof typeof ROLE_BASED_ROUTES;
@@ -40,5 +40,7 @@ export const config = {
     "/posts/:path*",
     "/login",
     "/register",
+    "/dashboard",
+    "/dashboard/:path*",
   ],
 };

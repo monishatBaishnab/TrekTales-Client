@@ -1,6 +1,6 @@
 "use client";
 
-import { HandCoins, LayoutDashboard, LayoutList, MessagesSquare } from "lucide-react";
+import { LayoutDashboard, LayoutList, MessagesSquare, UsersRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 const dashboardRoutes = [
@@ -20,9 +20,9 @@ const dashboardRoutes = [
     icon: <MessagesSquare />,
   },
   {
-    path: "/dashboard/payments",
-    label: "Payments",
-    icon: <HandCoins />,
+    path: "/dashboard/users",
+    label: "Users",
+    icon: <UsersRound />,
   },
 ];
 
@@ -32,7 +32,7 @@ const Sidebar = () => {
 
   return (
     <div className="w-14 shrink-0 lg:w-72">
-      <div className="fixed bottom-0 left-0 top-[57px] w-14 border-r border-r-shark-100 bg-white lg:w-72">
+      <div className="fixed bottom-0 left-0 top-[57px] z-50 w-14 border-r border-r-shark-100 bg-white lg:w-72">
         <div className="w-full space-y-2 p-2 lg:p-5">
           {dashboardRoutes?.map((route) => (
             <button

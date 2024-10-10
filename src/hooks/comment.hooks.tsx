@@ -65,6 +65,8 @@ export const useDeleteComment = () => {
     mutationFn: (id: string) => deleteComment(id),
     onSuccess: () => {
       queryClient.invalidateQueries(["commentsByPost"]);
+      queryClient.invalidateQueries(["allComments"]);
+      toast.success("Comment deleted.");
     },
   });
 };

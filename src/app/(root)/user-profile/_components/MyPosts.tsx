@@ -1,9 +1,8 @@
 "use client";
 import { Key, useCallback, useEffect, useState } from "react";
-import { Dot, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Dot, Pencil, Trash2 } from "lucide-react";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
 import moment from "moment";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { useDisclosure } from "@nextui-org/modal";
 
 import CreatePost from "./CreatePost";
@@ -14,6 +13,9 @@ import useFetchAllPosts, { useDeletePost } from "@/hooks/post.hooks";
 import TPagination from "@/components/ui/TPagination";
 import { TPost } from "@/types/post.types";
 import { tableClasses } from "@/constants/global.constats";
+import TTableLoading from "@/components/ui/TTableLoading";
+import TEmpty from "@/components/ui/TEmpty";
+import TableAction from "@/components/ui/TableAction";
 
 const postTableColumns = [
   { key: "title", label: "Title" },
@@ -34,13 +36,13 @@ const MyPosts = () => {
   const [totalPage, setTotalPage] = useState<number>(1);
   const { userInfo } = useUserInfo();
   const [selectedPost, setSelectedPost] = useState<TPost>();
-  const [action, setAction] = useState<"create" | "edit" | "delete">("create");
+  const [action, setAction] = useState<"create" | "edit" | "delete" | string>("create");
   const { onOpen, isOpen, onClose, onOpenChange } = useDisclosure();
   const { mutate: deletePost } = useDeletePost();
   const {
-    data: userPosts,
-    isLoading: userPostsLoading,
-    isFetching: userPostsFetching,
+    data: postResponse,
+    isLoading: postLoading,
+    isFetching: postFetching,
     isSuccess,
   } = useFetchAllPosts(
     [
@@ -56,11 +58,11 @@ const MyPosts = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setTotalPage(userPosts?.meta?.totalPage);
+      setTotalPage(postResponse?.meta?.totalPage);
     }
   }, [isSuccess]);
 
-  const handleAction = (action: "edit" | "delete", post: TPost) => {
+  const handleAction = (action: "edit" | "delete" | string, post: TPost) => {
     setSelectedPost(post);
     setAction(action);
     if (action === "edit") {
@@ -86,32 +88,25 @@ const MyPosts = () => {
         <span className="tag-light">Free</span>
       );
     }
-    
+
     if (key === "action") {
       return (
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <button className="flex w-full items-center justify-end pr-1">
-              <EllipsisVertical />
-            </button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="User Actions" variant="flat">
-            <DropdownItem
-              key="edit"
-              startContent={<Pencil className="size-4" />}
-              onPress={() => handleAction("edit", item)}
-            >
-              Edit
-            </DropdownItem>
-            <DropdownItem
-              key="delete"
-              startContent={<Trash2 className="size-4" />}
-              onPress={() => handleAction("delete", item)}
-            >
-              Delete
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <TableAction
+          actions={[
+            {
+              key: "edit",
+              label: "Update",
+              icon: <Pencil />,
+            },
+            {
+              key: "delete",
+              label: "Delete",
+              icon: <Trash2 />,
+            },
+          ]}
+          item={item}
+          onChange={handleAction}
+        />
       );
     }
 
@@ -134,6 +129,11 @@ const MyPosts = () => {
         />
       </div>
       <div>
+        {postFetching || postLoading ? (
+          <TTableLoading columns={postTableColumns} rows={6} />
+        ) : !postResponse?.posts?.length ? (
+          <TEmpty />
+        ) : (
           <Table
             isStriped
             aria-label="posts"
@@ -148,47 +148,15 @@ const MyPosts = () => {
               {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
             </TableHeader>
 
-            {userPostsLoading || userPostsFetching || !userInfo || !userPosts?.posts ? (
-              <TableBody className="p-5" items={[]}>
-                <TableRow>
-                  {Array.from({ length: 4 })?.map((_, id) => (
-                    <TableCell key={id}>
-                      <div className="h-8 w-full animate-pulse bg-gray-200" />
-                    </TableCell>
-                  ))}
+            <TableBody className="p-5" items={postResponse?.posts ?? []}>
+              {(item: TPost) => (
+                <TableRow key={item?._id}>
+                  {(columnKey) => <TableCell>{renderPostCell(item, columnKey)}</TableCell>}
                 </TableRow>
-                <TableRow>
-                  {Array.from({ length: 4 })?.map((_, id) => (
-                    <TableCell key={id}>
-                      <div className="h-8 w-full animate-pulse bg-gray-200" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  {Array.from({ length: 4 })?.map((_, id) => (
-                    <TableCell key={id}>
-                      <div className="h-8 w-full animate-pulse bg-gray-200" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  {Array.from({ length: 4 })?.map((_, id) => (
-                    <TableCell key={id}>
-                      <div className="h-8 w-full animate-pulse bg-gray-200" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            ) : (
-              <TableBody className="p-5" items={userPosts?.posts ?? []}>
-                {(item: TPost) => (
-                  <TableRow key={item?._id}>
-                    {(columnKey) => <TableCell>{renderPostCell(item, columnKey)}</TableCell>}
-                  </TableRow>
-                )}
-              </TableBody>
-            )}
+              )}
+            </TableBody>
           </Table>
+        )}
       </div>
     </div>
   );

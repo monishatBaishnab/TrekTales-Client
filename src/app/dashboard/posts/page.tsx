@@ -2,8 +2,7 @@
 
 import { Key, useCallback, useEffect, useState } from "react";
 import { TableHeader, TableColumn, TableBody, TableRow, TableCell, Table } from "@nextui-org/table";
-import { Dot, EllipsisVertical, Trash2 } from "lucide-react";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
+import { Dot, Trash2 } from "lucide-react";
 import moment from "moment";
 
 import { TPost } from "@/types/post.types";
@@ -12,6 +11,7 @@ import TPagination from "@/components/ui/TPagination";
 import TTableLoading from "@/components/ui/TTableLoading";
 import { tableClasses } from "@/constants/global.constats";
 import TEmpty from "@/components/ui/TEmpty";
+import TableAction from "@/components/ui/TableAction";
 
 const postTableColumns = [
   { key: "author", label: "Author" },
@@ -25,6 +25,14 @@ const postTableColumns = [
         <Dot />
       </span>
     ),
+  },
+];
+
+const postActions = [
+  {
+    key: "delete",
+    label: "Delete",
+    icon: <Trash2 />,
   },
 ];
 
@@ -46,6 +54,10 @@ const AdminPosts = () => {
     `allPosts`,
     page
   );
+
+  const handleAction = (action: string, item: any) => {
+    deletePost(item?._id as string);
+  };
 
   useEffect(() => {
     if (postFetched) {
@@ -72,24 +84,7 @@ const AdminPosts = () => {
       return item?.author?.name;
     }
     if (key === "action") {
-      return (
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <button className="flex w-full items-center justify-end pr-1">
-              <EllipsisVertical />
-            </button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="User Actions" variant="flat">
-            <DropdownItem
-              key="delete"
-              startContent={<Trash2 className="size-4" />}
-              onPress={() => deletePost(item?._id as string)}
-            >
-              Delete
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      );
+      return <TableAction actions={postActions} item={item} onChange={handleAction} />;
     }
 
     return cellValue;

@@ -3,7 +3,7 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, LogOut } from "lucide-react";
+import { Contact, LayoutDashboard, LogOutIcon } from "lucide-react";
 
 import { useUserInfo } from "@/context/UserInfoProvider";
 import { logoutUser } from "@/services/auth";
@@ -22,17 +22,44 @@ const NavProfile = () => {
     }
   };
 
-  const handleRouter = () => {
-    if (userInfo?.role === "user") {
+  const { data: user } = useFetchSingleUser(userInfo?._id as string);
+
+  const handleAction = (action: string) => {
+    if (action === "logout") {
+      handleLogout();
+
+      return;
+    } else if (action === "user-dashboard") {
       router.push("/user-profile");
 
       return;
-    } else if (userInfo?.role === "admin") {
+    } else if (action === "dashboard") {
       router.push("/dashboard");
+
+      return;
     }
   };
 
-  const { data: user } = useFetchSingleUser(userInfo?._id as string);
+  const actions = [
+    {
+      key: "user-dashboard",
+      label: "User Dashboard",
+      icon: <Contact className="size-4" />,
+    },
+    {
+      key: "logout",
+      label: "Logout",
+      icon: <LogOutIcon className="size-4" />,
+    },
+  ];
+
+  if (user?.role === "admin") {
+    actions.unshift({
+      key: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="size-4" />,
+    });
+  }
 
   return (
     <Dropdown placement="bottom-end">
@@ -46,14 +73,17 @@ const NavProfile = () => {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">
-        <DropdownItem
-          key="my-profile"
-          startContent={<LayoutDashboard className="size-4" />}
-          onPress={handleRouter}
-        >
-          Dashboard
-        </DropdownItem>
-        <DropdownItem
+        {actions?.map((action) => (
+          <DropdownItem
+            key={action?.key}
+            startContent={action?.icon}
+            onPress={() => handleAction(action?.key)}
+          >
+            {action?.label}
+          </DropdownItem>
+        ))}
+
+        {/* <DropdownItem
           key="logout"
           className="!text-danger"
           color="danger"
@@ -61,7 +91,7 @@ const NavProfile = () => {
           onPress={handleLogout}
         >
           Log Out
-        </DropdownItem>
+        </DropdownItem> */}
       </DropdownMenu>
     </Dropdown>
   );

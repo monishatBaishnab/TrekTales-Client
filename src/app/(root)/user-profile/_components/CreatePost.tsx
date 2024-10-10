@@ -22,8 +22,8 @@ type TCreatePostsProps = {
   onOpenChange: () => void;
   onClose: () => void;
   selectedPost: TPost;
-  action: "create" | "edit" | "delete";
-  setAction: Dispatch<SetStateAction<"create" | "edit" | "delete">>;
+  action: string;
+  setAction: Dispatch<SetStateAction<string>>;
   setSelectedPost: Dispatch<SetStateAction<TPost | undefined>>;
 };
 

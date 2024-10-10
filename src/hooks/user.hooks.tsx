@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import {
   fetchAllAuthors,
+  fetchAllUsers,
   fetchPopularAuthors,
   fetchSingleAuthor,
   fetchSingleUser,
@@ -12,6 +13,15 @@ import {
 } from "@/services/user";
 import { TQueryParams } from "@/types/global.types";
 
+export const useFetchAllUsers = (query: TQueryParams, page?: number) => {
+  return useQuery({
+    queryKey: ["users", page],
+    queryFn: () => {
+      return fetchAllUsers(query);
+    },
+    refetchOnWindowFocus: false,
+  });
+};
 export const useFetchAllAuthors = (query: TQueryParams, key: string, page?: number) => {
   return useQuery({
     queryKey: [key, page],
@@ -60,6 +70,7 @@ export const useUpdateProfile = () => {
     onSuccess: (data) => {
       toast.success("Profile Updated.");
       queryClient.invalidateQueries(["singleUser", data?._id]);
+      queryClient.invalidateQueries(["users"]);
     },
   });
 };
