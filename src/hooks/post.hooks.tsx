@@ -22,7 +22,7 @@ const useFetchAllPosts = (
   enabled = true
 ) => {
   return useQuery({
-    queryKey: [key, page],
+    queryKey: ['posts', key, page],
     queryFn: () => {
       return fetchAllPosts(params);
     },
@@ -99,11 +99,14 @@ export const useUpdatePost = () => {
 };
 
 export const useDeletePost = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["deletePost"],
     mutationFn: (id: string) => deletePost(id),
     onSuccess: () => {
       toast.success("Post Deleted.");
+      queryClient.invalidateQueries(['posts']);
     },
   });
 };

@@ -14,3 +14,9 @@ export const travelerInterests = [
   { key: "BeachGetaways", label: "BeachGetaways" },
   { key: "RoadTrips", label: "RoadTrips" },
 ];
+
+export const tableClasses = {
+  wrapper: "p-0 shadow rounded-lg overflow-hidden",
+  th: "text-shark-800 text-sm px-[24px] py-5 first:!rounded-s-none last:!rounded-e-none",
+  td: "px-[24px] py-5 text-shark-600 text-sm first:before:!rounded-l-none last:before:!rounded-r-none group-data-[odd=true]:before:bg-[#F7F7F8]",
+};

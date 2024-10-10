@@ -13,6 +13,7 @@ import { useUserInfo } from "@/context/UserInfoProvider";
 import useFetchAllPosts, { useDeletePost } from "@/hooks/post.hooks";
 import TPagination from "@/components/ui/TPagination";
 import { TPost } from "@/types/post.types";
+import { tableClasses } from "@/constants/global.constats";
 
 const postTableColumns = [
   { key: "title", label: "Title" },
@@ -133,7 +134,6 @@ const MyPosts = () => {
         />
       </div>
       <div>
-        {
           <Table
             isStriped
             aria-label="posts"
@@ -142,12 +142,7 @@ const MyPosts = () => {
                 <TPagination page={page} setPage={setPage} totalPage={totalPage} />
               </div>
             }
-            classNames={{
-              wrapper: "p-0 shadow rounded-lg overflow-hidden",
-              th: "text-black text-base px-[24px] py-5 first:!rounded-s-none last:!rounded-e-none",
-              td: "px-[24px] py-5 text-black text-base first:before:!rounded-l-none last:before:!rounded-r-none group-data-[odd=true]:before:bg-[#F7F7F8]",
-              // tr: "border-t border-t-[#EAEAEA]",
-            }}
+            classNames={tableClasses}
           >
             <TableHeader columns={postTableColumns}>
               {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
@@ -194,7 +189,6 @@ const MyPosts = () => {
               </TableBody>
             )}
           </Table>
-        }
       </div>
     </div>
   );
