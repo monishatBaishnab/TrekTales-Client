@@ -8,7 +8,6 @@ import TableAction from "@/components/ui/TableAction";
 import TTableLoading from "@/components/ui/TTableLoading";
 import TEmpty from "@/components/ui/TEmpty";
 import TPagination from "@/components/ui/TPagination";
-import { tableClasses } from "@/constants/global.constats";
 import { useFetchAllUsers, useUpdateProfile } from "@/hooks/user.hooks";
 import { TUser } from "@/types/user.types";
 
@@ -115,7 +114,11 @@ const AdminUsers = () => {
               <TPagination page={page} setPage={setPage} totalPage={totalPage} />
             </div>
           }
-          classNames={tableClasses}
+          classNames={{
+            wrapper: "p-0 shadow rounded-lg !overflow-x-auto",
+            th: "text-shark-800 text-sm px-[24px] py-5 first:!rounded-s-none last:!rounded-e-none",
+            td: "px-[24px] py-5 text-shark-600 text-sm first:before:!rounded-l-none last:before:!rounded-r-none group-data-[odd=true]:before:bg-[#F7F7F8]",
+          }}
         >
           <TableHeader columns={usersTableColumns}>
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}

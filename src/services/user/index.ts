@@ -63,3 +63,9 @@ export const verifyProfile = async (payload: { user: string }) => {
 
   return data?.data;
 };
+
+export const fetchPaymentsStates = async () => {
+  const { data } = await axiosInstance.get(`/payments/states`);
+
+  return data?.data;
+};

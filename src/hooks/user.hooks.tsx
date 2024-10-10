@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import {
   fetchAllAuthors,
   fetchAllUsers,
+  fetchPaymentsStates,
   fetchPopularAuthors,
   fetchSingleAuthor,
   fetchSingleUser,
@@ -56,6 +57,13 @@ export const useFetchSingleUser = (id: string) => {
     queryKey: ["singleUser", id],
     queryFn: async () => await fetchSingleUser(id),
     enabled: !!id,
+    refetchOnWindowFocus: false,
+  });
+};
+export const useFetchPaymentStates = () => {
+  return useQuery({
+    queryKey: ["paymentStates"],
+    queryFn: async () => await fetchPaymentsStates(),
     refetchOnWindowFocus: false,
   });
 };

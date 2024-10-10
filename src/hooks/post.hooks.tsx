@@ -56,7 +56,7 @@ export const useCreatePost = () => {
     mutationFn: (formData: FormData) => createPost(formData),
     onSuccess: () => {
       toast.success("New Post Created.");
-      queryClient.invalidateQueries(["myPosts"]);
+      queryClient.invalidateQueries(["posts"]);
     },
   });
 };

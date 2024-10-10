@@ -1,8 +1,6 @@
 import { TableBody, TableRow, TableCell, Table, TableColumn, TableHeader } from "@nextui-org/table";
 import { ReactNode } from "react";
 
-import { tableClasses } from "@/constants/global.constats";
-
 const TTableLoading = ({
   columns,
   rows,
@@ -11,7 +9,15 @@ const TTableLoading = ({
   rows: number;
 }) => {
   return (
-    <Table isStriped aria-label="loading" classNames={tableClasses}>
+    <Table
+      isStriped
+      aria-label="loading"
+      classNames={{
+        wrapper: "p-0 shadow rounded-lg !overflow-x-auto",
+        th: "text-shark-800 text-sm px-[24px] py-5 first:!rounded-s-none last:!rounded-e-none",
+        td: "px-[24px] py-5 text-shark-600 text-sm first:before:!rounded-l-none last:before:!rounded-r-none group-data-[odd=true]:before:bg-[#F7F7F8]",
+      }}
+    >
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>

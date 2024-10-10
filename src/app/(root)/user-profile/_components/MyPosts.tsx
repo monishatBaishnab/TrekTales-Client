@@ -12,7 +12,6 @@ import { useUserInfo } from "@/context/UserInfoProvider";
 import useFetchAllPosts, { useDeletePost } from "@/hooks/post.hooks";
 import TPagination from "@/components/ui/TPagination";
 import { TPost } from "@/types/post.types";
-import { tableClasses } from "@/constants/global.constats";
 import TTableLoading from "@/components/ui/TTableLoading";
 import TEmpty from "@/components/ui/TEmpty";
 import TableAction from "@/components/ui/TableAction";
@@ -129,7 +128,7 @@ const MyPosts = () => {
         />
       </div>
       <div>
-        {postFetching || postLoading ? (
+        {postFetching || postLoading || !userInfo?._id ? (
           <TTableLoading columns={postTableColumns} rows={6} />
         ) : !postResponse?.posts?.length ? (
           <TEmpty />
@@ -142,7 +141,11 @@ const MyPosts = () => {
                 <TPagination page={page} setPage={setPage} totalPage={totalPage} />
               </div>
             }
-            classNames={tableClasses}
+            classNames={{
+              wrapper: "p-0 shadow rounded-lg !overflow-x-auto",
+              th: "text-shark-800 text-sm px-[24px] py-5 first:!rounded-s-none last:!rounded-e-none",
+              td: "px-[24px] py-5 text-shark-600 text-sm first:before:!rounded-l-none last:before:!rounded-r-none group-data-[odd=true]:before:bg-[#F7F7F8]",
+            }}
           >
             <TableHeader columns={postTableColumns}>
               {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}

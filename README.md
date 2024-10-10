@@ -1,53 +1,96 @@
-# Next.js & NextUI Template
+# [TrekTales (Travel Tips & Destination Guides)](https://trek-tales-client.vercel.app/)
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+[Live Link](https://trek-tales-client.vercel.app/)
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+## Project Description
 
-## Technologies Used
+**TrekTales** is a full-stack web application designed to create an engaging platform for travel enthusiasts. Users can share their personal travel stories, provide valuable tips, and interact with a community of fellow travelers. The platform features user authentication, profile management, post creation, and social interaction. Premium features, such as exclusive content, are unlocked through a payment system. TrekTales is built to foster a dynamic community where users can discover new destinations, gain insights, and build memorable travel experiences.
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## Technology Stack
 
-## How to Use
+### Frontend
 
-### Use the template with create-next-app
+- **Next.js**: Framework for building server-rendered React applications and static websites.
+- **Typescript**: Type-safe development environment for both frontend and backend.
+- **TanStack Query**: Data fetching, caching, and synchronization for managing API state.
+- **Axios**: Promise-based HTTP client for API requests.
 
-To create a new project based on this template using `create-next-app`, run the following command:
+### Backend
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
+- **Express**: Backend framework for building RESTful APIs and handling server logic.
+- **Mongoose**: ODM (Object Data Modeling) library for MongoDB, simplifying data modeling and validation.
+- **Cloudinary:**: Cloud-based image hosting for storing and delivering user-uploaded images efficiently.
 
-### Install dependencies
+### Database
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+- **MongoDB**: NoSQL database for storing user profiles, travel posts, comments, and other dynamic data.
 
-```bash
-npm install
-```
+### Additional Tools
 
-### Run the development server
+- **JWT (JSON Web Tokens)**: Used for secure user authentication and session management.
+- **Aamarpay**: Payment gateways for premium content access and profile verification.
 
-```bash
-npm run dev
-```
+## Project Features
 
-### Setup pnpm (optional)
+### Public Features
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+1. **Home Page**
+   - Navigation to key sections: home, about, authors, and user sign-up/login.
+   - Display of featured travel posts and top user contributors.
+2. **User Authentication**
+   - Secure registration and login with JWT-based sessions.
+3. **Content Creation**
+   - Rich text editor for creating detailed travel tips, stories, and destination guides.
+   - Support for image attachments upload to enhance the visual appeal of posts.
+4. **Search and Filters**
+   - Advanced search and filtering options for posts based on categories, upvotes, and popularity.
+5. **Social Interaction**
+   - Upvoting/downvoting system for posts.
+   - Commenting and following features to foster community engagement.
 
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
+### Premium Features
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+1. **Premium Content**
+   - Users can unlock exclusive travel guides and stories by verified users.
+   - Payment integration for accessing premium content and profile verification.
 
-## License
+### Admin Features
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+1. **Admin Dashboard**
+   - Management of user roles, posts, and premium content.
+   - Overview of platform metrics: active users, posts, and payments.
+2. **Payment Management**
+   - Handle payments for profile verification and premium content access.
+
+## Local Setup Instructions
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/monishatBaishnab/TrekTales-Client
+   ```
+
+2. **Navigate to the project directory**:
+
+   ```bash
+   cd TrekTales-Client
+   ```
+
+3. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+4. **Set up environment variables**:
+
+   Create a `.env` file and add the necessary environment variables.
+
+5. **Run the application**:
+
+   ```bash
+   npm run dev
+   ```
+
+6. **Access the application**:
+   - Navigate to `http://localhost:3000` in your browser.
