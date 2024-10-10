@@ -4,6 +4,8 @@ import { BadgeCheck, HandCoins, LoaderCircle, Pencil, Play, Save, X } from "luci
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 
+import TUserTable from "./TUserTable";
+
 import TButton from "@/components/ui/TButton";
 import { useFetchSingleUser, useUpdateProfile, useVerifyProfile } from "@/hooks/user.hooks";
 import { useUserInfo } from "@/context/UserInfoProvider";
@@ -29,14 +31,15 @@ const UserProfile = () => {
     onOpenChange: onVerifyOnChange,
   } = useDisclosure();
   const { mutate: refetchToken } = useRefetchToken();
-  const { data: user, isLoading, isFetching } = useFetchSingleUser(userInfo?._id as string);
+  const { data: userResponse, isLoading, isFetching } = useFetchSingleUser(userInfo?._id as string);
   const { mutate, isLoading: updatingUser, isSuccess: updatedUser } = useUpdateProfile();
   const {
     mutate: verifyProfile,
     isLoading: verifyingProfile,
     isSuccess: verifiedProfile,
   } = useVerifyProfile();
-
+  const user = userResponse?.user ?? {};
+  // Handlers
   const { data: upvotes } = useFetchUpvotes(userInfo?._id as string);
   //function for update profile
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -61,6 +64,7 @@ const UserProfile = () => {
     verifyProfile({ user: userInfo?._id as string });
   };
 
+  // Effects
   useEffect(() => {
     if (!updatingUser && updatedUser) {
       onClose();
@@ -113,7 +117,22 @@ const UserProfile = () => {
           user={user}
         />
       )}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <TUserTable
+          title="My Followers"
+          users={user?.followers}
+          usersFetching={isFetching}
+          usersLoading={isLoading || !userInfo?._id}
+        />
+        <TUserTable
+          title="Authors I Follow"
+          users={userResponse?.followedUsers}
+          usersFetching={isFetching}
+          usersLoading={isLoading || !userInfo?._id}
+        />
+      </div>
 
+      {/* Update profile Modal */}
       <TModal
         isOpen={isOpen}
         title={{ bgText: "Update", planeText: "Profile" }}
@@ -163,6 +182,7 @@ const UserProfile = () => {
         </TForm>
       </TModal>
 
+      {/* Payment verification modal */}
       <TModal
         isOpen={isVerifyOpen}
         size="sm"

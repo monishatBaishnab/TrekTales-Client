@@ -22,8 +22,9 @@ const NavProfile = () => {
     }
   };
 
-  const { data: user } = useFetchSingleUser(userInfo?._id as string);
-
+  const { data: userResponse } = useFetchSingleUser(userInfo?._id as string);
+  const user = userResponse?.user;
+  
   const handleAction = (action: string) => {
     if (action === "logout") {
       handleLogout();
@@ -43,7 +44,7 @@ const NavProfile = () => {
   const actions = [
     {
       key: "user-dashboard",
-      label: "User Dashboard",
+      label: "Profile",
       icon: <Contact className="size-4" />,
     },
     {

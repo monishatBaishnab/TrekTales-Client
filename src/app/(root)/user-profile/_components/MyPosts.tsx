@@ -47,8 +47,7 @@ const MyPosts = () => {
     [
       { name: "author", value: userInfo?._id as string },
       { name: "limit", value: "4" },
-      { name: "page", value: String(page) },
-      { name: "sort", value: "-updatedAt" },
+      { name: "page", value: String(page) }
     ],
     `myPosts`,
     page,

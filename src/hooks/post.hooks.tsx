@@ -95,6 +95,7 @@ export const useUpdatePost = () => {
     onSuccess: () => {
       toast.success("Post Updated.");
       queryCLient.invalidateQueries(["myPosts"]);
+      queryCLient.invalidateQueries(["posts"]);
     },
   });
 };

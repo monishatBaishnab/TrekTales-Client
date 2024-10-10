@@ -89,7 +89,7 @@ export const useFollowAuthors = () => {
   return useMutation({
     mutationKey: ["followAuthor"],
     mutationFn: (payload: { author: string }) => followAuthor(payload),
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Follow successfully.");
       queryClient.invalidateQueries(["singleAuthor"]);
     },

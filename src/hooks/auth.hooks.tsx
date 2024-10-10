@@ -1,5 +1,5 @@
 import { FieldValues } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { toast } from "sonner";
 
 import { loginUser, refetchToken, registerUser } from "@/services/auth";

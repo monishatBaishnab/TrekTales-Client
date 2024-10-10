@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useInView } from "react-intersection-observer";
 
 import PostCard from "@/components/ui/PostCard";
-import TPagination from "@/components/ui/TPagination";
 import Sidebar from "@/components/modules/sidebar/Sidebar";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { TPost } from "@/types/post.types";
@@ -12,27 +12,40 @@ import TEmpty from "@/components/ui/TEmpty";
 import { useFetchAllPosts } from "@/hooks/post.hooks";
 
 const RecentPosted = () => {
-  const [page, setPage] = useState<number>(1);
-  const [totalPage, setTotalPage] = useState<number>(1);
+  const [page, setPage] = useState(1);
+  const [posts, setPosts] = useState<TPost[]>([]);
+  const { ref, inView } = useInView();
+
   const {
     data: recentPosts,
     isLoading,
-    isFetching,
     isSuccess,
+    isFetching,
   } = useFetchAllPosts(
     [
-      { name: "limit", value: "6" },
+      { name: "limit", value: "4" },
       { name: "page", value: String(page) },
     ],
     "recentPosts",
     page
   );
 
+  const totalPage = recentPosts?.meta?.totalPage ?? 1;
+  const canFetchMore = useMemo(() => posts.length < recentPosts?.meta?.total, [posts, recentPosts]);
+
+  // Update posts when fetch is successful
   useEffect(() => {
-    if (isSuccess) {
-      setTotalPage(recentPosts?.meta?.totalPage);
+    if (isSuccess && recentPosts?.posts?.length) {
+      setPosts((prevPosts) => [...prevPosts, ...recentPosts.posts]);
     }
-  }, [isSuccess]);
+  }, [isSuccess, recentPosts]);
+
+  // Handle pagination when the observer is in view
+  useEffect(() => {
+    if (inView && page < totalPage) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [inView, page, totalPage]);
 
   return (
     <section>
@@ -43,8 +56,9 @@ const RecentPosted = () => {
               <div className="md:col-span-2">
                 <SectionTitle bgText="Recent" planeText="Posted" />
               </div>
-              {isLoading || isFetching ? (
-                Array.from({ length: 6 }).map((_, id) => (
+
+              {isLoading && !posts?.length ? (
+                Array.from({ length: 4 }).map((_, id) => (
                   <PostCardSkeleton
                     key={id}
                     classNames={{
@@ -53,10 +67,10 @@ const RecentPosted = () => {
                     }}
                   />
                 ))
-              ) : recentPosts?.posts?.length ? (
-                recentPosts?.posts.map((post: TPost) => (
+              ) : posts.length ? (
+                posts.map((post) => (
                   <PostCard
-                    key={post?._id}
+                    key={post._id}
                     classNames={{
                       base: "!flex-col !p-0",
                       image: { wrapper: "!h-[250px] !w-full" },
@@ -65,11 +79,24 @@ const RecentPosted = () => {
                   />
                 ))
               ) : (
-                <div className="sm:col-span-2"><TEmpty /></div>
+                <div className="sm:col-span-2">
+                  <TEmpty />
+                </div>
               )}
-              <div className="mt-8 flex justify-center md:col-span-2">
-                <TPagination page={page} setPage={setPage} totalPage={totalPage} />
-              </div>
+
+              {(isFetching || canFetchMore) && posts?.length ? (
+                <div ref={ref} className="grid grid-cols-1 gap-5 md:col-span-2 md:grid-cols-2">
+                  {Array.from({ length: 2 }).map((_, id) => (
+                    <PostCardSkeleton
+                      key={id}
+                      classNames={{
+                        base: "!flex-col !p-0",
+                        image: { wrapper: "!h-[250px] !w-full" },
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="hidden lg:block">

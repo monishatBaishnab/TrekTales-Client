@@ -13,7 +13,7 @@ type TPostContainerProps = {
   posts: TPost[]
 };
 
-const PostContainer = ({ title, posts}: TPostContainerProps) => {
+const PostContainer = ({ title}: TPostContainerProps) => {
   const [page, setPage] = useState<number>(0);
 
   return (

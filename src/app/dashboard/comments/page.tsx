@@ -57,7 +57,6 @@ const AdminComments = () => {
   const { mutate: deleteComment } = useDeleteComment();
 
   const handleAction = (action: string, item: any) => {
-    console.log(item);
     deleteComment(item?._id as string);
   };
 
