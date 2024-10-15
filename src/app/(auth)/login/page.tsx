@@ -15,7 +15,7 @@ import { useUserInfo } from "@/context/UserInfoProvider";
 
 const Login = () => {
   const router = useRouter();
-  const { mutate, isLoading, isSuccess } = useLoginUser();
+  const { mutate, data, isLoading, isSuccess } = useLoginUser();
   const { setUserInfoLoading } = useUserInfo();
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -23,7 +23,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isSuccess && !isLoading) {
+    if (isSuccess && !isLoading && !data?.error) {
       setUserInfoLoading(true); // Update context state after render
       router.push("/"); // Navigate to the home page
     }

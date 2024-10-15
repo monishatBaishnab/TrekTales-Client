@@ -7,9 +7,13 @@ import { loginUser, refetchToken, registerUser } from "@/services/auth";
 export const useRegisterUser = () => {
   return useMutation({
     mutationKey: ["registerUser"],
-    mutationFn: (userData: FormData) => registerUser(userData),
-    onSuccess: () => {
-      toast.success("Registration Success.");
+    mutationFn: async (userData: FormData) => await registerUser(userData),
+    onSuccess: (data) => {
+      if (!data?.error) {
+        toast.success("Registration Success.");
+      } else {
+        toast.error(data?.error?.error);
+      }
     },
   });
 };
@@ -18,8 +22,12 @@ const useLoginUser = () => {
   return useMutation({
     mutationKey: ["login"],
     mutationFn: (userData: FieldValues) => loginUser(userData),
-    onSuccess: () => {
-      toast.success("Login Success.");
+    onSuccess: (data) => {
+      if (!data?.error) {
+        toast.success("Login Success.");
+      } else {
+        toast.error(data?.error?.error);
+      }
     },
   });
 };

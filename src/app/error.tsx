@@ -1,15 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
-
 import TButton from "@/components/ui/TButton";
 
-export default function Error({ error, reset }: { error: Error; reset: () => void }) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
+export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-gray-100 px-4">
       <div className="rounded-lg bg-white p-8 text-center shadow-lg">

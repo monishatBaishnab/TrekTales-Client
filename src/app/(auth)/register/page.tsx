@@ -16,7 +16,7 @@ import { useUserInfo } from "@/context/UserInfoProvider";
 
 const Register = () => {
   const router = useRouter();
-  const { mutate, isSuccess, isLoading } = useRegisterUser();
+  const { mutate, data, isSuccess, isLoading } = useRegisterUser();
   const { setUserInfoLoading } = useUserInfo();
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const userData = { ...data };
@@ -37,7 +37,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (isSuccess && !isLoading) {
+    if (isSuccess && !isLoading && !data?.error) {
       setUserInfoLoading(true); // Update context state after render
       router.push("/"); // Navigate to the home page
     }
@@ -50,7 +50,7 @@ const Register = () => {
         <p className="paragraph">Enter details to create your Trek Tales account</p>
       </div>
       <div className="mx-auto w-full space-y-5 sm:w-1/2 md:w-3/4 lg:w-1/2">
-        <TForm defaultValues={{ profilePhoto: "image.png" }} onSubmit={handleSubmit}>
+        <TForm onSubmit={handleSubmit}>
           <div className="space-y-5">
             <TInput name="name" placeholder="Full Name" size="lg" variant="underlined" />
             <TInput name="email" placeholder="Email Address" size="lg" variant="underlined" />

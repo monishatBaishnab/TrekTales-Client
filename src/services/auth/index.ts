@@ -7,37 +7,50 @@ import { jwtDecode } from "jwt-decode";
 import axiosInstance from "@/lib/Axios";
 
 export const registerUser = async (userData: FormData) => {
-  const { data } = await axiosInstance.post("/auth/register", userData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  try {
+    const data = await axiosInstance.post("/auth/register", userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-  if (data?.success) {
-    cookies().set("token", data?.data?.token);
+    if (data?.data?.success) {
+      cookies().set("token", data?.data?.token);
+    }
+
+    return data?.data;
+  } catch (error: any) {
+
+    return { error: error?.response?.data };
   }
-
-  return data;
 };
 
 export const loginUser = async (userData: FieldValues) => {
-  const { data } = await axiosInstance.post("/auth/login", userData);
+  try {
+    const { data } = await axiosInstance.post("/auth/login", userData);
 
-  if (data?.success) {
-    cookies().set("token", data?.data?.token);
+    if (data?.success) {
+      cookies().set("token", data?.data?.token);
+    }
+
+    return data;
+  } catch (error: any) {
+    return { error: error?.response?.data };
   }
-
-  return data;
 };
 
 export const refetchToken = async () => {
-  const { data } = await axiosInstance.get("/auth/refetch-token");
+  try {
+    const { data } = await axiosInstance.get("/auth/refetch-token");
 
-  if (data?.success) {
-    cookies().set("token", data?.data);
+    if (data?.success) {
+      cookies().set("token", data?.data);
+    }
+
+    return data;
+  } catch (error: any) {
+    return { error: error?.response?.data };
   }
-
-  return data;
 };
 
 export const logoutUser = () => {
