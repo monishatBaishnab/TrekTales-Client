@@ -1,14 +1,12 @@
 export const categories = [
-  { path: "/", label: "Travel" },
-  { path: "/", label: "Technology" },
-  { path: "/", label: "Lifestyle" },
-  { path: "/", label: "Fashion" },
-  { path: "/", label: "Business" },
+  { key: "TravelTips", label: "TravelTips" },
+  { key: "DestinationGuides", label: "DestinationGuides" },
+  { key: "TravelInspiration", label: "TravelInspiration" },
+  { key: "TravelNews", label: "TravelNews" },
+  { key: "TravelDeals", label: "TravelDeals" },
 ];
 export const quickLinks = [
-    { path: '/', label: 'FAQ' },
-    { path: '/', label: 'Terms & Conditions' },
-    { path: '/', label: 'Support' },
-    { path: '/', label: 'Privacy Policy' }
-  ];
-  
+  { path: "/blogs", label: "Blogs" },
+  { path: "/authors", label: "Authors" },
+  { path: "/about", label: "About us" },
+];

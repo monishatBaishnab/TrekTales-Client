@@ -54,9 +54,13 @@ export const useCreatePost = () => {
   return useMutation({
     mutationKey: ["createPost"],
     mutationFn: (formData: FormData) => createPost(formData),
-    onSuccess: () => {
-      toast.success("New Post Created.");
-      queryClient.invalidateQueries(["posts"]);
+    onSuccess: (data) => {
+      if (!data?.error) {
+        toast.success("New Post Created.");
+        queryClient.invalidateQueries(["posts"]);
+      } else {
+        toast.error(data?.error?.message);
+      }
     },
   });
 };
@@ -92,10 +96,14 @@ export const useUpdatePost = () => {
   return useMutation({
     mutationKey: ["updatePost"],
     mutationFn: (props: { formData: FormData; id: string }) => updatePost(props),
-    onSuccess: () => {
-      toast.success("Post Updated.");
-      queryCLient.invalidateQueries(["myPosts"]);
-      queryCLient.invalidateQueries(["posts"]);
+    onSuccess: (data) => {
+      if (!data?.error) {
+        toast.success("Post Updated.");
+        queryCLient.invalidateQueries(["myPosts"]);
+        queryCLient.invalidateQueries(["posts"]);
+      } else {
+        toast.error(data?.error?.message);
+      }
     },
   });
 };

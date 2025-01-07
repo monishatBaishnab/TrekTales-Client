@@ -35,6 +35,12 @@
   }
 }
 
+@layer base{
+  body {
+    @apply bg-white
+  }
+}
+
 ::-webkit-scrollbar {
   width: 2px;
 }

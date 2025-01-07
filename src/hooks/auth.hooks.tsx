@@ -12,7 +12,7 @@ export const useRegisterUser = () => {
       if (!data?.error) {
         toast.success("Registration Success.");
       } else {
-        toast.error(data?.error?.error);
+        toast.error(data?.error?.message);
       }
     },
   });

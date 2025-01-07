@@ -23,7 +23,7 @@ const RecentPosted = () => {
     isFetching,
   } = useFetchAllPosts(
     [
-      { name: "limit", value: "4" },
+      { name: "limit", value: "2" },
       { name: "page", value: String(page) },
     ],
     "recentPosts",
@@ -42,7 +42,7 @@ const RecentPosted = () => {
 
   // Handle pagination when the observer is in view
   useEffect(() => {
-    if (inView && page < totalPage) {
+    if (inView && page < totalPage && page < 3) {
       setPage((prevPage) => prevPage + 1);
     }
   }, [inView, page, totalPage]);
@@ -58,7 +58,7 @@ const RecentPosted = () => {
               </div>
 
               {isLoading && !posts?.length ? (
-                Array.from({ length: 4 }).map((_, id) => (
+                Array.from({ length: 2 }).map((_, id) => (
                   <PostCardSkeleton
                     key={id}
                     classNames={{
@@ -84,7 +84,7 @@ const RecentPosted = () => {
                 </div>
               )}
 
-              {(isFetching || canFetchMore) && posts?.length ? (
+              {posts?.length && page < 3 && (isFetching || canFetchMore) ? (
                 <div ref={ref} className="grid grid-cols-1 gap-5 md:col-span-2 md:grid-cols-2">
                   {Array.from({ length: 2 }).map((_, id) => (
                     <PostCardSkeleton

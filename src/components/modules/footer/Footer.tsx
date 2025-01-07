@@ -27,7 +27,7 @@ const Footer = () => {
                 <Link
                   key={category?.label}
                   className="block text-shark-800 transition-all hover:text-persian-green-600"
-                  href={category?.path}
+                  href={`/blogs?tag=${category?.key}`}
                 >
                   {category?.label}
                 </Link>
@@ -73,7 +73,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-3 block border-t border-t-persian-green-600/20 py-3 text-center">
-          <p className="paragraph ">Al right reserved by Trek Tales 2024</p>
+          <p className="paragraph ">Al right reserved by Trek Tales 2025</p>
         </div>
       </div>
     </footer>

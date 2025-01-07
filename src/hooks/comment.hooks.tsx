@@ -37,9 +37,13 @@ export const useCreateComment = () => {
   return useMutation({
     mutationKey: ["createComment"],
     mutationFn: (commentData: TComment) => createComment(commentData),
-    onSuccess: () => {
-      toast.success("Comment Posted");
-      queryClient.invalidateQueries(["commentsByPost"]);
+    onSuccess: (data) => {
+      if (!data?.error) {
+        toast.success("Comment Posted");
+        queryClient.invalidateQueries(["commentsByPost"]);
+      } else {
+        toast.error(data?.error?.message);
+      }
     },
   });
 };
@@ -51,8 +55,12 @@ export const useUpdateComment = () => {
     mutationKey: ["updateComment"],
     mutationFn: ({ id, commentData }: { id: string; commentData: Partial<TComment> }) =>
       updateComment(id, commentData),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["commentsByPost"]);
+    onSuccess: (data) => {
+      if (!data?.error) {
+        queryClient.invalidateQueries(["commentsByPost"]);
+      } else {
+        toast.error(data?.error?.message);
+      }
     },
   });
 };
@@ -83,9 +91,13 @@ export const useCreateReply = () => {
       id: string;
       commentData: { content: string; author: string };
     }) => createReply(id, commentData),
-    onSuccess: () => {
-      toast.success("Reply Posted");
-      queryClient.invalidateQueries(["commentsByPost"]);
+    onSuccess: (data) => {
+      if (!data?.error) {
+        toast.success("Reply Posted");
+        queryClient.invalidateQueries(["commentsByPost"]);
+      } else {
+        toast.error(data?.error?.message);
+      }
     },
   });
 };
@@ -103,9 +115,13 @@ export const useUpdateReply = () => {
       replyId: string;
       commentData: Partial<TComment>;
     }) => updateReply(id, replyId, commentData),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["commentsByPost"]);
-      toast.success("Comment Deleted.");
+    onSuccess: (data) => {
+      if (!data?.error) {
+        queryClient.invalidateQueries(["commentsByPost"]);
+        toast.success("Comment Deleted.");
+      } else {
+        toast.error(data?.error?.message);
+      }
     },
   });
 };

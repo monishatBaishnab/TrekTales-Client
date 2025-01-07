@@ -22,15 +22,23 @@ export const fetchCommentsByPost = async (postId: string) => {
 };
 
 export const createComment = async (commentData: TComment) => {
-  const { data } = await axiosInstance.post(`/comments`, commentData);
+  try {
+    const { data } = await axiosInstance.post(`/comments`, commentData);
 
-  return data?.data;
+    return data?.data;
+  } catch (error: any) {
+    return { error: error?.response?.data };
+  }
 };
 
 export const updateComment = async (id: string, commentData: Partial<TComment>) => {
-  const { data } = await axiosInstance.put(`/comments/${id}`, commentData);
+  try {
+    const { data } = await axiosInstance.put(`/comments/${id}`, commentData);
 
-  return data?.data;
+    return data?.data;
+  } catch (error: any) {
+    return { error: error?.response?.data };
+  }
 };
 
 export const deleteComment = async (id: string) => {
@@ -40,13 +48,21 @@ export const deleteComment = async (id: string) => {
 };
 
 export const createReply = async (id: string, replyData: Partial<TComment>) => {
-  const { data } = await axiosInstance.post(`/comments/${id}/replies`, replyData);
+  try {
+    const { data } = await axiosInstance.post(`/comments/${id}/replies`, replyData);
 
-  return data?.data;
+    return data?.data;
+  } catch (error: any) {
+    return { error: error?.response?.data };
+  }
 };
 
 export const updateReply = async (id: string, replyId: string, replyData: Partial<TComment>) => {
-  const { data } = await axiosInstance.put(`/comments/${id}/replies/${replyId}`, replyData);
+  try {
+    const { data } = await axiosInstance.put(`/comments/${id}/replies/${replyId}`, replyData);
 
-  return data?.data;
+    return data?.data;
+  } catch (error: any) {
+    return { error: error?.response?.data };
+  }
 };

@@ -68,17 +68,18 @@ const AuthorDetails = ({ params }: { params: { authorId: string } }) => {
               <div className="md:col-span-2 lg:col-span-3">
                 <SectionTitle bgText="Author" planeText="Posts" />
               </div>
-              {isLoading || isFetching
-                ? Array.from({ length: 6 }).map((_, id) => (
-                    <PostCardSkeleton
-                      key={id}
-                      classNames={{
-                        base: "!flex-col !p-0",
-                        image: { wrapper: "!h-[250px] !w-full" },
-                      }}
-                    />
-                  ))
-                : data?.posts?.length ? data?.posts?.map((post: TPost) => (
+              {isLoading || isFetching ? (
+                Array.from({ length: 6 }).map((_, id) => (
+                  <PostCardSkeleton
+                    key={id}
+                    classNames={{
+                      base: "!flex-col !p-0",
+                      image: { wrapper: "!h-[250px] !w-full" },
+                    }}
+                  />
+                ))
+              ) : data?.posts?.length ? (
+                data?.posts?.map((post: TPost) => (
                   <PostCard
                     key={post?._id}
                     classNames={{
@@ -87,7 +88,12 @@ const AuthorDetails = ({ params }: { params: { authorId: string } }) => {
                     }}
                     post={post}
                   />
-                )) : <div className="sm:col-span-2 lg:col-span-3"><TEmpty /></div>}
+                ))
+              ) : (
+                <div className="sm:col-span-2 lg:col-span-3">
+                  <TEmpty />
+                </div>
+              )}
             </div>
           </div>
         </div>

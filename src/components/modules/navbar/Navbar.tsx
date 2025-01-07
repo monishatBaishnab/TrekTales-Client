@@ -3,9 +3,10 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, Search } from "lucide-react";
 import { Tooltip } from "@nextui-org/tooltip";
+import { cn } from "@nextui-org/theme";
 
 import NavProfile from "./NavProfile";
 
@@ -20,10 +21,29 @@ const Navbar = () => {
   const pathname = usePathname();
   const [showSmallNav, setShowSmallNav] = useState<boolean>(false);
 
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY > 500);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <>
-      <header className="bg-persian-green-600/10 backdrop-blur-sm">
-        <div className="container !py-0">
+    <div className={"min-h-[70px]"}>
+      <header
+        className={cn(
+          "bg-persian-green-600/10 backdrop-blur-sm",
+          scroll ? "fixed inset-x-0 top-0 z-50 block animate-fadeInDown backdrop-blur-sm" : ""
+        )}
+      >
+        <div className="container h-full !py-0">
           <nav className="flex min-h-[70px] items-center justify-between">
             <div className="flex items-center gap-10">
               <Link href="/">
@@ -117,7 +137,7 @@ const Navbar = () => {
           </TButton>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

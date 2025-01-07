@@ -37,7 +37,7 @@ const CreatePost = ({
   setAction,
   setSelectedPost,
 }: TCreatePostsProps) => {
-  const { mutate, isLoading, isSuccess } = useCreatePost();
+  const { mutate, isLoading, isSuccess, data } = useCreatePost();
   const { mutate: updatePost, isLoading: updatingPost, isSuccess: postUpdated } = useUpdatePost();
   const { userInfo } = useUserInfo();
 
@@ -76,7 +76,10 @@ const CreatePost = ({
   };
 
   useEffect(() => {
-    if ((isSuccess && !isLoading) || (!updatingPost && postUpdated)) {
+    if (
+      (isSuccess && !isLoading && !data?.error) ||
+      (!updatingPost && postUpdated && !data?.error)
+    ) {
       onClose();
     }
   }, [isSuccess, postUpdated]);

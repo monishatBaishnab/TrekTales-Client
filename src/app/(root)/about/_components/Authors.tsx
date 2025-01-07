@@ -16,13 +16,15 @@ const Authors = () => {
           ? Array.from({ length: 9 }).map((_, id) => (
               <AuthorCardSkeleton key={id} className="rounded-lg border border-shark-200 p-4" />
             ))
-          : data?.authors?.map((author: TUser) => (
-              <AuthorCard
-                key={author?._id}
-                author={author}
-                className="rounded-lg border border-shark-200 p-4"
-              />
-            ))}
+          : data?.authors?.map((author: TUser) => {
+              return (
+                <AuthorCard
+                  key={author?._id}
+                  author={author}
+                  className="rounded-lg border border-shark-200 p-4"
+                />
+              );
+            })}
       </div>
     </div>
   );
