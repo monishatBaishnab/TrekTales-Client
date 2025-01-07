@@ -6,11 +6,14 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import { useFetchAllAuthors } from "@/hooks/user.hooks";
 import { TUser } from "@/types/user.types";
 const Authors = () => {
-  const { data, isLoading, isFetching } = useFetchAllAuthors([], "authors");
+  const { data, isLoading, isFetching } = useFetchAllAuthors(
+    [{ name: "limit", value: "6" }],
+    "authors"
+  );
 
   return (
     <div>
-      <SectionTitle bgText="Meet Our" planeText="Authors" />
+      <SectionTitle bgText="Meet" planeText="Popular Authors" />
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {isLoading || isFetching
           ? Array.from({ length: 9 }).map((_, id) => (

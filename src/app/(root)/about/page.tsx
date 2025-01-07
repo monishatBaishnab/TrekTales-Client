@@ -1,14 +1,22 @@
 import Authors from "./_components/Authors";
 
+import PageHeader from "@/components/ui/PageHeader";
 const About = () => {
   return (
     <>
+      <PageHeader
+        links={[
+          { label: "Home", path: "/" },
+          { label: "Blogs", path: "/blogs" },
+        ]}
+        page="About"
+        title="About Us"
+      />
       <section className="bg-persian-green-600/5">
         <div className="container">
           <div className="mx-auto space-y-6 md:w-2/3">
-            <div className="text-center text-xl font-semibold text-shark-600 sm:text-3xl">
-              <span className="bg-persian-green-600 text-white">TrekTales is a place</span> where
-              you can find and write your perfect travel blogs.
+            <div className="text-center text-xl font-semibold text-shark-950 sm:text-3xl">
+              TrekTales is a place where you can find and write your perfect travel blogs.
             </div>
             <p className="paragraph text-center !italic">
               Discover firsthand experiences and insights from travelers around the world. Whether

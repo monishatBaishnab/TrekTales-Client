@@ -6,6 +6,7 @@ import { useFetchAllAuthors } from "@/hooks/user.hooks";
 import { TUser } from "@/types/user.types";
 import AuthorCardSkeleton from "@/components/ui/AuthorCardSkeliton";
 import TPagination from "@/components/ui/TPagination";
+import PageHeader from "@/components/ui/PageHeader";
 
 const Authors = () => {
   const [page, setPage] = useState<number>(1);
@@ -15,22 +16,27 @@ const Authors = () => {
       { name: "page", value: String(page) },
       { name: "limit", value: "9" },
     ],
-    "authors"
+    "authors",
+    page
   );
-
+  
   useEffect(() => {
     if (isSuccess) {
       setTotalPage(data?.meta?.totalPage);
     }
-  }, [isSuccess]);
+  }, [isSuccess, data]);
 
   return (
     <section>
+      <PageHeader
+        links={[
+          { label: "Home", path: "/" },
+          { label: "Blogs", path: "/blogs" },
+        ]}
+        page="Authors"
+        title="Our Authors"
+      />
       <div className="container">
-        <div className="mb-5 inline-flex items-center gap-1">
-          <h3 className="title-3 bg-title">Our</h3>
-          <h3 className="title-3">Authors</h3>
-        </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {isLoading || isFetching
             ? Array.from({ length: 9 }).map((_, id) => (
