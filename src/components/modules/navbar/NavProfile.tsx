@@ -3,64 +3,79 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { usePathname, useRouter } from "next/navigation";
-import { Contact, LayoutDashboard, LogOutIcon } from "lucide-react";
+import { LayoutDashboard, LayoutList, ListOrdered, LogOut, User, UserCog } from "lucide-react";
+import { ReactNode } from "react";
 
 import { useUserInfo } from "@/context/UserInfoProvider";
 import { logoutUser } from "@/services/auth";
 import { protectedRoutes } from "@/constants/global.constats";
 import { useFetchSingleUser } from "@/hooks/user.hooks";
+
+type Action = {
+  path: string;
+  label: string;
+  icon?: ReactNode;
+};
+
 const NavProfile = () => {
   const router = useRouter();
   const { setUserInfoLoading, userInfo } = useUserInfo();
   const pathname = usePathname();
 
-  const handleLogout = () => {
-    logoutUser();
-    setUserInfoLoading(true);
-    if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push("/");
-    }
-  };
-
   const { data: userResponse } = useFetchSingleUser(userInfo?._id as string);
   const user = userResponse?.user;
-  
-  const handleAction = (action: string) => {
-    if (action === "logout") {
-      handleLogout();
 
-      return;
-    } else if (action === "user-dashboard") {
-      router.push("/user-profile");
-
-      return;
-    } else if (action === "dashboard") {
-      router.push("/dashboard");
-
-      return;
-    }
-  };
-
-  const actions = [
+  const user_actions: Action[] = [
+    { path: "/user/", label: "Profile", icon: <User className="size-4" /> },
     {
-      key: "user-dashboard",
-      label: "Profile",
-      icon: <Contact className="size-4" />,
+      path: "/user/blogs",
+      label: "My Blogs",
+      icon: <ListOrdered className="size-4" />,
     },
     {
-      key: "logout",
+      path: "/user/followers",
+      label: "Followers",
+      icon: <LayoutList className="size-4" />,
+    },
+    {
+      path: "/user/settings",
+      label: "Settings",
+      icon: <UserCog className="size-4" />,
+    },
+    {
+      path: "logout",
       label: "Logout",
-      icon: <LogOutIcon className="size-4" />,
+      icon: <LogOut className="size-4" />,
+    },
+  ];
+  const admin_actions: Action[] = [
+    {
+      path: "/dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="size-4" />,
+    },
+    {
+      path: "logout",
+      label: "Logout",
+      icon: <LogOut className="size-4" />,
     },
   ];
 
-  if (user?.role === "admin") {
-    actions.unshift({
-      key: "dashboard",
-      label: "Dashboard",
-      icon: <LayoutDashboard className="size-4" />,
-    });
-  }
+  const actions = userInfo?.role === "admin" ? admin_actions : user_actions;
+
+  const handleAction = (action: string) => {
+    if (action === "logout") {
+      logoutUser();
+      setUserInfoLoading(true);
+      if (protectedRoutes.some((route) => pathname.match(route))) {
+        router.push("/");
+      }
+
+      return;
+    } else {
+      router.push(action);
+    }
+  };
 
   return (
     <Dropdown placement="bottom-end">
@@ -76,23 +91,14 @@ const NavProfile = () => {
       <DropdownMenu aria-label="User Actions" variant="flat">
         {actions?.map((action) => (
           <DropdownItem
-            key={action?.key}
+            key={action?.path}
+            color={action?.path === "logout" ? "danger" : "default"}
             startContent={action?.icon}
-            onPress={() => handleAction(action?.key)}
+            onPress={() => handleAction(action.path)}
           >
             {action?.label}
           </DropdownItem>
         ))}
-
-        {/* <DropdownItem
-          key="logout"
-          className="!text-danger"
-          color="danger"
-          startContent={<LogOut className="size-4 stroke-2" />}
-          onPress={handleLogout}
-        >
-          Log Out
-        </DropdownItem> */}
       </DropdownMenu>
     </Dropdown>
   );

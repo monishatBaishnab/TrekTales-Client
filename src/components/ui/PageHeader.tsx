@@ -1,12 +1,13 @@
 import { Minus } from "lucide-react";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 const PageHeader = ({
   page,
   links,
-  title
+  title,
 }: {
-    title:string;
+  title: string | ReactNode;
   page: string;
   links: { path: string; label: string }[];
 }) => {
