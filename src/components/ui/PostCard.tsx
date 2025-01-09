@@ -50,17 +50,12 @@ const PostCard = ({
   const { userInfo } = useUserInfo();
 
   const handleClick = () => {
-    if (!userInfo) {
-      router.push("/login");
-
-      return;
-    }
-    if (post?.isPremium && !userInfo?.isVerified) {
+    if (post?.isPremium && (!userInfo || !userInfo?.isVerified)) {
       toast.error("You have no access to premium contents");
 
       return;
     }
-    router.push(`/posts/${post?._id}`);
+    router.push(`/blogs/${post?._id}`);
   };
 
   return (

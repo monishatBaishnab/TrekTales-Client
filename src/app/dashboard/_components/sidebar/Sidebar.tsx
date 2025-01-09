@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, LayoutList, MessagesSquare, UsersRound } from "lucide-react";
+import { LayoutDashboard, LayoutList, MessagesSquare, Settings, User, UsersRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 const dashboardRoutes = [
@@ -8,6 +8,10 @@ const dashboardRoutes = [
     path: "/dashboard",
     label: "Dashboard",
     icon: <LayoutDashboard />,
+  },{
+    path: "/dashboard/profile",
+    label: "Profile",
+    icon: <User />,
   },
   {
     path: "/dashboard/posts",
@@ -23,6 +27,11 @@ const dashboardRoutes = [
     path: "/dashboard/users",
     label: "Users",
     icon: <UsersRound />,
+  },
+  {
+    path: "/dashboard/settings",
+    label: "Settings",
+    icon: <Settings />,
   },
 ];
 

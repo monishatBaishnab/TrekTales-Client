@@ -3,7 +3,7 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, LayoutList, ListOrdered, LogOut, User, UserCog } from "lucide-react";
+import { LayoutDashboard, LayoutList, ListOrdered, LogOut, MessagesSquare, Settings, User, UserCog } from "lucide-react";
 import { ReactNode } from "react";
 
 import { useUserInfo } from "@/context/UserInfoProvider";
@@ -53,6 +53,26 @@ const NavProfile = () => {
       path: "/dashboard",
       label: "Dashboard",
       icon: <LayoutDashboard className="size-4" />,
+    },
+    {
+      path: "/dashboard/profile",
+      label: "Profile",
+      icon: <User className="size-4" />,
+    },
+    {
+      path: "/dashboard/posts",
+      label: "Blogs",
+      icon: <ListOrdered className="size-4" />,
+    },
+    {
+      path: "/dashboard/comments",
+      label: "Comments",
+      icon: <MessagesSquare className="size-4" />,
+    },
+    {
+      path: "/dashboard/settings",
+      label: "Settings",
+      icon: <Settings className="size-4" />,
     },
     {
       path: "logout",

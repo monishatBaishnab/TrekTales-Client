@@ -59,7 +59,6 @@ const RecentPosted = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(response?.meta?.totalPage);
       setTotalPage(response?.meta?.totalPage);
     }
   }, [isSuccess, response]);

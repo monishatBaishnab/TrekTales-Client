@@ -11,7 +11,7 @@ import TModal from "@/components/ui/TModal";
 import { useFetchUpvotes } from "@/hooks/post.hooks";
 import { useRefetchToken } from "@/hooks/auth.hooks";
 
-const UserProfile = () => {
+const UserProfile = ({ routerPath }: { routerPath?: string }) => {
   const router = useRouter();
   const { userInfo, setUserInfoLoading } = useUserInfo() ?? {};
   const {
@@ -118,7 +118,7 @@ const UserProfile = () => {
               <div className="flex items-center gap-3">
                 <h5 className="title-5 !text-shark-600">{followers} Followers</h5>
                 <div className="flex items-center gap-2">
-                  {Number(upvotes) > 0 && !user?.isVerified ? (
+                  {!user?.isVerified ? (
                     <TButton
                       className="!gap-1 !text-sm !text-shark-600"
                       color="gray"
@@ -128,7 +128,17 @@ const UserProfile = () => {
                     >
                       Verify
                     </TButton>
-                  ) : null}
+                  ) : (
+                    <TButton
+                      isDisabled
+                      className="!gap-1 !text-sm !text-shark-600"
+                      color="gray"
+                      size="sm"
+                      startContent={<BadgeCheck className="size-4" />}
+                    >
+                      Verified
+                    </TButton>
+                  )}
                 </div>
               </div>
             </div>
@@ -140,7 +150,11 @@ const UserProfile = () => {
           </div>
         </div>
       )}
-      <TButton color="gray" radius="sm" onPress={() => router.push("/user/settings")}>
+      <TButton
+        color="gray"
+        radius="sm"
+        onPress={() => router.push(routerPath ? routerPath : "/user/settings")}
+      >
         Edit Profile
       </TButton>
       {/* Payment verification modal */}

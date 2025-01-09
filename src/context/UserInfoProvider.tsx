@@ -37,7 +37,6 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
   const getCurrentUserInfo = async () => {
     const currentUserInfo = await getCurrentUser();
 
-    console.log(currentUserInfo);
     setUserInfo(currentUserInfo);
   };
 

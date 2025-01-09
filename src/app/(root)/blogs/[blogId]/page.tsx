@@ -11,8 +11,8 @@ import DetailsSkeleton from "./_components/DetailsSkeleton";
 import { useFetchSinglePost } from "@/hooks/post.hooks";
 import Sidebar from "@/components/modules/sidebar/Sidebar";
 import { useUserInfo } from "@/context/UserInfoProvider";
-const PostDetails = ({ params }: { params: { postId: string } }) => {
-  const { data: postDetails, isLoading, isFetching, isError } = useFetchSinglePost(params?.postId);
+const PostDetails = ({ params }: { params: { blogId: string } }) => {
+  const { data: postDetails, isLoading, isFetching, isError } = useFetchSinglePost(params?.blogId);
   const { userInfo } = useUserInfo();
   const date = moment(postDetails?.createdAt);
   const formattedDate = date.format("DD MMMM YYYY");
@@ -29,7 +29,7 @@ const PostDetails = ({ params }: { params: { postId: string } }) => {
   // Handle fetching errors
   if (isError) {
     toast.error("An error occurred while fetching the post.");
-    router.push("/");
+    router.push("/login");
 
     return null;
   }

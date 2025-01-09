@@ -1,7 +1,7 @@
 "use client";
 
 import { Key, useCallback, useEffect, useState } from "react";
-import { Dot, ShieldCheck, Trash2 } from "lucide-react";
+import { Dot, Trash2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 
 import TableAction from "@/components/ui/TableAction";
@@ -10,6 +10,7 @@ import TEmpty from "@/components/ui/TEmpty";
 import TPagination from "@/components/ui/TPagination";
 import { useFetchAllUsers, useUpdateProfile } from "@/hooks/user.hooks";
 import { TUser } from "@/types/user.types";
+import { useUserInfo } from "@/context/UserInfoProvider";
 
 const usersTableColumns = [
   { key: "name", label: "Name" },
@@ -26,8 +27,10 @@ const usersTableColumns = [
 ];
 
 const AdminUsers = () => {
+  const { userInfo } = useUserInfo() ?? {};
   const [page, setPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
+
   const { mutate: updateUser } = useUpdateProfile();
   const {
     data: usersResponse,
@@ -77,15 +80,10 @@ const AdminUsers = () => {
         <TableAction
           actions={[
             {
-              key: "create-admin",
-              label: "Create Admin",
-              icon: <ShieldCheck />,
-              isDisabled: item?.role === "admin",
-            },
-            {
               key: "delete",
               label: "Delete",
               icon: <Trash2 />,
+              isDisabled: userInfo?.role === "admin",
             },
           ]}
           item={item}

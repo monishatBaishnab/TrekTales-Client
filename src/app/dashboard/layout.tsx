@@ -10,7 +10,7 @@ const AdminDashboardLayout = ({ children }: TLayout) => {
       <div className="flex items-center">
         <Sidebar />
 
-        <div className="h-[calc(100vh_-_57px)] w-full bg-[#F5F7FA] p-5">{children}</div>
+        <div className="min-h-[calc(100vh_-_57px)] w-full bg-[#F5F7FA] p-5">{children}</div>
       </div>
     </main>
   );
