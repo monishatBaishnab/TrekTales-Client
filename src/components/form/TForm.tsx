@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { FieldValues, FormProvider, Resolver, SubmitHandler, useForm } from "react-hook-form";
 
 type TFromProps = {
@@ -29,6 +29,12 @@ const TForm = ({ children, onSubmit, resolver, defaultValues }: TFromProps) => {
   const submitHandler: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
   };
+
+  useEffect(() => {
+    if (defaultValues) {
+      methods.reset(defaultValues);
+    }
+  }, [defaultValues, methods]);
 
   return (
     <FormProvider {...methods}>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import AuthContainer from "../_components/AuthContainer";
 
@@ -15,11 +15,33 @@ import { useUserInfo } from "@/context/UserInfoProvider";
 
 const Login = () => {
   const router = useRouter();
+  const [activeKey, setActiveKey] = useState("");
+  const [credentials, setCredentials] = useState({});
   const { mutate, data, isLoading, isSuccess } = useLoginUser();
   const { setUserInfoLoading } = useUserInfo();
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
     mutate(data);
+  };
+
+  const handleCredentialsUpdate = (role: string) => {
+    if (role === "admin") {
+      const values = {
+        email: "monishat@gmail.com",
+        password: "11",
+      };
+
+      setCredentials(values);
+      setActiveKey(role);
+    } else if (role === "user") {
+      const values = {
+        email: "rakib@gmail.com",
+        password: "11",
+      };
+
+      setCredentials(values);
+      setActiveKey(role);
+    }
   };
 
   useEffect(() => {
@@ -35,8 +57,26 @@ const Login = () => {
         <h1 className="title-1">Welcome Back Man! 👋</h1>
         <p className="paragraph">Enter Login Details</p>
       </div>
+      <div className="flex items-center gap-2">
+        <TButton
+          className={activeKey === "user" ? "bg-persian-green-600 text-white" : ""}
+          color="persian-green-gost"
+          size="sm"
+          onPress={() => handleCredentialsUpdate("user")}
+        >
+          User Credentials
+        </TButton>
+        <TButton
+        className={activeKey === "admin" ? "bg-persian-green-600 text-white" : ""}
+          color="persian-green-gost"
+          size="sm"
+          onPress={() => handleCredentialsUpdate("admin")}
+        >
+          Admin Credentials
+        </TButton>
+      </div>
       <div className="mx-auto w-full space-y-5 sm:w-1/2 md:w-3/4 lg:w-1/2">
-        <TForm onSubmit={handleSubmit}>
+        <TForm defaultValues={credentials} onSubmit={handleSubmit}>
           <div className="space-y-5 ">
             <TInput name="email" placeholder="Email Address" size="lg" variant="underlined" />
             <TInput

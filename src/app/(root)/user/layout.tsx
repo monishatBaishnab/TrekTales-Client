@@ -16,6 +16,7 @@ const UserLayout = ({ children }: TLayout) => {
   const pathname = usePathname();
 
   const paths = pathname?.split("/");
+
   const currentPath = paths?.[paths?.length - 1];
   const currentPage =
     currentPath?.slice(0, 1).toUpperCase() + currentPath?.slice(1, currentPath?.length);
@@ -23,8 +24,11 @@ const UserLayout = ({ children }: TLayout) => {
   return (
     <div className="relative">
       <PageHeader
-        links={[{ label: "Home", path: "/" }]}
-        page={currentPage}
+        links={[
+          { label: "Home", path: "/" },
+          { label: "User", path: "/user" },
+        ]}
+        page={currentPage === "User" ? "Profile" : currentPage}
         title={
           <div className="flex items-center gap-2">
             <TButton isIconOnly onPress={() => setShowSidebar(true)}>
